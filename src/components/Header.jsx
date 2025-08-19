@@ -16,7 +16,7 @@ const Header = () => (
           alt="Brevo Logo"
           style={{ display: "inline-block", verticalAlign: "middle", marginRight: "1rem" }}
         />
-        Build an Accessible and Inclusive React app
+        Interaction Engineering in React: Accessibility First
       </a>
       <ul className="flex space-x-6">
         <li>
