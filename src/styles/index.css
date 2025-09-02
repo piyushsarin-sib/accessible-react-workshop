@@ -11,7 +11,7 @@
 
   color-scheme: light dark;
   color: var(--sib-color_content-primary);
-  background-color: var(--brand-mint-green-500);
+  background-color: white;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -95,4 +95,29 @@ h1 {
 .modal-focus-trap {
   outline: 2px dashed #2563eb;
   outline-offset: 4px;
+}
+
+/* Carousel animation */
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Line clamp utility */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

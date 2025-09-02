@@ -2,19 +2,20 @@ import React from "react";
 import PropTypes from "prop-types";
 import Header from "./Header";
 import Footer from "./Footer";
+import CartModal from "./CartModal";
 
 const Layout = ({ children, withLayout, showHeader, showFooter }) => {
-
     return (
       <>
         {showHeader && <Header />}
-        <main
+        <div
           className={`${withLayout ? "min-h-[calc(100vh-300px)] flex flex-col items-center justify-center px-6 py-12 text-center" : ""}`}
-          aria-labelledby="main-heading"
+          style={{ backgroundColor: withLayout ? "var(--brand-mint-green-500)" : "" }}
         >
           {children}
-        </main>
-       {showFooter && <Footer />}
+        </div>
+        {showFooter && <Footer />}
+        <CartModal />
       </>
     );
 };
