@@ -20,6 +20,20 @@ export default function ExamplePage() {
         >
           <h2 className="text-2xl font-semibold text-gray-700">ComboBox</h2>
         </Link>
+        <Link
+          to="/examples/workshop"
+          className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full"
+        >
+          <h2 className="text-2xl font-semibold text-gray-700">Accessibility Workshop</h2>
+          <p className="text-gray-600 mt-2">E-commerce page with accessibility issues to fix</p>
+        </Link>
+        <Link
+          to="/examples/demo"
+          className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full"
+        >
+          <h2 className="text-2xl font-semibold text-gray-700">Before/After Demo</h2>
+          <p className="text-gray-600 mt-2">Compare broken vs. fixed accessibility</p>
+        </Link>
       </div>
     </div>
   );
