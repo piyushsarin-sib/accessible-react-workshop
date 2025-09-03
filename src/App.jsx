@@ -4,7 +4,6 @@ import Layout from './components/Layout';
 import ProductLayout from './components/ProductLayout';
 import LandingPage from "./pages/LandingPage";
 import ProductListingPage from './pages/ProductListingPage';
-import BadSwitch from "./components/examples/BadSwitch";
 import BadModal from "./components/examples/BadModal";
 import ExamplePage from './pages/ExamplePage';
 import AccessibilityWorkshopPage from './components/examples/AccessibilityWorkshopPage';
@@ -26,11 +25,20 @@ function App() {
               </Layout>
             }
           />
+        
           <Route
             path="/examples"
             element={
               <Layout showHeader={true} showFooter={true} withLayout={true}>
                 <ExamplePage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/examples/input-accessibility"
+            element={
+              <Layout >
+                <InputAccessibilityPage />
               </Layout>
             }
           />
