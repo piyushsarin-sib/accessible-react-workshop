@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const AccessibilityWorkshopPage = () => {
   const [cart, setCart] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory] = useState('all');
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -103,10 +103,11 @@ const AccessibilityWorkshopPage = () => {
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold">Accessibility Store</h1>
             <div className="flex items-center space-x-4">
-              {/* Missing proper button semantics */}
-              <div 
-                className="relative cursor-pointer"
-                onClick={() => {/* Missing keyboard support */}}
+              {/* Fixed proper button semantics */}
+              <button 
+                className="relative cursor-pointer bg-transparent border-0"
+                aria-label="Shopping cart"
+                onClick={() => {/* Previously missing keyboard support */}}
               >
                 <span className="text-lg">🛒</span>
                 {cart.length > 0 && (
@@ -114,7 +115,7 @@ const AccessibilityWorkshopPage = () => {
                     {cart.length}
                   </span>
                 )}
-              </div>
+              </button>
               <button className="px-4 py-2 bg-blue-600 text-white rounded">
                 Checkout
               </button>
@@ -138,12 +139,14 @@ const AccessibilityWorkshopPage = () => {
             
             {/* Missing proper select semantics */}
             <div className="relative">
-              <div 
-                className="px-4 py-2 border border-gray-300 rounded-lg cursor-pointer bg-white"
+              <button 
+                className="px-4 py-2 border border-gray-300 rounded-lg cursor-pointer bg-white w-full text-left"
                 onClick={() => {/* Missing keyboard support */}}
+                aria-haspopup="listbox"
+                aria-expanded="false"
               >
                 {categories.find(cat => cat.id === selectedCategory)?.name || 'All Products'}
-              </div>
+              </button>
               {/* Missing dropdown implementation */}
             </div>
           </div>
@@ -156,9 +159,7 @@ const AccessibilityWorkshopPage = () => {
             {filteredProducts.map((product) => (
               <div 
                 key={product.id}
-                className="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => openProductModal(product)}
-                // Missing keyboard support and proper semantics
+                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
                 <div className="text-4xl mb-4">{product.image}</div>
                 <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
@@ -171,15 +172,20 @@ const AccessibilityWorkshopPage = () => {
                     {product.inStock ? 'In Stock' : 'Out of Stock'}
                   </span>
                 </div>
-                {/* Missing proper button semantics */}
-                <div 
-                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded text-center cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToCart(product);
-                  }}
-                >
-                  Add to Cart
+                <div className="flex flex-col gap-2 mt-4">
+                  <button 
+                    className="px-4 py-2 bg-blue-600 text-white rounded text-center"
+                    onClick={() => openProductModal(product)}
+                    aria-label={`View details for ${product.name}`}
+                  >
+                    View Details
+                  </button>
+                  <button 
+                    className="px-4 py-2 bg-green-600 text-white rounded text-center"
+                    onClick={() => addToCart(product)}
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             ))}
@@ -198,13 +204,13 @@ const AccessibilityWorkshopPage = () => {
                   <span>{item.name}</span>
                   <div className="flex items-center gap-4">
                     <span>${item.price}</span>
-                    {/* Missing proper button semantics */}
-                    <span 
-                      className="text-red-500 cursor-pointer"
+                    {/* Fixed proper button semantics */}
+                    <button 
+                      className="text-red-500 cursor-pointer border-0 bg-transparent"
                       onClick={() => removeFromCart(item.id)}
                     >
                       Remove
-                    </span>
+                    </button>
                   </div>
                 </div>
               ))}
@@ -228,13 +234,14 @@ const AccessibilityWorkshopPage = () => {
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
             <div className="flex justify-between items-start mb-4">
               <h3 className="text-xl font-semibold">{selectedProduct.name}</h3>
-              {/* Missing proper button semantics */}
-              <span 
-                className="text-2xl cursor-pointer"
+              {/* Fixed proper button semantics */}
+              <button 
+                className="text-2xl cursor-pointer border-0 bg-transparent"
                 onClick={closeModal}
+                aria-label="Close modal"
               >
                 ×
-              </span>
+              </button>
             </div>
             <div className="text-6xl mb-4 text-center">{selectedProduct.image}</div>
             <p className="text-gray-600 mb-4">{selectedProduct.description}</p>
@@ -246,8 +253,8 @@ const AccessibilityWorkshopPage = () => {
                 {selectedProduct.inStock ? 'In Stock' : 'Out of Stock'}
               </span>
             </div>
-            {/* Missing proper button semantics */}
-            <div 
+            {/* Fixed proper button semantics */}
+            <button 
               className="w-full px-4 py-3 bg-blue-600 text-white rounded text-center cursor-pointer"
               onClick={() => {
                 addToCart(selectedProduct);
@@ -255,7 +262,7 @@ const AccessibilityWorkshopPage = () => {
               }}
             >
               Add to Cart
-            </div>
+            </button>
           </div>
         </div>
       )}

@@ -9,22 +9,20 @@ import ExamplePage from './pages/ExamplePage';
 import AccessibilityWorkshopPage from './components/examples/AccessibilityWorkshopPage';
 import AccessibilityDemoPage from './components/examples/AccessibilityDemoPage';
 import InputAccessibilityPage from './components/examples/InputAccessibilityPage';
-import { CartProvider } from './context/CartContext.jsx';
 
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <Routes>
-          {/* Routes WITH Layout (Header + Footer) */}
-          <Route
-            path="/"
-            element={
-              <Layout showHeader={true} showFooter={true} withLayout={true}>
-                <LandingPage />
-              </Layout>
-            }
-          />
+    <Router>
+      <Routes>
+        {/* Routes WITH Layout (Header + Footer) */}
+        <Route
+          path="/"
+          element={
+            <Layout showHeader={true} showFooter={true} withLayout={true}>
+              <LandingPage />
+            </Layout>
+          }
+        />
         
           <Route
             path="/examples"
@@ -85,7 +83,6 @@ function App() {
           />
         </Routes>
       </Router>
-    </CartProvider>
   );
 }
 

@@ -80,12 +80,14 @@ const AccessibilityCarousel = () => {
       className="relative overflow-hidden bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-md mb-10"
       aria-roledescription="carousel"
       aria-label="Accessibility information carousel"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocus={() => setIsPaused(true)}
-      onBlur={() => setIsPaused(false)}
     >
-      <div className="p-4 md:p-8">
+      <div 
+        className="p-4 md:p-8"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
+      >
         {isPaused && (
           <div className="absolute top-2 right-2 bg-white/70 text-gray-700 text-xs py-1 px-2 rounded z-10">
             Paused

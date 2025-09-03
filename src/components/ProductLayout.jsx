@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContextCore';
 import CartModal from './CartModal';
+import { CartProvider } from '../context/CartContext.jsx';
 
 const ProductHeader = () => {
   const { totalItems, openCartModal } = React.useContext(CartContext);
@@ -60,12 +61,14 @@ const ProductFooter = () => (
 
 const ProductLayout = ({ children }) => {
   return (
-    <div className="bg-gray-50">
-      <ProductHeader />
-      <main>{children}</main>
-      <ProductFooter />
-      <CartModal />
-    </div>
+    <CartProvider>
+      <div className="bg-gray-50">
+        <ProductHeader />
+        <main>{children}</main>
+        <ProductFooter />
+        <CartModal />
+      </div>
+    </CartProvider>
   );
 };
 

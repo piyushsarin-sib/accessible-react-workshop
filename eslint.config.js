@@ -14,9 +14,9 @@ export default defineConfig([
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
-    plugins: [
-      jsxA11y
-    ],
+    plugins: {
+      'jsx-a11y': jsxA11y
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,

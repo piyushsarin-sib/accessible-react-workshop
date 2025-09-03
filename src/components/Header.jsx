@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
-import { CartContext } from "../context/CartContextCore";
+import React from "react";
 
 const Header = () => {
-  const { totalItems, openCartModal } = useContext(CartContext);
-
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <nav
