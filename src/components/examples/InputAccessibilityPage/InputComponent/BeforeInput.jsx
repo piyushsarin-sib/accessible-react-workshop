@@ -6,13 +6,14 @@ export const Input = () => {
   return (
     <>
       <label className="block mb-2">
-        Name
+        Name *
       </label>
       <input
         type="text"
         id="before-name"
         className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        aria-required="true"
+        // aria-required="true"
+        // required // ✅ native required attribute announces to screen readers
         placeholder="Enter your name"
       />
       <p className="text-red-500 text-sm mt-1">Name is required</p>

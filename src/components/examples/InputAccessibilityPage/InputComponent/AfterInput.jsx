@@ -4,21 +4,24 @@ import React from "react";
 export const Input = () => {
   return (
     <>
+      {/* ✅ Associate label with input using htmlFor */}
       <label htmlFor="after-name" className="block mb-2 accessible-label">
         Name <span className="text-red-500" aria-hidden="true">*</span>
-        <span className="sr-only">(required)</span>
       </label>
+
       <input
         type="text"
         id="after-name"
-        className="w-full rounded accessible-input accessible-focus"
-        aria-required="true"
-        aria-invalid="true"
-        aria-describedby="after-name-error"
+        style={{ backgroundColor: 'white' }}
+        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+        required // ✅ native required attribute announces to screen readers
+        aria-describedby="name-error" // ✅ connects error message with input
         placeholder="Enter your name"
-        defaultValue="John Doe"
+        name="name"
       />
-      <p id="after-name-error" className="accessible-error-text" role="alert">
+
+      {/* ✅ Error message now linked to input */}
+      <p id="name-error" className="text-red-600 text-sm mt-1">
         Name is required
       </p>
     </>

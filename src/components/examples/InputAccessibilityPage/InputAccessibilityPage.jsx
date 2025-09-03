@@ -42,7 +42,7 @@ const InputAccessibilityPage = () => {
           
          <BeforeInput/>
           
-         {/* <AfterInput/> */}
+         <AfterInput/>
         </div>
         
         <div className="mt-8 bg-blue-50 p-6 rounded-lg">
