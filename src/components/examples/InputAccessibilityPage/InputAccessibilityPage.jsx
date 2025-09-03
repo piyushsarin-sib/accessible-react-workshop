@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../../Layout';
-import { BeforeInput} from './InputComponent';
+import { AfterInput, BeforeInput} from './InputComponent';
 
 const InputAccessibilityPage = () => {
   return (
@@ -42,40 +42,7 @@ const InputAccessibilityPage = () => {
           
          <BeforeInput/>
           
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">After: Accessible Input</h2>
-            
-            <div className="mb-4">
-              <label htmlFor="after-name" className="block mb-2 accessible-label">
-                Name <span className="text-red-500" aria-hidden="true">*</span>
-                <span className="sr-only">(required)</span>
-              </label>
-              <input
-                type="text"
-                id="after-name"
-                className="w-full rounded accessible-input accessible-focus"
-                aria-required="true"
-                aria-invalid="true"
-                aria-describedby="after-name-error"
-                placeholder="Enter your name"
-                defaultValue="John Doe"
-              />
-              <p id="after-name-error" className="accessible-error-text" role="alert">
-                Name is required
-              </p>
-            </div>
-            
-            <div className="mt-4 text-sm text-gray-700">
-              <p className="font-semibold mb-1">Improvements:</p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>High contrast focus state that works in any mode</li>
-                <li>Screen reader announces required state</li>
-                <li>Error linked to input with aria-describedby</li>
-                <li>Error has role="alert" to announce changes</li>
-                <li>Better color contrast for text</li>
-              </ul>
-            </div>
-          </div>
+         <AfterInput/>
         </div>
         
         <div className="mt-8 bg-blue-50 p-6 rounded-lg">
