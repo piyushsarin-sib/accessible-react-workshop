@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { CartContext } from '../context/CartContextCore';
-import AddToCartModal from '../components/AddToCartModal';
-import AccessibilityCarousel from '../components/AccessibilityCarousel';
-import SearchAndFilter from '../components/SearchAndFilter';
-import CartModal from '../components/CartModal';
+import { CartContext } from '../../context/CartContextCore';
+import AddToCartModal from '../../components/AddToCartModal';
+import AccessibilityCarousel from '../../components/AccessibilityCarousel';
+import SearchAndFilter from '../../components/SearchAndFilter';
+import CartModal from '../../components/CartModal';
 
 // Add category property to each product
 const products = [
@@ -89,7 +89,7 @@ const products = [
   },
 ];
 
-const ProductListingPage = () => {
+const ECommercePage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({ category: 'all', price: 'all' });
@@ -226,4 +226,4 @@ const ProductListingPage = () => {
   );
 };
 
-export default ProductListingPage;
+export default ECommercePage;

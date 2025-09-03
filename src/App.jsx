@@ -1,9 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
-import ProductLayout from './components/ProductLayout';
-import LandingPage from "./pages/LandingPage";
-import ProductListingPage from './pages/ProductListingPage';
+import LandingPage from './pages/LandingPage';
+import ECommercePage, { ECommerceLayout} from './pages/ECommercePage';
 import BadModal from "./components/examples/BadModal";
 import ExamplePage from './pages/ExamplePage';
 import AccessibilityWorkshopPage from './components/examples/AccessibilityWorkshopPage';
@@ -43,9 +42,9 @@ function App() {
           <Route
             path="/examples/e-commerce"
             element={
-              <ProductLayout>
-                <ProductListingPage />
-              </ProductLayout>
+              <ECommerceLayout>
+                <ECommercePage />
+              </ECommerceLayout>
             }
           />
           <Route

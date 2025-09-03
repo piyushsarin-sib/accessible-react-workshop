@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { CartContext } from '../context/CartContextCore';
-import { CartProvider } from '../context/CartContext.jsx';
+import { CartContext } from '../../../context/CartContextCore.js';
+import { CartProvider } from '../../../context/CartContext.jsx';
 
-const ProductHeader = () => {
+const ECommerceHeader = () => {
   const { totalItems, openCartModal } = React.useContext(CartContext);
 
   return (
@@ -43,7 +43,7 @@ const ProductHeader = () => {
   );
 };
 
-const ProductFooter = () => (
+const ECommerceFooter = () => (
   <footer className="bg-gray-800 text-white mt-12">
     <div className="container mx-auto px-4 py-6">
       <nav aria-label="Footer Navigation">
@@ -58,21 +58,21 @@ const ProductFooter = () => (
   </footer>
 );
 
-const ProductLayout = ({ children }) => {
+const ECommerceLayout = ({ children }) => {
   return (
     <CartProvider>
       <div className="bg-gray-50">
-        <ProductHeader />
+        <ECommerceHeader />
         <main>{children}</main>
-        <ProductFooter />
+        <ECommerceFooter />
         {/* We'll handle CartModal in the specific route */}
       </div>
     </CartProvider>
   );
 };
 
-ProductLayout.propTypes = {
+ECommerceLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default ProductLayout;
+export default ECommerceLayout;
