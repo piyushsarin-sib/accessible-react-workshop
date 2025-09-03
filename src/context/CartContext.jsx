@@ -15,7 +15,8 @@ export const CartProvider = ({ children }) => {
 
       if (existingProductIndex !== -1) {
         const updatedCart = [...prevCart];
-        updatedCart[existingProductIndex].quantity += quantity;
+        // Replace the quantity instead of adding to it
+        updatedCart[existingProductIndex].quantity = quantity;
         return updatedCart;
       } else {
         return [...prevCart, { ...product, quantity }];

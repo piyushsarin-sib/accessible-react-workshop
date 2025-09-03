@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CartContext } from '../context/CartContextCore';
 
 const AddToCartModal = ({ product, onAddToCart, onClose }) => {
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const { openCartModal, cart, removeFromCart } = useContext(CartContext);
   
   // Check if product is already in cart and set initial quantity
@@ -17,11 +17,15 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
   }, [product, cart]);
 
   const handleIncrease = () => {
-    setQuantity((prev) => prev + 1);
+    // Simply increment the quantity
+    setQuantity(quantity + 1);
   };
 
   const handleDecrease = () => {
-    setQuantity((prev) => (prev > 0 ? prev - 1 : 0));
+    // Ensure we're decreasing, not increasing
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+    }
   };
 
   const handleAddToCart = () => {
@@ -29,6 +33,7 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
       // If quantity is zero, remove item from cart
       removeFromCart(product.id);
     } else {
+      // Pass the exact quantity to be set (not added)
       onAddToCart(product, quantity);
     }
     onClose();
@@ -39,6 +44,7 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
       // If quantity is zero, remove item from cart
       removeFromCart(product.id);
     } else {
+      // Pass the exact quantity to be set (not added)
       onAddToCart(product, quantity);
     }
     onClose();
@@ -62,6 +68,17 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
         tabIndex={-1}
         aria-labelledby="modal-title"
       >
+        {/* Close button at the top right */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full p-1"
+          aria-label="Close modal"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        
         <h2 id="modal-title" className="text-2xl font-bold mb-4">
           {product.name}
         </h2>
@@ -98,8 +115,9 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
         <div className="flex justify-between items-center mb-4">
           <button 
             onClick={handleRemoveItem}
-            className="px-4 py-2 rounded bg-red-600 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            className={`px-4 py-2 rounded ${quantity === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'} text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500`}
             aria-label="Remove this item from cart"
+            disabled={quantity === 0}
           >
             Remove Item
           </button>
@@ -107,10 +125,7 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
             <p className="text-red-600 text-sm">Setting quantity to 0 will remove the item from cart</p>
           )}
         </div>
-        <div className="flex justify-end space-x-4 mb-4">
-          <button onClick={onClose} className="px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500">
-            Cancel
-          </button>
+        <div className="flex justify-end mb-4">
           <button
             onClick={handleAddToCart}
             className="px-4 py-2 rounded bg-blue-600 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
