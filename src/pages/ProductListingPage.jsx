@@ -80,7 +80,7 @@ const products = [
     id: 8,
     name: 'Orthopedic Shoes (Diabetic-friendly)',
     description: 'Footwear designed to protect and comfort sensitive feet, with non-binding, soft soles.',
-    image: 'shoes.jpeg',
+    image: '/shoes.jpeg',
     alt: 'Pair of orthopedic diabetic-friendly shoes',
     price: 'Rs 1000–3000 per pair',
     category: 'mobility',

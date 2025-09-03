@@ -44,7 +44,7 @@ const AccessibilityCarousel = () => {
     
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % accessibilityInfo.length);
-    }, 6000);
+    }, 2500);
     
     return () => clearInterval(interval);
   }, [isPaused]);
@@ -54,16 +54,25 @@ const AccessibilityCarousel = () => {
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? accessibilityInfo.length - 1 : prevIndex - 1
     );
+    // Reset the auto-advance timer when manually navigating
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), 7000);
   };
 
   const goToNext = () => {
     setCurrentIndex((prevIndex) => 
       (prevIndex + 1) % accessibilityInfo.length
     );
+    // Reset the auto-advance timer when manually navigating
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), 7000);
   };
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
+    // Reset the auto-advance timer when manually navigating
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), 7000);
   };
 
   return (
@@ -87,7 +96,7 @@ const AccessibilityCarousel = () => {
           <AnimatePresence mode="wait">
             <div
               key={currentIndex}
-              className="text-center animate-fadeIn absolute inset-0 flex flex-col items-center justify-center"
+              className="text-center animate-slideIn absolute inset-0 flex flex-col items-center justify-center"
             >
               <div className="text-5xl mb-4" aria-hidden="true">
                 {accessibilityInfo[currentIndex].iconEmoji}
@@ -104,10 +113,10 @@ const AccessibilityCarousel = () => {
       </div>
 
       {/* Navigation buttons */}
-      <div className="absolute top-1/2 -translate-y-1/2 left-0 flex items-center z-10">
+      <div className="absolute top-1/2 -translate-y-1/2 left-1 flex items-center z-10">
         <button 
           onClick={goToPrevious}
-          className="bg-white/70 hover:bg-white p-2 rounded-r-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-white/80 hover:bg-white p-2 rounded-r-lg shadow-md transition-colors hover:text-blue-600 accessible-focus"
           aria-label="Previous slide"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,10 +124,10 @@ const AccessibilityCarousel = () => {
           </svg>
         </button>
       </div>
-      <div className="absolute top-1/2 -translate-y-1/2 right-0 flex items-center z-10">
+      <div className="absolute top-1/2 -translate-y-1/2 right-1 flex items-center z-10">
         <button 
           onClick={goToNext}
-          className="bg-white/70 hover:bg-white p-2 rounded-l-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-white/80 hover:bg-white p-2 rounded-l-lg shadow-md transition-colors hover:text-blue-600 accessible-focus"
           aria-label="Next slide"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -128,13 +137,13 @@ const AccessibilityCarousel = () => {
       </div>
 
       {/* Indicator dots */}
-      <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2 z-10">
+      <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-3 z-10">
         {accessibilityInfo.map((item, index) => (
           <button
             key={`carousel-indicator-${item.id}`}
             onClick={() => goToSlide(index)}
-            className={`h-2.5 w-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              index === currentIndex ? 'bg-blue-600' : 'bg-blue-300'
+            className={`h-3 w-3 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              index === currentIndex ? 'bg-blue-600 scale-110' : 'bg-blue-300'
             }`}
             aria-label={`Go to slide ${index + 1}`}
             aria-current={index === currentIndex ? 'true' : 'false'}

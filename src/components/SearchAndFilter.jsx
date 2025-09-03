@@ -94,8 +94,8 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
         <div className="relative flex-grow">
           <label htmlFor="product-search" className="sr-only">Search products</label>
           <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none z-10" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </span>
@@ -103,13 +103,20 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
               type="search"
               id="product-search"
               name="product-search"
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full pl-12 pr-10 py-3 border border-gray-300 rounded-md shadow-sm accessible-input accessible-focus"
               placeholder="Search for products"
               value={searchQuery}
               onChange={handleSearchChange}
               ref={searchInputRef}
               aria-describedby="search-description"
             />
+            {searchQuery && (
+              <span className="absolute inset-y-0 right-0 flex items-center pr-3 md:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            )}
           </div>
           <div id="search-description" className="sr-only">
             Type to search for products by name or description
@@ -121,12 +128,12 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
           <button
             type="button"
             onClick={toggleFilters}
-            className="w-full md:w-auto px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full md:w-auto px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 accessible-focus"
             aria-expanded={isFilterOpen}
             aria-controls="filter-dropdown"
           >
             <span className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
               </svg>
               Filters
@@ -148,7 +155,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
                 
                 {/* Category filter */}
                 <fieldset className="mb-4">
-                  <legend className="text-sm font-medium text-gray-700 mb-2">Category</legend>
+                  <legend className="text-sm font-semibold text-gray-900 mb-2">Category</legend>
                   <div className="space-y-2">
                     {categories.map(category => (
                       <div key={category.id} className="flex items-center">
@@ -158,10 +165,10 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
                           type="radio"
                           checked={selectedCategory === category.id}
                           onChange={() => handleCategoryChange(category.id)}
-                          className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                          className="h-4 w-4 text-blue-600 border-gray-300 accessible-focus"
                           aria-describedby={`category-${category.id}-description`}
                         />
-                        <label htmlFor={`category-${category.id}`} className="ml-3 text-sm text-gray-700">
+                        <label htmlFor={`category-${category.id}`} className="ml-3 text-sm text-gray-900 font-medium">
                           {category.name}
                         </label>
                         <span id={`category-${category.id}-description`} className="sr-only">
@@ -174,7 +181,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
 
                 {/* Price range filter */}
                 <fieldset className="mb-4">
-                  <legend className="text-sm font-medium text-gray-700 mb-2">Price Range</legend>
+                  <legend className="text-sm font-semibold text-gray-900 mb-2">Price Range</legend>
                   <div className="space-y-2">
                     {priceRanges.map(price => (
                       <div key={price.id} className="flex items-center">
@@ -184,10 +191,10 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
                           type="radio"
                           checked={selectedPrice === price.id}
                           onChange={() => handlePriceChange(price.id)}
-                          className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                          className="h-4 w-4 text-blue-600 border-gray-300 accessible-focus"
                           aria-describedby={`price-${price.id}-description`}
                         />
-                        <label htmlFor={`price-${price.id}`} className="ml-3 text-sm text-gray-700">
+                        <label htmlFor={`price-${price.id}`} className="ml-3 text-sm text-gray-900 font-medium">
                           {price.name}
                         </label>
                         <span id={`price-${price.id}-description`} className="sr-only">
@@ -203,7 +210,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
                   <button
                     type="button"
                     onClick={clearFilters}
-                    className="text-sm text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="text-sm text-blue-600 hover:text-blue-800 accessible-focus"
                   >
                     Clear all filters
                   </button>
@@ -218,7 +225,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
           <button
             type="button"
             onClick={clearFilters}
-            className="md:hidden px-4 py-2 bg-gray-100 text-gray-700 rounded-md text-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="md:hidden px-4 py-2 bg-gray-100 text-gray-900 rounded-md text-sm hover:bg-gray-200 accessible-focus font-medium"
             aria-label="Clear search and filters"
           >
             Clear
@@ -232,7 +239,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
           <span className="text-sm text-gray-600">Active filters:</span>
           
           {searchQuery && (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900">
               Search: {searchQuery}
               <button
                 type="button"
@@ -240,7 +247,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
                   setSearchQuery('');
                   onSearchChange('');
                 }}
-                className="ml-1 inline-flex text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="ml-1 inline-flex text-blue-700 accessible-focus"
                 aria-label={`Remove search filter: ${searchQuery}`}
               >
                 <span aria-hidden="true">&times;</span>
@@ -249,7 +256,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
           )}
           
           {selectedCategory !== 'all' && (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900">
               Category: {categories.find(c => c.id === selectedCategory)?.name}
               <button
                 type="button"
@@ -257,7 +264,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
                   setSelectedCategory('all');
                   onFilterChange({ category: 'all', price: selectedPrice });
                 }}
-                className="ml-1 inline-flex text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="ml-1 inline-flex text-blue-700 accessible-focus"
                 aria-label={`Remove category filter: ${categories.find(c => c.id === selectedCategory)?.name}`}
               >
                 <span aria-hidden="true">&times;</span>
@@ -266,7 +273,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
           )}
           
           {selectedPrice !== 'all' && (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900">
               Price: {priceRanges.find(p => p.id === selectedPrice)?.name}
               <button
                 type="button"
@@ -274,7 +281,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
                   setSelectedPrice('all');
                   onFilterChange({ category: selectedCategory, price: 'all' });
                 }}
-                className="ml-1 inline-flex text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="ml-1 inline-flex text-blue-700 accessible-focus"
                 aria-label={`Remove price filter: ${priceRanges.find(p => p.id === selectedPrice)?.name}`}
               >
                 <span aria-hidden="true">&times;</span>
@@ -285,7 +292,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
           <button
             type="button"
             onClick={clearFilters}
-            className="text-sm text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ml-auto"
+            className="text-sm text-blue-700 hover:text-blue-900 accessible-focus ml-auto font-medium"
           >
             Clear all
           </button>

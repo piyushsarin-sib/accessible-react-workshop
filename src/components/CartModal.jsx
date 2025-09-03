@@ -98,7 +98,7 @@ const CartModal = () => {
                     <div className="flex items-center ml-4">
                       <button
                         onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                        className="px-3 py-1 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-3 py-1 border rounded-l-md accessible-focus"
                         aria-label={`Decrease quantity of ${item.name}`}
                       >
                         -
@@ -106,19 +106,20 @@ const CartModal = () => {
                       <span 
                         className="px-4 py-1 border-t border-b" 
                         aria-live="polite"
+                        aria-atomic="true"
                       >
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                        className="px-3 py-1 border rounded-r-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-3 py-1 border rounded-r-md accessible-focus"
                         aria-label={`Increase quantity of ${item.name}`}
                       >
                         +
                       </button>
                       <button 
                         onClick={() => handleRemoveItem(item.id)}
-                        className="ml-4 text-red-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-md px-2"
+                        className="ml-4 text-red-500 hover:text-red-700 accessible-focus rounded-md px-2"
                         aria-label={`Remove ${item.name} from cart`}
                       >
                         Remove
@@ -138,8 +139,9 @@ const CartModal = () => {
               <h3 className="font-semibold mb-4">Customer Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
-                  <label htmlFor="name" className="block mb-2">
-                    Name <span className="text-red-500">*</span>
+                  <label htmlFor="name" className="block mb-2 accessible-label">
+                    Name <span className="text-red-500" aria-hidden="true">*</span>
+                    <span className="sr-only">(required)</span>
                   </label>
                   <input
                     type="text"
@@ -147,22 +149,23 @@ const CartModal = () => {
                     name="name"
                     value={customerInfo.name}
                     onChange={handleInputChange}
-                    className={`w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      formErrors.name ? 'border-red-500' : ''
+                    className={`w-full rounded accessible-input accessible-focus ${
+                      formErrors.name ? 'accessible-input-error' : ''
                     }`}
                     aria-required="true"
                     aria-invalid={formErrors.name ? 'true' : 'false'}
                     aria-describedby={formErrors.name ? 'name-error' : undefined}
                   />
                   {formErrors.name && (
-                    <p id="name-error" className="text-red-500 text-sm mt-1">
+                    <p id="name-error" className="accessible-error-text" role="alert">
                       {formErrors.name}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block mb-2">
-                    Phone Number <span className="text-red-500">*</span>
+                  <label htmlFor="phone" className="block mb-2 accessible-label">
+                    Phone Number <span className="text-red-500" aria-hidden="true">*</span>
+                    <span className="sr-only">(required)</span>
                   </label>
                   <input
                     type="tel"
@@ -170,15 +173,20 @@ const CartModal = () => {
                     name="phone"
                     value={customerInfo.phone}
                     onChange={handleInputChange}
-                    className={`w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      formErrors.phone ? 'border-red-500' : ''
+                    className={`w-full rounded accessible-input accessible-focus ${
+                      formErrors.phone ? 'accessible-input-error' : ''
                     }`}
                     aria-required="true"
                     aria-invalid={formErrors.phone ? 'true' : 'false'}
-                    aria-describedby={formErrors.phone ? 'phone-error' : undefined}
+                    aria-describedby={formErrors.phone ? 'phone-error' : 'phone-hint'}
+                    inputMode="numeric" 
+                    pattern="[0-9]{10}"
                   />
+                  <p id="phone-hint" className="accessible-description">
+                    Please enter a 10-digit phone number
+                  </p>
                   {formErrors.phone && (
-                    <p id="phone-error" className="text-red-500 text-sm mt-1">
+                    <p id="phone-error" className="accessible-error-text" role="alert">
                       {formErrors.phone}
                     </p>
                   )}
@@ -191,14 +199,14 @@ const CartModal = () => {
         <div className="flex justify-end space-x-4 mt-6">
           <button 
             onClick={closeCartModal} 
-            className="px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 rounded border accessible-focus"
           >
             Close
           </button>
           {cart.length > 0 && (
             <button
               onClick={handlePlaceOrder}
-              className="px-4 py-2 rounded bg-blue-600 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="px-4 py-2 rounded bg-blue-600 text-white accessible-focus"
               disabled={cart.length === 0}
             >
               Place Order

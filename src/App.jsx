@@ -9,6 +9,7 @@ import BadModal from "./components/examples/BadModal";
 import ExamplePage from './pages/ExamplePage';
 import AccessibilityWorkshopPage from './components/examples/AccessibilityWorkshopPage';
 import AccessibilityDemoPage from './components/examples/AccessibilityDemoPage';
+import InputAccessibilityPage from './components/examples/InputAccessibilityPage';
 import { CartProvider } from './context/CartContext.jsx';
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
             }
           />
           <Route
-            path="/products"
+            path="/examples/e-commerce"
             element={
               <ProductLayout>
                 <ProductListingPage />
@@ -42,22 +43,13 @@ function App() {
             }
           />
           <Route
-            path="/examples/bad-switch"
-            element={
-              <Layout showHeader={true} showFooter={true} withLayout={true}>
-                <BadSwitch />
-              </Layout>
-            }
-          />
-          <Route
-            path="/examples/bad-modal"
+            path="/examples/modal"
             element={
               <Layout showHeader={true} showFooter={true} withLayout={true}>
                 <BadModal />
               </Layout>
             }
           />
-
           {/* Routes WITHOUT Header (Full-screen pages) */}
           <Route
             path="/examples/workshop"
@@ -76,15 +68,7 @@ function App() {
             }
           />
           <Route
-            path="/workshop"
-            element={
-              <Layout showHeader={true}>
-                <AccessibilityWorkshopPage withoutLayout={true} />
-              </Layout>
-            }
-          />
-          <Route
-            path="/demo"
+            path="/agenda"
             element={
               <Layout showHeader={true}>
                 <AccessibilityDemoPage />
