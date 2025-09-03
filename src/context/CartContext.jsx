@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import OrderConfirmationModal from '../components/OrderConfirmationModal';
+import { OrderConfirmationModal } from '../components/features/OrderConfirmation';
 import { CartContext } from './CartContextCore';
 
 export const CartProvider = ({ children }) => {
@@ -39,7 +39,12 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   const removeFromCart = useCallback((productId) => {
-    setCart((prevCart) => prevCart.filter(item => item.id !== productId));
+    console.log('Removing item from cart with ID:', productId);
+    setCart((prevCart) => {
+      const newCart = prevCart.filter(item => item.id !== productId);
+      console.log('Cart after removal:', newCart);
+      return newCart;
+    });
   }, []);
 
   const openCartModal = useCallback(() => {

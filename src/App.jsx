@@ -2,10 +2,9 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
 import LandingPage from './pages/LandingPage';
-import ECommercePage, { ECommerceLayout} from './pages/ECommercePage';
+import ECommercePage from './pages/EcommercePage';
 import ExamplePage from './pages/ExamplePage';
-import AccessibilityWorkshopPage from './components/examples/AccessibilityWorkshopPage';
-import AccessibilityDemoPage from './components/examples/AccessibilityDemoPage';
+import ECommerceLayout from './pages/EcommercePage/EcommerceLayout/EcommerceLayout';
 import { InputAccessibilityPage} from './components/examples/InputAccessibilityPage';
 
 function App() {
@@ -44,31 +43,6 @@ function App() {
               <ECommerceLayout>
                 <ECommercePage />
               </ECommerceLayout>
-            }
-          />
-          {/* Routes WITHOUT Header (Full-screen pages) */}
-          <Route
-            path="/examples/workshop"
-            element={
-              <Layout>
-                <AccessibilityWorkshopPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/examples/demo"
-            element={
-              <Layout showHeader={true}>
-                <AccessibilityDemoPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/agenda"
-            element={
-              <Layout showHeader={true}>
-                <AccessibilityDemoPage />
-              </Layout>
             }
           />
         </Routes>

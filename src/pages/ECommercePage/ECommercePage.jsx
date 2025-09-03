@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { CartContext } from '../../context/CartContextCore';
-import AddToCartModal from '../../components/AddToCartModal';
-import AccessibilityCarousel from '../../components/AccessibilityCarousel';
-import SearchAndFilter from '../../components/SearchAndFilter';
-import CartModal from '../../components/CartModal';
+import AddToCartModal from '../../components/features/AddToCart';
+import AccessibilityCarousel from '../../components/features/AccessibilityCarousel';
+import SearchAndFilter from '../../components/features/SearchAndFilter';
+import ProductList from '../../components/features/ProductList';
+import Panel from '../../components/common/Panel';
+import CartModal from '../../components/features/Cart/CartModal';
 
 // Add category property to each product
 const products = [
@@ -151,7 +153,7 @@ const ECommercePage = () => {
 
   return (
     <>
-      <main className="container mx-auto px-4" aria-labelledby="products-heading">
+      <div className="container mx-auto px-4 py-8">
         <h1 id="products-heading" className="text-3xl font-bold my-8">
           Building Accessible Experiences
         </h1>
@@ -159,61 +161,28 @@ const ECommercePage = () => {
         {/* Accessibility Carousel */}
         <AccessibilityCarousel />
         
-        <h2 className="text-2xl font-bold mb-4">
-          Accessible Products
-        </h2>
-        <p className="mb-6">
-          Explore our accessible products designed for everyone, including people with disabilities.
-        </p>
+        <Panel className="my-6">
+          <h2 className="text-2xl font-bold mb-4">
+            Accessible Products
+          </h2>
+          <p className="mb-6">
+            Explore our accessible products designed for everyone, including people with disabilities.
+          </p>
+          
+          {/* Search and Filter Component */}
+          <SearchAndFilter 
+            onSearchChange={handleSearchChange}
+            onFilterChange={handleFilterChange}
+          />
+        </Panel>
         
-        {/* Search and Filter Component */}
-        <SearchAndFilter 
-          onSearchChange={handleSearchChange}
-          onFilterChange={handleFilterChange}
+        {/* Product List Component */}
+        <ProductList 
+          products={filteredProducts} 
+          onAddToCart={handleOpenModal} 
         />
-        
-        {/* No results message */}
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-8" aria-live="polite">
-            <p className="text-lg text-gray-600">No products match your search criteria.</p>
-            <p className="mt-2">Try adjusting your filters or search terms.</p>
-          </div>
-        )}
-        
-        {/* Results count for screen readers */}
-        {filteredProducts.length > 0 && (
-          <div className="sr-only" aria-live="polite">
-            {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
-          </div>
-        )}
-        
-        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {filteredProducts.map((product) => (
-            <li
-              key={product.id}
-              className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
-            >
-              <img
-                src={product.image}
-                alt={product.alt}
-                className="w-full h-32 object-cover mb-3 rounded"
-              />
-              <h3 className="text-lg font-semibold line-clamp-1">
-                {product.name}
-              </h3>
-              <p className="mb-2 text-sm line-clamp-2 h-10 overflow-hidden">{product.description}</p>
-              <span className="block font-bold mb-2 text-blue-700">{product.price}</span>
-              <button
-                onClick={() => handleOpenModal(product)}
-                className="bg-blue-600 text-white w-full px-3 py-1.5 rounded text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-label={`Add ${product.name} to cart`}
-              >
-                Add to Cart
-              </button>
-            </li>
-          ))}
-        </ul>
-      </main>
+      </div>
+      
       {selectedProduct && (
         <AddToCartModal
           product={selectedProduct}
