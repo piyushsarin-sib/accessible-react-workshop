@@ -122,3 +122,50 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Dialog element styling */
+dialog {
+  padding: 0;
+  background-color: white;
+  color: var(--sib-color_content-primary, #333333);
+  max-width: 100%;
+  max-height: 100vh;
+  border: none;
+  overflow: visible;
+  position: relative;
+  margin: 0;
+  display: block;
+}
+
+dialog > * {
+  color: var(--sib-color_content-primary, #333333);
+}
+
+dialog h2, dialog h3, dialog p, dialog label, dialog button {
+  color: inherit;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Force color mode for dialog content */
+dialog, dialog * {
+  color-scheme: light;
+}
+
+/* Additional override for modals to ensure text visibility */
+@media (prefers-color-scheme: dark) {
+  dialog {
+    background-color: white;
+    color: #333333;
+  }
+  
+  dialog * {
+    color: inherit;
+  }
+  
+  dialog h2, dialog h3, dialog p, dialog label, dialog button:not(.bg-blue-600):not(.text-white) {
+    color: #333333;
+  }
+}

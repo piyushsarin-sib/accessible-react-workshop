@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContextCore';
-import CartModal from './CartModal';
 import { CartProvider } from '../context/CartContext.jsx';
 
 const ProductHeader = () => {
@@ -66,14 +65,10 @@ const ProductLayout = ({ children }) => {
         <ProductHeader />
         <main>{children}</main>
         <ProductFooter />
-        <CartModal />
+        {/* We'll handle CartModal in the specific route */}
       </div>
     </CartProvider>
   );
-};
-
-ProductLayout.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 ProductLayout.propTypes = {

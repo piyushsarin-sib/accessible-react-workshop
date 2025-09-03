@@ -18,10 +18,9 @@ const OrderConfirmationModal = ({ onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
       <dialog 
-        open
-        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md relative animate-fadeIn border-none m-0"
-        tabIndex={-1}
+        className="bg-white text-black p-8 rounded-lg shadow-lg w-full max-w-md relative animate-fadeIn m-0 border-none"
         aria-labelledby="confirmation-title"
+        open
       >
         {/* Close button */}
         <button

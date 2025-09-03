@@ -3,6 +3,7 @@ import { CartContext } from '../context/CartContextCore';
 import AddToCartModal from '../components/AddToCartModal';
 import AccessibilityCarousel from '../components/AccessibilityCarousel';
 import SearchAndFilter from '../components/SearchAndFilter';
+import CartModal from '../components/CartModal';
 
 // Add category property to each product
 const products = [
@@ -220,6 +221,7 @@ const ProductListingPage = () => {
           onClose={handleCloseModal}
         />
       )}
+      <CartModal />
     </>
   );
 };

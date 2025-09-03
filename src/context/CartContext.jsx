@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { CartContext } from './CartContextCore';
 import OrderConfirmationModal from '../components/OrderConfirmationModal';
+import { CartContext } from './CartContextCore';
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);

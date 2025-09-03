@@ -2,6 +2,15 @@ import React, { useState, useContext } from 'react';
 import { CartContext } from '../context/CartContextCore';
 
 const CartModal = () => {
+  const context = useContext(CartContext);
+  const [formErrors, setFormErrors] = useState({});
+  
+  // If context is undefined, don't render anything
+  if (!context) {
+    console.warn('CartContext is undefined in CartModal');
+    return null;
+  }
+  
   const { 
     cart, 
     totalItems, 
@@ -13,9 +22,7 @@ const CartModal = () => {
     customerInfo,
     updateCustomerInfo,
     placeOrder
-  } = useContext(CartContext);
-
-  const [formErrors, setFormErrors] = useState({});
+  } = context;
 
   const handleQuantityChange = (productId, newQuantity) => {
     updateCartItemQuantity(productId, newQuantity);
@@ -68,11 +75,10 @@ const CartModal = () => {
   // Using a more compatible approach for React modal
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div 
-        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto relative"
-        role="dialog"
-        aria-modal="true"
+      <dialog 
+        className="bg-white text-black p-8 rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto relative m-0 border-none"
         aria-labelledby="cart-modal-title"
+        open
       >
         <h2 id="cart-modal-title" className="text-2xl font-bold mb-4">
           Your Cart ({totalItems} items)
@@ -213,7 +219,7 @@ const CartModal = () => {
             </button>
           )}
         </div>
-      </div>
+      </dialog>
     </div>
   );
 };
