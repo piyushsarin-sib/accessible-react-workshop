@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Layout from '../Layout';
+import Layout from '../../Layout';
+import { BeforeInput} from './InputComponent';
 
 const InputAccessibilityPage = () => {
   return (
@@ -38,35 +39,8 @@ const InputAccessibilityPage = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Before: Input with Accessibility Issues</h2>
-            
-            <div className="mb-4">
-              <label htmlFor="before-name" className="block mb-2">
-                Name *
-              </label>
-              <input
-                type="text"
-                id="before-name"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-required="true"
-                placeholder="Enter your name"
-              />
-              <p className="text-red-500 text-sm mt-1">
-                Name is required
-              </p>
-            </div>
-            
-            <div className="mt-4 text-sm text-gray-700">
-              <p className="font-semibold mb-1">Issues:</p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Focus state not clearly visible enough</li>
-                <li>Required state not announced to screen readers</li>
-                <li>Error message not linked to input</li>
-                <li>Insufficient color contrast</li>
-              </ul>
-            </div>
-          </div>
+          
+         <BeforeInput/>
           
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-semibold mb-4">After: Accessible Input</h2>
@@ -107,11 +81,8 @@ const InputAccessibilityPage = () => {
         <div className="mt-8 bg-blue-50 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Test It Yourself</h2>
           <p className="mb-4">
-            Try navigating both input examples using only your keyboard (Tab key) and notice the difference in focus visibility.
+            Try navigating using your keyboard (Tab key) and notice the difference.
             Also, try using a screen reader to hear how the accessible version provides more context and information.
-          </p>
-          <p>
-            For the full implementation, check out the components in the Cart Modal and Feedback Form.
           </p>
         </div>
       </div>

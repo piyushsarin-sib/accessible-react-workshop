@@ -8,7 +8,7 @@ import BadModal from "./components/examples/BadModal";
 import ExamplePage from './pages/ExamplePage';
 import AccessibilityWorkshopPage from './components/examples/AccessibilityWorkshopPage';
 import AccessibilityDemoPage from './components/examples/AccessibilityDemoPage';
-import InputAccessibilityPage from './components/examples/InputAccessibilityPage';
+import { InputAccessibilityPage} from './components/examples/InputAccessibilityPage';
 
 function App() {
   return (
