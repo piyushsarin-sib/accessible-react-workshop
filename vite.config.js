@@ -11,5 +11,13 @@ export default defineConfig({
       errors: true,
       warnings: true,
     },
+    // Add history fallback for development
+    historyApiFallback: true,
   },
+  preview: {
+    // Add history fallback for preview
+    historyApiFallback: true,
+  },
+  // Ensure assets have the correct paths
+  base: '/',
 })

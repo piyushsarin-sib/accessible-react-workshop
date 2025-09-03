@@ -115,9 +115,9 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
         <div className="flex justify-between items-center mb-4">
           <button 
             onClick={handleRemoveItem}
-            className={`px-4 py-2 rounded ${quantity === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'} text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500`}
+            className={`px-4 py-2 rounded ${quantity === 0 || !cart.some(item => item.id === product.id) ? 'bg-gray-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700'} text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500`}
             aria-label="Remove this item from cart"
-            disabled={quantity === 0}
+            disabled={quantity === 0 || !cart.some(item => item.id === product.id)}
           >
             Remove Item
           </button>
@@ -128,15 +128,23 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
         <div className="flex justify-end mb-4">
           <button
             onClick={handleAddToCart}
-            className="px-4 py-2 rounded bg-blue-600 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className={`px-4 py-2 rounded ${quantity === 0 && !cart.some(item => item.id === product.id) ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600'} text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+            disabled={quantity === 0 && !cart.some(item => item.id === product.id)}
           >
-            {quantity === 0 ? 'Remove from Cart' : 'Update Cart'}
+            {quantity === 0 && cart.some(item => item.id === product.id) ? 'Remove from Cart' : 
+             quantity === 0 && !cart.some(item => item.id === product.id) ? 'No items to add' : 
+             'Update Cart'}
           </button>
         </div>
         <div className="text-center mt-4 border-t pt-3">
           <button
             onClick={handleGoToCart}
-            className="text-blue-600 hover:text-blue-800 underline text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-transparent border-0"
+            className={`text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-transparent border-0 ${
+              quantity === 0 && !cart.some(item => item.id === product.id) ? 
+              'text-gray-400 cursor-not-allowed' : 
+              'text-blue-600 hover:text-blue-800 underline'
+            }`}
+            disabled={quantity === 0 && !cart.some(item => item.id === product.id)}
           >
             Go to Cart
           </button>

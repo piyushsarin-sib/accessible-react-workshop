@@ -104,8 +104,9 @@ const CartModal = () => {
                     <div className="flex items-center ml-4">
                       <button
                         onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                        className="px-3 py-1 border rounded-l-md accessible-focus"
+                        className={`px-3 py-1 border rounded-l-md accessible-focus ${item.quantity <= 1 ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                         aria-label={`Decrease quantity of ${item.name}`}
+                        disabled={item.quantity <= 1}
                       >
                         -
                       </button>
@@ -125,8 +126,9 @@ const CartModal = () => {
                       </button>
                       <button 
                         onClick={() => handleRemoveItem(item.id)}
-                        className="ml-4 text-red-500 hover:text-red-700 accessible-focus rounded-md px-2"
+                        className={`ml-4 ${item.quantity === 0 ? 'text-gray-400 cursor-not-allowed' : 'text-red-500 hover:text-red-700'} accessible-focus rounded-md px-2`}
                         aria-label={`Remove ${item.name} from cart`}
+                        disabled={item.quantity === 0}
                       >
                         Remove
                       </button>
