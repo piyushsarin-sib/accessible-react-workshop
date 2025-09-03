@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
 import LandingPage from './pages/LandingPage';
 import ECommercePage, { ECommerceLayout} from './pages/ECommercePage';
-import BadModal from "./components/examples/BadModal";
 import ExamplePage from './pages/ExamplePage';
 import AccessibilityWorkshopPage from './components/examples/AccessibilityWorkshopPage';
 import AccessibilityDemoPage from './components/examples/AccessibilityDemoPage';
@@ -45,14 +44,6 @@ function App() {
               <ECommerceLayout>
                 <ECommercePage />
               </ECommerceLayout>
-            }
-          />
-          <Route
-            path="/examples/modal"
-            element={
-              <Layout showHeader={true} showFooter={true} withLayout={true}>
-                <BadModal />
-              </Layout>
             }
           />
           {/* Routes WITHOUT Header (Full-screen pages) */}
