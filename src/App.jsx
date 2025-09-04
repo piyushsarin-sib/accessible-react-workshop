@@ -2,9 +2,9 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
 import LandingPage from './pages/LandingPage';
-import ECommercePage from './pages/EcommercePage';
+import ECommercePage from './pages/ECommercePage';
 import ExamplePage from './pages/ExamplePage';
-import ECommerceLayout from './pages/EcommercePage/EcommerceLayout/EcommerceLayout';
+import ECommerceLayout from './pages/ECommercePage/ECommerceLayout/ECommerceLayout';
 import { InputAccessibilityPage} from './components/examples/InputAccessibilityPage';
 
 function App() {
