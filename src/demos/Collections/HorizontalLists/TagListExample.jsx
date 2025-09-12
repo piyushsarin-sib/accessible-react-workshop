@@ -7,7 +7,14 @@ const TagListExample = () => {
       <h3 style={{ fontSize: "16px", fontWeight: "bold", marginTop: "24px", marginBottom: "12px" }}>
         Tag List
       </h3>
-      <Collection as="div" itemAs="span" className="horizontal-tags" itemClassName="tag-item">
+      <Collection 
+        as="div" 
+        itemAs="span" 
+        className="horizontal-tags" 
+        itemClassName="tag-item"
+        role="list"
+        ariaLabel="Technology tags"
+      >
         <Collection.Item>React</Collection.Item>
         <Collection.Item>JavaScript</Collection.Item>
         <Collection.Item>CSS</Collection.Item>

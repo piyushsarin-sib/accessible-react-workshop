@@ -7,10 +7,17 @@ const ButtonGroupExample = () => {
       <h3 style={{ fontSize: "16px", fontWeight: "bold", marginTop: "24px", marginBottom: "12px" }}>
         Button Group
       </h3>
-      <Collection as="div" itemAs="button" className="horizontal-buttons" itemClassName="btn-item">
-        <Collection.Item>Save</Collection.Item>
-        <Collection.Item>Cancel</Collection.Item>
-        <Collection.Item>Delete</Collection.Item>
+      <Collection 
+        as="div" 
+        itemAs="button" 
+        className="horizontal-buttons" 
+        itemClassName="btn-item"
+        pattern="toolbar"
+        ariaLabel="Document actions"
+      >
+        <Collection.Item type="button">Save</Collection.Item>
+        <Collection.Item type="button">Cancel</Collection.Item>
+        <Collection.Item type="button">Delete</Collection.Item>
       </Collection>
     </>
   );

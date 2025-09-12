@@ -5,10 +5,17 @@ const StyledListExample = () => {
   return (
     <>
       <h3 style={{ fontSize: "18px", fontWeight: "bold", marginTop: "32px", marginBottom: "16px" }}>
-        Custom Indentation with Styled Items
+        File List with Styled Items
       </h3>
 
-      <Collection as="ul" itemAs="li" indentSize={16} className="list-styled-container">
+      <Collection 
+        as="ul" 
+        itemAs="li" 
+        indentSize={16} 
+        className="list-styled-container"
+        pattern="list"
+        ariaLabel="Project file list"
+      >
         <Collection.Item className="list-level1-item">Project A</Collection.Item>
 
         <Collection.Item className="list-level1-item">

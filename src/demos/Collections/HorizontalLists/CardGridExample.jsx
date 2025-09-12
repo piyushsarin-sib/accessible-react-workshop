@@ -7,7 +7,14 @@ const CardGridExample = () => {
       <h3 style={{ fontSize: "16px", fontWeight: "bold", marginTop: "24px", marginBottom: "12px" }}>
         Card Grid
       </h3>
-      <Collection as="div" itemAs="div" className="horizontal-cards" itemClassName="card-item">
+      <Collection 
+        as="div" 
+        itemAs="article" 
+        className="horizontal-cards" 
+        itemClassName="card-item"
+        pattern="grid"
+        ariaLabel="Card grid"
+      >
         <Collection.Item>
           <h4>Card 1</h4>
           <p>This is the first card</p>

@@ -7,11 +7,18 @@ const NavigationMenuExample = () => {
       <h3 style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "12px" }}>
         Navigation Menu
       </h3>
-      <Collection as="ul" itemAs="li" className="horizontal-nav" itemClassName="nav-item">
-        <Collection.Item>Home</Collection.Item>
-        <Collection.Item>About</Collection.Item>
-        <Collection.Item>Services</Collection.Item>
-        <Collection.Item>Contact</Collection.Item>
+      <Collection 
+        as="nav" 
+        itemAs="a" 
+        className="horizontal-nav" 
+        itemClassName="nav-item"
+        pattern="navigation"
+        ariaLabel="Main navigation"
+      >
+        <Collection.Item href="/">Home</Collection.Item>
+        <Collection.Item href="/about">About</Collection.Item>
+        <Collection.Item href="/services">Services</Collection.Item>
+        <Collection.Item href="/contact">Contact</Collection.Item>
       </Collection>
     </>
   );
