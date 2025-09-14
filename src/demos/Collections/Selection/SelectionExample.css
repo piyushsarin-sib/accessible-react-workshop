@@ -25,7 +25,7 @@
   background-color: #f5f7fa;
 }
 
-.menu-item:focus {
+.menu-item:focus-visible {
   background-color: #e3f2fd;
   box-shadow: 0 0 0 2px #2196f3;
 }
@@ -36,7 +36,7 @@
 }
 
 /* Selected state should override focus state */
-.menu-item.selected:focus {
+.menu-item.selected:focus-visible {
   background-color: #e8f5e8 !important;
   box-shadow: 0 0 0 2px #4caf50 !important;
   border-right: 3px solid #4caf50 !important;
@@ -86,7 +86,7 @@
   background-color: #f6f8fa;
 }
 
-.listbox-option:focus {
+.listbox-option:focus-visible {
   background-color: #dbeafe;
   box-shadow: 0 0 0 2px #3b82f6;
 }
@@ -157,7 +157,7 @@
   border-color: #d1d5db;
 }
 
-.menu-item.empty-item:focus {
+.menu-item.empty-item:focus-visible {
   background-color: #e3f2fd;
   box-shadow: 0 0 0 2px #2196f3, 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -169,7 +169,7 @@
 }
 
 /* Empty item selected state should override focus state */
-.menu-item.empty-item.selected:focus {
+.menu-item.empty-item.selected:focus-visible {
   background-color: #e8f5e8 !important;
   box-shadow: 0 0 0 2px #4caf50, 0 2px 8px rgba(76, 175, 80, 0.2) !important;
   border-right-color: #4caf50 !important;

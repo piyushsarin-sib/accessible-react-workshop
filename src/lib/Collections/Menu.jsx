@@ -5,6 +5,9 @@ import { useSelection } from './hooks/useCollectionSelection';
 const Menu = ({
   items = [],
   onSelect,
+  selectedKey,
+  onChange,
+  defaultSelectedKey = null,
   defaultSelection = null,
   allowDeselect = true,
   className = 'selection-menu',
@@ -13,21 +16,26 @@ const Menu = ({
   renderItem,
   ...props
 }) => {
-  console.log('Menu component rendering with:', { 
-    itemsLength: items.length, 
-    hasChildren: !!children, 
-    ariaLabel, 
-    className 
+  console.log('Menu component rendering with:', {
+    itemsLength: items.length,
+    hasChildren: !!children,
+    ariaLabel,
+    className,
+    isControlled: selectedKey !== undefined
   });
-  
+
   // Convert selection to key for useSelection hook
   const getSelectionKey = (selection) => {
     if (!selection) return null;
     return typeof selection === 'object' ? selection.key || selection.id : selection;
   };
-  
-  const defaultSelectionKey = getSelectionKey(defaultSelection);
-  const initialSelectionSet = defaultSelectionKey ? new Set([defaultSelectionKey]) : new Set();
+
+  // Support legacy defaultSelection prop
+  const defaultKey = defaultSelectedKey || getSelectionKey(defaultSelection);
+  const defaultSelectionSet = defaultKey ? new Set([defaultKey]) : new Set();
+
+  // Convert single key to Set for controlled mode
+  const controlledSelectionSet = selectedKey ? new Set([selectedKey]) : new Set();
 
   const {
     selectedKeys,
@@ -35,32 +43,37 @@ const Menu = ({
     getCollectionAriaProps
   } = useSelection({
     selectionMode: 'single',
-    initialSelection: initialSelectionSet,
+    selectedKeys: selectedKey !== undefined ? controlledSelectionSet : undefined,
+    onChange: selectedKey !== undefined ? (newSelection) => {
+      const newKey = newSelection.size > 0 ? [...newSelection][0] : null;
+      onChange?.(newKey);
+    } : undefined,
+    defaultSelectedKeys: defaultSelectionSet,
     pattern: 'menu',
     label: ariaLabel,
     onClick: (event, key) => {
       // Custom selection logic for deselection and blur
       const isCurrentlySelected = selectedKeys.has(key);
       const shouldDeselect = isCurrentlySelected && allowDeselect;
-      
+
       // If deselecting, blur the element to remove focus styling
       if (shouldDeselect && event?.target) {
         event.target.blur();
       }
-      
+
       // Find the selected item object
-      const selectedItem = items.find(item => 
+      const selectedItem = items.find(item =>
         (item.key || item.id) === key
       ) || { key };
-      
-      // Notify parent of selection change
+
+      // Notify parent of selection change (legacy callback)
       const finalSelection = shouldDeselect ? null : selectedItem;
       onSelect?.(finalSelection, key, event);
     }
   });
 
   // Get current selected key for backward compatibility
-  const selectedKey = selectedKeys.size > 0 ? [...selectedKeys][0] : null;
+  const currentSelectedKey = selectedKeys.size > 0 ? [...selectedKeys][0] : null;
 
   // If using children pattern (JSX)
   if (children) {
@@ -75,7 +88,7 @@ const Menu = ({
         {React.Children.map(children, (child, index) => {
           if (React.isValidElement(child) && child.type === Menu.Item) {
             const key = child.props.itemKey || child.key || index;
-            const isSelected = selectedKey === key;
+            const isSelected = currentSelectedKey === key;
             const itemHandlers = getItemHandlers(key, child.props);
             
             return (
@@ -111,7 +124,7 @@ const Menu = ({
     >
       {items.map((item, index) => {
         const key = item.key || item.id || index;
-        const isSelected = selectedKey === key;
+        const isSelected = currentSelectedKey === key;
         const itemHandlers = getItemHandlers(key, item);
         
         return (
