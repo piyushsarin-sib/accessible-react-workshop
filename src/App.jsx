@@ -10,7 +10,7 @@ import ListExample from "./demos/Collections/VerticalLists/ListExample";
 import HorizontalListExample from "./demos/Collections/HorizontalLists/HorizontalListExample";
 import SingleSelectionExample from "./demos/Collections/Selection/SingleSelectionExample";
 import MultiSelectionExample from "./demos/Collections/Selection/MultiSelectionExample";
-import EmptyMenuExample from "./demos/Collections/Selection/EmptyMenuExample";
+import UncontrolledMenuExample from "./demos/Collections/Selection/EmptyMenuExample";
 
 function App() {
   return (
@@ -60,7 +60,7 @@ function App() {
         <Route path="/demos/collections/horizontal-lists" element={<HorizontalListExample />} />
         <Route path="/demos/collections/single-select" element={<SingleSelectionExample />} />
         <Route path="/demos/collections/multi-select" element={<MultiSelectionExample />} />
-        <Route path="/demos/collections/empty-menu" element={<EmptyMenuExample />} />
+        <Route path="/demos/collections/empty-menu" element={<UncontrolledMenuExample />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Collection from "../../../lib/Collections/Collection";
-import { useSelection } from "../../../lib/Collections/hooks/useCollectionSelection";
+import { useSelection } from "../../../lib/Collections/hooks/useSelection";
 import "./SelectionExample.css";
 
 const options = [
@@ -18,9 +18,14 @@ const MultiSelectionExample = () => {
 
   const selection = useSelection({
     pattern: "listbox", // Uses pre-configured listbox pattern
-    selectionMode: "none", // We'll handle selection manually for multi-select behavior
-    onSelectionChange: setSelectedKeys,
+    selectionMode: "multiple", // Use multiple selection mode
     selectedKeys,
+    onChange: (event, { selectedKeys: newSelection }) => {
+      setSelectedKeys(newSelection);
+      // Also log selectedItems for consistency
+      const selectedItems = options.filter(option => newSelection.has(option.key));
+      console.log('Selected items:', selectedItems, event);
+    },
     label: "Technology selection",
   });
 
@@ -61,37 +66,18 @@ const MultiSelectionExample = () => {
         as="ul"
         itemAs="li"
         className="selection-listbox"
-        {...selection.getCollectionAriaProps}
+        {...selection.getCollectionAriaProps()}
       >
         {options.map((option) => {
           const isSelected = selectedKeys.has(option.key);
-          const ariaProps = selection.getItemAriaProps(option.key, {
-            itemRole: selection.patternConfig.itemRole,
-          });
+          const itemHandlers = selection.getItemHandlers(option.key, option);
+          const ariaProps = selection.getItemAriaProps(option.key);
 
           return (
             <Collection.Item
               key={option.key}
               className={`listbox-option ${isSelected ? "selected" : ""}`}
-              tabIndex={0}
-              onClick={(e) => {
-                e.preventDefault();
-                if (e.ctrlKey || e.metaKey) {
-                  selection.toggleSelection(option.key, option);
-                } else {
-                  selection.replaceSelection(option.key, option);
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  if (e.ctrlKey || e.metaKey) {
-                    selection.toggleSelection(option.key, option);
-                  } else {
-                    selection.replaceSelection(option.key, option);
-                  }
-                }
-              }}
+              {...itemHandlers}
               {...ariaProps}
             >
               <div className="option-content">

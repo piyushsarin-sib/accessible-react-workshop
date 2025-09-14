@@ -53,7 +53,7 @@ export const useSelection = ({
   const patternConfig = pattern ? aria.getCollectionPattern(pattern) : {};
 
   const handleSelection = useCallback(
-    (key) => {
+    (key, event) => {
       if (selectionMode === "none") return;
 
       let newSelection = new Set(selectedKeys);
@@ -70,7 +70,12 @@ export const useSelection = ({
         }
       }
 
-      setSelectedKeys(newSelection);
+      // Call onChange with event first, then selection data
+      if (isControlled && onChange) {
+        onChange(event, { selectedKeys: newSelection });
+      } else {
+        setSelectedKeys(newSelection);
+      }
     },
     // setSelectedKeys is intentionally omitted - it's either onChange (controlled) or setState (uncontrolled)
     // Adding it would cause unnecessary re-renders when consumers don't memoize onChange
@@ -86,13 +91,13 @@ export const useSelection = ({
       return {
         onClick: (e) => {
           e.preventDefault();
-          handleSelection(key);
+          handleSelection(key, e);
           handleClick?.(e, key, item);
         },
         onKeyDown: (e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            handleSelection(key);
+            handleSelection(key, e);
             handleClick?.(e, key, item);
           } else {
             onKeyDown?.(e, key, item);

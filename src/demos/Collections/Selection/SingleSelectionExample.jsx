@@ -13,9 +13,9 @@ const menuItems = [
 const SingleSelectionExample = () => {
   const [selectedKey, setSelectedKey] = useState(null);
 
-  const handleChange = (key) => {
-    console.log(`Menu selection changed to: ${key}`);
-    setSelectedKey(key);
+  const handleChange = (event, { selectedItems }) => {
+    console.log(`Menu selection changed to:`, selectedItems, event);
+    setSelectedKey(selectedItems[0]?.key || null);
   };
 
   const selectedItem = selectedKey ? menuItems.find(item => item.key === selectedKey) : null;

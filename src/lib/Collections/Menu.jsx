@@ -1,6 +1,6 @@
 import React from 'react';
 import Collection from './Collection';
-import { useSelection } from './hooks/useCollectionSelection';
+import { useSelection } from './hooks/useSelection';
 
 const Menu = ({
   items = [],
@@ -44,9 +44,11 @@ const Menu = ({
   } = useSelection({
     selectionMode: 'single',
     selectedKeys: selectedKey !== undefined ? controlledSelectionSet : undefined,
-    onChange: selectedKey !== undefined ? (newSelection) => {
-      const newKey = newSelection.size > 0 ? [...newSelection][0] : null;
-      onChange?.(newKey);
+    onChange: selectedKey !== undefined ? (event, { selectedKeys: newSelection }) => {
+      const selectedItems = Array.from(newSelection)
+        .map(key => items.find(item => (item.key || item.id) === key))
+        .filter(Boolean);
+      onChange?.(event, { selectedItems });
     } : undefined,
     defaultSelectedKeys: defaultSelectionSet,
     pattern: 'menu',
@@ -67,8 +69,8 @@ const Menu = ({
       ) || { key };
 
       // Notify parent of selection change (legacy callback)
-      const finalSelection = shouldDeselect ? null : selectedItem;
-      onSelect?.(finalSelection, key, event);
+      const selectedItems = shouldDeselect ? [] : [selectedItem];
+      onSelect?.(event, { selectedItems });
     }
   });
 
