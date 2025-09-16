@@ -43,7 +43,8 @@ export const Card = () => {
 
 const CardWrapper = () => {
   return (
-    <ul style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", width: "100%" }}>
+    <ul style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", width: "100%", gap: "20px" }}>
+      <Card />
       <Card />
     </ul>
   );
