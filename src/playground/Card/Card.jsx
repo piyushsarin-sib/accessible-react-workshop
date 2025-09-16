@@ -17,16 +17,16 @@ export const Card = () => {
         src="/headphone.jpeg"
       />
 
-      {/* FIXED ISSUE 2: Semantic heading */}
-      <h3 className="text-lg font-semibold line-clamp-1">Wireless Headphones</h3>
+      {/* FIXED ISSUE 2 & 5: Semantic heading + price tied with product */}
+      <h3 className="text-lg font-semibold line-clamp-1">
+        Wireless Headphones
+        <span className="ml-2 text-blue-700 font-normal text-sm">(Rs 500)</span>
+      </h3>
 
       {/* FIXED ISSUE 4: Meaningful description */}
       <p className="mb-2 text-sm line-clamp-2 h-10 overflow-hidden">
         Comfortable over-ear headphones with noise cancellation.
       </p>
-
-      {/* ISSUE 5: Price not associated with product */}
-      <div className="block font-bold mb-2 text-blue-700">Rs 500</div>
 
       {/* FIXED ISSUE 1: Use semantic button */}
       <button
@@ -42,7 +42,16 @@ export const Card = () => {
 
 const CardWrapper = () => {
   return (
-    <ul style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", width: "100%", gap: "20px" }}>
+    <ul
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "80vh",
+        width: "100%",
+        gap: "20px",
+      }}
+    >
       <Card />
       <Card />
     </ul>
