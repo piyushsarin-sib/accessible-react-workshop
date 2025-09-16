@@ -37,10 +37,10 @@ export const Card = () => {
           Rs 500
         </p>
 
-        {/* FIXED ISSUE 1: Use semantic button */}
+        {/* FIXED ISSUE 1 and 6: Accessible button */}
         <button
           onClick={handleAddToCart}
-          className="focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 text-sm w-full"
+          className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 text-sm w-full transition-colors motion-reduce:transition-none"
           aria-label="Add Wireless Headphones to cart"
         >
           Add to Cart
