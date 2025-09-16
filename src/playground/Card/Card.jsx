@@ -12,20 +12,25 @@ export const Card = () => {
       className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
       style={{ width: "600px" }}
     >
+      {/* ISSUE 3: No alt text or misleading alt */}
       <img
         alt="" 
         className="w-full h-32 object-cover mb-3 rounded"
         src="/headphone.jpeg"
       />
 
+      {/* ISSUE 2: Heading order not semantic */}
       <p className="text-lg font-semibold line-clamp-1">Wireless Headphones</p>
 
+      {/* ISSUE 4: Description too short and vague */}
       <span className="mb-2 text-sm line-clamp-1 h-5 overflow-hidden">
         Great headphones
       </span>
 
+      {/* ISSUE 5: Price not associated with product */}
       <div className="block font-bold mb-2 text-blue-700">Rs 500</div>
 
+      {/* ISSUE 1: Non-semantic clickable div */}
       <div
         onClick={handleAddToCart}
         className="focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 text-sm w-full"
@@ -36,6 +41,11 @@ export const Card = () => {
     </li>
   );
 };
+
+//    6. Wrap in <article> with aria-labelledby
+//    7. Add focus-visible styles for keyboard users
+//    8. Add prefers-reduced-motion support
+//    9. Fully polished accessible Card component
 
 
 
