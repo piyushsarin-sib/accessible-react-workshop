@@ -10,9 +10,9 @@ export const Card = () => {
       className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
       style={{ width: "600px" }}
     >
-      {/* ISSUE 3: No alt text or misleading alt */}
+      {/* FIXED ISSUE 3: added alt text */}
       <img
-        alt="" 
+        alt="Wireless Headphones"
         className="w-full h-32 object-cover mb-3 rounded"
         src="/headphone.jpeg"
       />
@@ -20,10 +20,10 @@ export const Card = () => {
       {/* FIXED ISSUE 2: Semantic heading */}
       <h3 className="text-lg font-semibold line-clamp-1">Wireless Headphones</h3>
 
-      {/* ISSUE 4: Description too short and vague */}
-      <span className="mb-2 text-sm line-clamp-1 h-5 overflow-hidden">
-        Great headphones
-      </span>
+      {/* FIXED ISSUE 4: Meaningful description */}
+      <p className="mb-2 text-sm line-clamp-2 h-10 overflow-hidden">
+        Comfortable over-ear headphones with noise cancellation.
+      </p>
 
       {/* ISSUE 5: Price not associated with product */}
       <div className="block font-bold mb-2 text-blue-700">Rs 500</div>
