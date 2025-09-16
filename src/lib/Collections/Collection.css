@@ -1,0 +1,26 @@
+/* Collection Component Base Styles */
+
+/* Base Collection Container */
+.collection {
+  margin: 0;
+  list-style: none;
+}
+
+/* Collection Items */
+.collection-item {
+  margin: 0;
+  list-style: none;
+}
+
+/* Reset styles for unstyled collections */
+.collection--unstyled {
+  margin: 0;
+  list-style: none;
+  /* Don't override padding - let inline styles handle indentation */
+}
+
+.collection-item--unstyled {
+  margin: 0;
+  list-style: none;
+  /* Don't override padding - let inline styles handle indentation */
+}
