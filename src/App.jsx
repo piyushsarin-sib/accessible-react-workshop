@@ -6,6 +6,7 @@ import ECommercePage from './pages/ECommercePage';
 import ExamplePage from './pages/ExamplePage';
 import ECommerceLayout from './pages/ECommercePage/ECommerceLayout/ECommerceLayout';
 import { InputAccessibilityPage} from './components/examples/InputAccessibilityPage';
+import Card from './playground/Card';
 
 function App() {
   return (
@@ -17,6 +18,14 @@ function App() {
           element={
             <Layout showHeader={true} showFooter={true} withLayout={true}>
               <LandingPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/playground/:folderName"
+          element={
+            <Layout>
+              <Card />
             </Layout>
           }
         />
