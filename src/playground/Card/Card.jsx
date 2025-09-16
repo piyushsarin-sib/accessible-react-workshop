@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-
 import React from "react";
 
 export const Card = () => {
@@ -29,25 +27,17 @@ export const Card = () => {
 
       {/* ISSUE 5: Price not associated with product */}
       <div className="block font-bold mb-2 text-blue-700">Rs 500</div>
-
-      {/* ISSUE 1: Non-semantic clickable div */}
-      <div
+      
+      <button
         onClick={handleAddToCart}
         className="focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 text-sm w-full"
         aria-label="Add Wireless Headphones to cart"
       >
         Add to Cart
-      </div>
+      </button>
     </li>
   );
 };
-
-//    6. Wrap in <article> with aria-labelledby
-//    7. Add focus-visible styles for keyboard users
-//    8. Add prefers-reduced-motion support
-//    9. Fully polished accessible Card component
-
-
 
 const CardWrapper = () => {
   return (
