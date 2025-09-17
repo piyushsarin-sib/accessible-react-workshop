@@ -7,8 +7,10 @@ export const Card = () => {
 
   return (
     <li
-      className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
-      style={{ width: "600px" }}
+      className="border rounded-lg p-3 shadow-sm 
+                 hover:shadow-md transition-transform transform hover:scale-110 
+                 focus:outline-none "
+      style={{ width: "600px", transition: "all 0.3s ease" }}
     >
       {/* FIXED ISSUE 3: added alt text */}
       <img
@@ -20,7 +22,7 @@ export const Card = () => {
       {/* FIXED ISSUE 2 & 5: Semantic heading + price tied with product */}
       <h3 className="text-lg font-semibold line-clamp-1" id="product-title">
         Wireless Headphones{" "}
-        <span className="ml-2 text-blue-700 font-normal text-sm" id="product-price">(Rs 500)</span>
+                <span className="ml-2 text-blue-700 font-normal text-sm" id="product-price">(Rs 500)</span>
       </h3>
 
       {/* FIXED ISSUE 4: Meaningful description */}
