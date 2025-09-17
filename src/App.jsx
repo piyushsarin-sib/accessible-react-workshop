@@ -60,7 +60,7 @@ function App() {
         <Route path="/demos/collections/horizontal-lists" element={<HorizontalListExample />} />
         <Route path="/demos/collections/single-select" element={<SingleSelectionExample />} />
         <Route path="/demos/collections/multi-select" element={<MultiSelectionExample />} />
-        <Route path="/demos/collections/empty-menu" element={<UncontrolledMenuExample />} />
+        <Route path="/demos/collections/menu-skeleton" element={<UncontrolledMenuExample />} />
       </Routes>
     </Router>
   );

@@ -139,7 +139,7 @@ export const useCollectionAria = ({
 
   const getItemAriaProps = useMemo(() => {
     return (key, options = {}) => {
-      const { level, expanded, hasPopup, controls, disabled, current, itemRole } = options;
+      const { level, expanded, hasPopup, controls, disabled, current, itemRole, elementType } = options;
 
       const props = {};
 
@@ -161,9 +161,37 @@ export const useCollectionAria = ({
           navigation: null, // links are naturally interactive, no role needed
           group: "treeitem", // groups in trees contain tree items
         };
+
+        // Check if we should avoid overriding semantic HTML roles
+        const semanticElements = {
+          'button': 'button',
+          'a': 'link',
+          'article': 'article',
+          'section': 'region',
+          'nav': 'navigation',
+          'aside': 'complementary',
+          'main': 'main',
+          'header': 'banner',
+          'footer': 'contentinfo',
+          'form': 'form',
+          'input': null, // varies by type
+          'textarea': 'textbox',
+          'select': 'combobox',
+          'img': 'img',
+          'figure': 'figure',
+          'table': 'table',
+          'thead': 'rowgroup',
+          'tbody': 'rowgroup',
+          'tr': 'row',
+          'th': 'columnheader',
+          'td': 'cell'
+        };
+
+        // Only apply collection item role if element doesn't have semantic role
         if (
           Object.prototype.hasOwnProperty.call(itemRoles, effectiveRole) &&
-          itemRoles[effectiveRole] !== null
+          itemRoles[effectiveRole] !== null &&
+          (!elementType || !semanticElements[elementType])
         ) {
           props.role = itemRoles[effectiveRole];
         }

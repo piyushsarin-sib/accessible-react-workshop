@@ -96,8 +96,9 @@ const Menu = ({
             return (
               <Collection.Item
                 key={key}
-                className={`menu-item ${child.props.isEmpty ? 'empty-item' : ''} ${isSelected ? 'selected' : ''}`}
+                className={`menu-item ${child.props.isTitle ? 'title-item' : ''} ${isSelected ? 'selected' : ''}`}
                 data-selected={isSelected}
+                aria-selected={isSelected}
                 {...itemHandlers}
               >
                 {child.props.children}
@@ -132,8 +133,9 @@ const Menu = ({
         return (
           <Collection.Item
             key={key}
-            className={`menu-item ${item.isEmpty ? 'empty-item' : ''} ${isSelected ? 'selected' : ''}`}
+            className={`menu-item ${item.isTitle ? 'title-item' : ''} ${isSelected ? 'selected' : ''}`}
             data-selected={isSelected}
+            aria-selected={isSelected}
             {...itemHandlers}
           >
             {renderItem ? renderItem(item, isSelected) : (

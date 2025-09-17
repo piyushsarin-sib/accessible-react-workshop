@@ -19,6 +19,8 @@
   position: relative;
   border-right: 3px solid transparent;
   box-sizing: border-box;
+  min-height: 40px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .menu-item:hover {
@@ -141,38 +143,92 @@
   }
 }
 
-/* Empty menu item styles */
+/* Title menu item styles - Section titles */
+.menu-item.title-item {
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-right: none;
+  margin-bottom: 4px;
+  margin-top: 8px;
+  min-height: auto;
+  box-sizing: border-box;
+  cursor: default;
+  font-weight: bold;
+  color: #555;
+  font-size: 13px;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.menu-item.title-item:hover {
+  background: transparent;
+  cursor: default;
+}
+
+.menu-item.title-item:focus-visible {
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+.menu-item.title-item.selected {
+  background: transparent;
+  border-right: none;
+}
+
+/* Title item selected state should override focus state */
+.menu-item.title-item.selected:focus-visible {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-right: none !important;
+}
+
+/* Empty menu item styles - For placeholder/empty items */
 .menu-item.empty-item {
-  padding: 12px 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
-  border-right: 3px solid #e5e7eb;
+  padding: 16px 12px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
   margin-bottom: 4px;
   min-height: 40px;
   box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .menu-item.empty-item:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 3px rgba(0, 0, 0, 0.08);
-  border-color: #d1d5db;
+  background: #e9ecef;
 }
 
 .menu-item.empty-item:focus-visible {
   background-color: #e3f2fd;
-  box-shadow: 0 0 0 2px #2196f3, 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 2px #2196f3;
 }
 
 .menu-item.empty-item.selected {
   background-color: #e8f5e8;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2), 0 2px 4px rgba(76, 175, 80, 0.1);
-  border-right-color: #4caf50;
+  border-color: #4caf50;
 }
 
-/* Empty item selected state should override focus state */
 .menu-item.empty-item.selected:focus-visible {
   background-color: #e8f5e8 !important;
-  box-shadow: 0 0 0 2px #4caf50, 0 2px 8px rgba(76, 175, 80, 0.2) !important;
-  border-right-color: #4caf50 !important;
+  box-shadow: 0 0 0 2px #4caf50 !important;
+}
+
+/* Add a subtle placeholder indicator for empty items */
+.menu-item.empty-item::after {
+  content: "";
+  width: 60px;
+  height: 8px;
+  background: #dee2e6;
+  border-radius: 4px;
+}
+
+.menu-item.empty-item.selected::after {
+  background: #a5d6a7;
 }
 
 /* Reduced motion support */

@@ -49,23 +49,12 @@ const ProductList = ({ products, onAddToCart }) => {
             >
               Add to Cart
             </Button>
-
-            {/* <div className="card-header">
-              <h4>{card.title}</h4>
-              <span className={`difficulty-badge ${card.difficulty.toLowerCase()}`}>
-                {card.difficulty}
-              </span>
-            </div>
-            <p className="card-description">{card.description}</p>
-            <div className="card-footer">
-              <span className="card-category">{card.category}</span>
-            </div> */}
           </>
         )}
       </Collection>
       {/* COLLECTIONSSSSSSSSSS END */}
       {/* TODO: Remove below ul */}
-      <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {products.map((product) => (
           <li
             key={product.id}
@@ -89,7 +78,7 @@ const ProductList = ({ products, onAddToCart }) => {
             </Button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </>
   );
 };

@@ -3,11 +3,11 @@ import "./SelectionExample.css";
 
 // Menu with empty labels but unique keys
 const emptyMenuItems = [
-  { key: "1", label: "", isEmpty: true },
-  { key: "2", label: "", isEmpty: true },
-  { key: "3", label: "", isEmpty: true },
-  { key: "4", label: "", isEmpty: true },
-  { key: "5", label: "", isEmpty: true },
+  { key: "1", label: "" },
+  { key: "2", label: "" },
+  { key: "3", label: "" },
+  { key: "4", label: "" },
+  { key: "5", label: "" },
 ];
 
 const UncontrolledMenuExample = () => {

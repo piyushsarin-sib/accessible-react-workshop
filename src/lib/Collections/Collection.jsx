@@ -4,7 +4,8 @@ import { useCollectionAria } from "./hooks/useCollectionAria";
 
 const Item = ({
   children,
-  as: ElementType = "li", // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  as: ElementType = "li",
   innerAs: InnerElement,
   innerProps = {},
   ...props
@@ -32,6 +33,7 @@ const NestedCollection = ({
   autoIndent = true,
   indentSize = 24,
   unstyled = true,
+  title,
   ...props
 }) => {
   const nestId = parentKey ? `${parentKey}-nested` : `nested-${level}`;
@@ -52,190 +54,239 @@ const NestedCollection = ({
   const finalClassName = [baseClassName, className].filter(Boolean).join(" ");
 
   return (
-    <Wrapper 
-      className={finalClassName}
-      style={indentStyle} 
-      aria-level={level} 
-      id={nestId} 
-      {...props}
-    >
-      {children ||
-        (items &&
-          items.map((item, index) => {
-            const key = item.key || item.id || `${nestId}-${index}`;
-            const content = renderItem
-              ? renderItem(item, level)
-              : item.name || item.label || String(item);
+    <>
+      {title && (
+        <div
+          className="collection-title"
+          aria-hidden="true"
+          style={{
+            fontWeight: "bold",
+            marginBottom: "0.5rem",
+            fontSize: "0.9em",
+            color: "#666",
+            ...indentStyle,
+          }}
+        >
+          {title}
+        </div>
+      )}
+      <Wrapper
+        className={finalClassName}
+        style={indentStyle}
+        aria-level={level}
+        id={nestId}
+        aria-label={title}
+        {...props}
+      >
+        {children ||
+          (items &&
+            items.map((item, index) => {
+              const key = item.key || item.id || `${nestId}-${index}`;
+              const content = renderItem
+                ? renderItem(item, level)
+                : item.name || item.label || String(item);
 
-            return (
-              <Item key={key} as={ItemElement}>
-                {content}
-                {item.children && (
-                  <NestedCollection
-                    items={item.children}
-                    as={Wrapper}
-                    itemAs={ItemElement}
-                    level={level + 1}
-                    parentKey={key}
-                    renderItem={renderItem}
-                    autoIndent={autoIndent}
-                    indentSize={indentSize}
-                    unstyled={unstyled}
-                  />
-                )}
-              </Item>
-            );
-          }))}
-    </Wrapper>
+              return (
+                <Item key={key} as={ItemElement}>
+                  {content}
+                  {item.children && (
+                    <NestedCollection
+                      items={item.children}
+                      as={Wrapper}
+                      itemAs={ItemElement}
+                      level={level + 1}
+                      parentKey={key}
+                      renderItem={renderItem}
+                      autoIndent={autoIndent}
+                      indentSize={indentSize}
+                      unstyled={unstyled}
+                    />
+                  )}
+                </Item>
+              );
+            }))}
+      </Wrapper>
+    </>
   );
 };
 
-const Collection = React.forwardRef(({
-  children,
-  items,
-  as: Wrapper = "ul", // eslint-disable-line no-unused-vars
-  className = "",
-  itemAs: ItemWrapper = "div", // eslint-disable-line no-unused-vars
-  itemClassName = "",
-  itemInnerAs: ItemInnerWrapper,
-  itemInnerClassName = "",
-  itemInnerProps = {},
-  autoIndent = true,
-  indentSize = 24,
-  level = 1,
-  unstyled = true,
-  // ARIA props (built-in for accessibility)
-  role,
-  pattern,
-  ariaLabel,
-  ariaLabelledBy,
-  ariaDescribedBy,
-  orientation = 'vertical',
-  // Internal prop for role inheritance
-  parentRole,
-  ...props
-}, ref) => {
-  // Initialize ARIA hook - always call for React rules compliance
-  const aria = useCollectionAria({
-    role: role,
-    parentRole,
-    selectionMode: 'none', // Collection handles layout, not selection
-    selectedKeys: new Set(),
-    orientation: orientation,
-    label: ariaLabel,
-    labelledBy: ariaLabelledBy,
-    describedBy: ariaDescribedBy
-  });
+const Collection = React.forwardRef(
+  (
+    {
+      children,
+      items,
+      as: Wrapper = "ul", // eslint-disable-line no-unused-vars
+      className = "",
+      itemAs: ItemWrapper = "div", // eslint-disable-line no-unused-vars
+      itemClassName = "",
+      itemInnerAs: ItemInnerWrapper,
+      itemInnerClassName = "",
+      itemInnerProps = {},
+      autoIndent = true,
+      indentSize = 24,
+      level = 1,
+      unstyled = true,
+      // ARIA props (built-in for accessibility)
+      role,
+      pattern,
+      ariaLabel,
+      ariaLabelledBy,
+      ariaDescribedBy,
+      orientation = "vertical",
+      title,
+      // Internal prop for role inheritance
+      parentRole,
+      ...props
+    },
+    ref,
+  ) => {
+    // Initialize ARIA hook - always call for React rules compliance
+    const aria = useCollectionAria({
+      role: role,
+      pattern: pattern,
+      parentRole,
+      selectionMode: "none", // Collection handles layout, not selection
+      selectedKeys: new Set(),
+      orientation: orientation,
+      label: ariaLabel,
+      labelledBy: ariaLabelledBy,
+      describedBy: ariaDescribedBy,
+    });
 
-  const effectiveRole = aria.effectiveRole;
-  
-  // Get pattern configuration if needed
-  const patternConfig = pattern ? aria.getCollectionPattern(pattern) : {};
+    const effectiveRole = aria.effectiveRole;
 
-  // Generate indentation for manually nested Collections
-  const getIndentStyle = () => {
-    if (!autoIndent || level <= 1) return {};
+    // Get pattern configuration if needed
+    const patternConfig = pattern ? aria.getCollectionPattern(pattern) : {};
 
-    const indentValue = (level - 1) * indentSize;
-    return {
-      paddingLeft: `${indentValue}px`,
+    // Generate indentation for manually nested Collections
+    const getIndentStyle = () => {
+      if (!autoIndent || level <= 1) return {};
+
+      const indentValue = (level - 1) * indentSize;
+      return {
+        paddingLeft: `${indentValue}px`,
+      };
     };
-  };
 
-  const indentStyle = getIndentStyle();
+    const indentStyle = getIndentStyle();
 
-  const getItemClassName = (customClassName = '') => {
-    if (!unstyled) return customClassName;
-    
-    const itemBaseClass = 'collection-item--unstyled';
-    return [itemBaseClass, customClassName].filter(Boolean).join(' ');
-  };
-  const getItemProps = (itemKey, item, _index, options = {}) => {
-    const hasInnerElement = !!ItemInnerWrapper;
+    const getItemClassName = (customClassName = "") => {
+      if (!unstyled) return customClassName;
 
-    // Extract event handlers and other props from item (child.props)
-    const { 
-      onClick, 
-      onKeyDown, 
-      tabIndex,
-      style,
-      // Extract and filter out React-specific props that shouldn't go to DOM
-      ...otherItemProps 
-    } = item;
+      const itemBaseClass = "collection-item--unstyled";
+      return [itemBaseClass, customClassName].filter(Boolean).join(" ");
+    };
+    const getItemProps = (itemKey, item, _index, options = {}) => {
+      const hasInnerElement = !!ItemInnerWrapper;
 
-    // Filter out any non-DOM props that might have been passed through
-    const domProps = {};
-    const validDOMProps = [
-      'id', 'title', 'lang', 'dir', 'hidden', 'data-*', 'aria-*',
-      'role', 'contentEditable', 'draggable', 'spellCheck', 'translate'
-    ];
-    
-    Object.keys(otherItemProps).forEach(prop => {
-      if (
-        prop.startsWith('data-') || 
-        prop.startsWith('aria-') ||
-        validDOMProps.includes(prop) ||
-        prop === 'role'
-      ) {
-        domProps[prop] = otherItemProps[prop];
+      // Extract event handlers and other props from item (child.props)
+      const {
+        onClick,
+        onKeyDown,
+        tabIndex,
+        style,
+        // Extract and filter out React-specific props that shouldn't go to DOM
+        ...otherItemProps
+      } = item;
+
+      // Filter out any non-DOM props that might have been passed through
+      const domProps = {};
+      const validDOMProps = [
+        "id",
+        "title",
+        "lang",
+        "dir",
+        "hidden",
+        "data-*",
+        "aria-*",
+        "role",
+        "contentEditable",
+        "draggable",
+        "spellCheck",
+        "translate",
+      ];
+
+      Object.keys(otherItemProps).forEach((prop) => {
+        if (
+          prop.startsWith("data-") ||
+          prop.startsWith("aria-") ||
+          validDOMProps.includes(prop) ||
+          prop === "role"
+        ) {
+          domProps[prop] = otherItemProps[prop];
+        }
+      });
+
+      // Get basic ARIA props for this item (accessibility built-in)
+      const itemAriaProps = aria.getItemAriaProps(itemKey, {
+        level,
+        itemRole: patternConfig.itemRole,
+        elementType: ItemWrapper,
+        ...options,
+      });
+
+      // Base props for the wrapper element
+      const wrapperProps = {
+        className: getItemClassName(itemClassName),
+        onClick,
+        onKeyDown,
+        tabIndex,
+        style,
+        ...domProps, // Only valid DOM props
+        ...(!hasInnerElement ? itemAriaProps : {}),
+      };
+
+      // Props for the inner interactive element (if exists)
+      const innerProps = {
+        className: itemInnerClassName,
+        ...itemInnerProps,
+        ...(hasInnerElement ? itemAriaProps : {}),
+      };
+
+      // Return appropriate structure based on whether inner element exists
+      if (hasInnerElement) {
+        return {
+          wrapperProps: { ...wrapperProps },
+          innerProps: { ...innerProps },
+        };
+      } else {
+        return {
+          wrapperProps: { ...wrapperProps },
+          innerProps: {},
+        };
       }
-    });
-
-    // Get basic ARIA props for this item (accessibility built-in)
-    const itemAriaProps = aria.getItemAriaProps(itemKey, {
-      level,
-      itemRole: patternConfig.itemRole,
-      ...options
-    });
-
-    // Base props for the wrapper element
-    const wrapperProps = {
-      className: getItemClassName(itemClassName),
-      onClick,
-      onKeyDown,
-      tabIndex,
-      style,
-      ...domProps,  // Only valid DOM props
-      ...(!hasInnerElement ? itemAriaProps : {}),
     };
 
-    // Props for the inner interactive element (if exists)
-    const innerProps = {
-      className: itemInnerClassName,
-      ...itemInnerProps,
-      ...(hasInnerElement ? itemAriaProps : {}),
-    };
+    const renderDynamicCollection = () => {
+      if (!items || !Array.isArray(items)) return null;
 
-    // Return appropriate structure based on whether inner element exists
-    if (hasInnerElement) {
-      return {
-        wrapperProps: { ...wrapperProps },
-        innerProps: { ...innerProps },
-      };
-    } else {
-      return {
-        wrapperProps: { ...wrapperProps },
-        innerProps: {},
-      };
-    }
-  };
+      return items.map((item, index) => {
+        const key = item.key || item.id || index;
+        const { wrapperProps, innerProps } = getItemProps(key, item, index);
 
+        if (typeof children === "function") {
+          const itemElement = children(item);
 
-  const renderDynamicCollection = () => {
-    if (!items || !Array.isArray(items)) return null;
+          if (ItemInnerWrapper) {
+            return (
+              <ItemWrapper key={key} {...wrapperProps}>
+                <ItemInnerWrapper {...innerProps}>{itemElement}</ItemInnerWrapper>
+              </ItemWrapper>
+            );
+          }
 
-    return items.map((item, index) => {
-      const key = item.key || item.id || index;
-      const { wrapperProps, innerProps } = getItemProps(key, item, index);
-
-      if (typeof children === "function") {
-        const itemElement = children(item);
+          return (
+            <ItemWrapper key={key} {...wrapperProps}>
+              {itemElement}
+            </ItemWrapper>
+          );
+        }
 
         if (ItemInnerWrapper) {
           return (
             <ItemWrapper key={key} {...wrapperProps}>
               <ItemInnerWrapper {...innerProps}>
-                {itemElement}
+                {item.name || item.label || String(item)}
               </ItemInnerWrapper>
             </ItemWrapper>
           );
@@ -243,144 +294,150 @@ const Collection = React.forwardRef(({
 
         return (
           <ItemWrapper key={key} {...wrapperProps}>
-            {itemElement}
+            {item.name || item.label || String(item)}
           </ItemWrapper>
         );
-      }
+      });
+    };
 
-      if (ItemInnerWrapper) {
-        return (
-          <ItemWrapper key={key} {...wrapperProps}>
-            <ItemInnerWrapper {...innerProps}>
-              {item.name || item.label || String(item)}
-            </ItemInnerWrapper>
-          </ItemWrapper>
-        );
-      }
+    const renderStaticCollection = () => {
+      return React.Children.map(children, (child, index) => {
+        if (!React.isValidElement(child)) return child;
 
-      return (
-        <ItemWrapper key={key} {...wrapperProps}>
-          {item.name || item.label || String(item)}
-        </ItemWrapper>
-      );
-    });
-  };
+        if (child.type === Item) {
+          const key = child.key || child.props.key || index;
+          const { wrapperProps, innerProps } = getItemProps(key, child.props, index);
 
-  const renderStaticCollection = () => {
-    return React.Children.map(children, (child, index) => {
-      if (!React.isValidElement(child)) return child;
+          // Process direct Collection children only (no deep wrapper nesting)
+          const processNestedChildren = (children, currentLevel) => {
+            return React.Children.map(children, (child) => {
+              if (!React.isValidElement(child)) return child;
 
-      if (child.type === Item) {
-        const key = child.key || child.props.key || index;
-        const { wrapperProps, innerProps } = getItemProps(key, child.props, index);
+              if (child.type === Collection) {
+                const nextLevel = currentLevel + 1;
 
-        // Process direct Collection children only (no deep wrapper nesting)
-        const processNestedChildren = (children, currentLevel) => {
-          return React.Children.map(children, (child) => {
-            if (!React.isValidElement(child)) return child;
-            
-            if (child.type === Collection) {
-              const nextLevel = currentLevel + 1;
-              
-              return (
-                <Collection
-                  key={child.key}
-                  ref={child.ref}
-                  {...child.props}
-                  parentRole={effectiveRole}  // Pass effective role as parent context
-                  autoIndent={child.props.autoIndent !== undefined ? child.props.autoIndent : autoIndent}
-                  indentSize={child.props.indentSize !== undefined ? child.props.indentSize : indentSize}
-                  level={nextLevel}
-                  unstyled={child.props.unstyled !== undefined ? child.props.unstyled : unstyled}
-                />
-              );
-            }
-            
-            // Return other elements as-is (no deep processing to prevent invalid HTML)
-            return child;
-          });
-        };
+                return (
+                  <Collection
+                    key={child.key}
+                    ref={child.ref}
+                    {...child.props}
+                    parentRole={effectiveRole} // Pass effective role as parent context
+                    autoIndent={
+                      child.props.autoIndent !== undefined ? child.props.autoIndent : autoIndent
+                    }
+                    indentSize={
+                      child.props.indentSize !== undefined ? child.props.indentSize : indentSize
+                    }
+                    level={nextLevel}
+                    unstyled={child.props.unstyled !== undefined ? child.props.unstyled : unstyled}
+                  />
+                );
+              }
 
-        const processedChildren = processNestedChildren(child.props.children, level);
-        
-        // Merge class names - Collection className + child className
-        const mergedWrapperClassName = `${wrapperProps.className} ${child.props.className || ""}`.trim();
-        const mergedInnerClassName = `${innerProps.className} ${child.props.innerClassName || ""}`.trim();
-        
-        // Create new Item element instead of cloning
-        const finalElement = (
-          <ItemWrapper 
-            key={key}
-            {...wrapperProps}
-            className={mergedWrapperClassName}
-            style={{ ...wrapperProps.style, ...child.props.style }}
+              // Return other elements as-is (no deep processing to prevent invalid HTML)
+              return child;
+            });
+          };
+
+          const processedChildren = processNestedChildren(child.props.children, level);
+
+          // Merge class names - Collection className + child className
+          const mergedWrapperClassName = `${wrapperProps.className} ${
+            child.props.className || ""
+          }`.trim();
+          const mergedInnerClassName = `${innerProps.className} ${
+            child.props.innerClassName || ""
+          }`.trim();
+
+          // Create new Item element instead of cloning
+          const finalElement = (
+            <ItemWrapper
+              key={key}
+              {...wrapperProps}
+              className={mergedWrapperClassName}
+              style={{ ...wrapperProps.style, ...child.props.style }}
+            >
+              {ItemInnerWrapper ? (
+                <ItemInnerWrapper {...innerProps} className={mergedInnerClassName}>
+                  {processedChildren}
+                </ItemInnerWrapper>
+              ) : (
+                processedChildren
+              )}
+            </ItemWrapper>
+          );
+          return finalElement;
+        }
+
+        if (child.type === NestedCollection) {
+          // Create new NestedCollection element instead of cloning
+          return (
+            <NestedCollection
+              key={child.key || index}
+              ref={child.ref}
+              {...child.props}
+              parentRole={effectiveRole} // Pass effective role as parent context
+              autoIndent={autoIndent}
+              indentSize={indentSize}
+              unstyled={unstyled}
+            />
+          );
+        }
+
+        if (child.type === Collection) {
+          // Create new Collection element instead of cloning
+          return (
+            <Collection
+              key={child.key || index}
+              ref={child.ref}
+              {...child.props}
+              parentRole={effectiveRole} // Pass effective role as parent context
+              autoIndent={autoIndent}
+              indentSize={indentSize}
+              level={level + 1}
+              unstyled={unstyled}
+            />
+          );
+        }
+
+        return child;
+      });
+    };
+
+    const baseClassName = unstyled ? "collection collection--unstyled" : "collection";
+    const finalClassName = [baseClassName, className].filter(Boolean).join(" ");
+
+    return (
+      <>
+        {title && (
+          <div
+            className="collection-title"
+            aria-hidden="true"
+            style={{
+              fontWeight: "bold",
+              marginBottom: "0.5rem",
+              fontSize: level > 1 ? "0.9em" : "1em",
+              color: "#666",
+              ...indentStyle,
+            }}
           >
-            {ItemInnerWrapper ? (
-              <ItemInnerWrapper 
-                {...innerProps}
-                className={mergedInnerClassName}
-              >
-                {processedChildren}
-              </ItemInnerWrapper>
-            ) : (
-              processedChildren
-            )}
-          </ItemWrapper>
-        );
-        return finalElement;
-      }
-
-      if (child.type === NestedCollection) {
-        // Create new NestedCollection element instead of cloning
-        return (
-          <NestedCollection
-            key={child.key || index}
-            ref={child.ref}
-            {...child.props}
-            parentRole={effectiveRole}  // Pass effective role as parent context
-            autoIndent={autoIndent}
-            indentSize={indentSize}
-            unstyled={unstyled}
-          />
-        );
-      }
-
-      if (child.type === Collection) {
-        // Create new Collection element instead of cloning
-        return (
-          <Collection
-            key={child.key || index}
-            ref={child.ref}
-            {...child.props}
-            parentRole={effectiveRole}  // Pass effective role as parent context
-            autoIndent={autoIndent}
-            indentSize={indentSize}
-            level={level + 1}
-            unstyled={unstyled}
-          />
-        );
-      }
-
-      return child;
-    });
-  };
-
-  const baseClassName = unstyled ? "collection collection--unstyled" : "collection";
-  const finalClassName = [baseClassName, className].filter(Boolean).join(" ");
-
-
-  return (
-    <Wrapper 
-      ref={ref}
-      className={finalClassName}
-      style={indentStyle} 
-      {...aria.getCollectionAriaProps()}
-      {...props}
-    >
-      {items ? renderDynamicCollection() : renderStaticCollection()}
-    </Wrapper>
-  );
-});
+            {title}
+          </div>
+        )}
+        <Wrapper
+          ref={ref}
+          className={finalClassName}
+          style={indentStyle}
+          aria-label={title}
+          {...aria.getCollectionAriaProps()}
+          {...props}
+        >
+          {items ? renderDynamicCollection() : renderStaticCollection()}
+        </Wrapper>
+      </>
+    );
+  },
+);
 
 Collection.Item = Item;
 Collection.Nested = NestedCollection;
