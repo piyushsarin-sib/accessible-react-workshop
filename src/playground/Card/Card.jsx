@@ -19,7 +19,7 @@ export const Card = () => {
 
       {/* FIXED ISSUE 2 & 5: Semantic heading + price tied with product */}
       <h3 className="text-lg font-semibold line-clamp-1">
-        Wireless Headphones
+        Wireless Headphones{" "}
         <span className="ml-2 text-blue-700 font-normal text-sm">(Rs 500)</span>
       </h3>
 
