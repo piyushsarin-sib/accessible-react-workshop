@@ -53,7 +53,7 @@ const Menu = ({
     defaultSelectedKeys: defaultSelectionSet,
     pattern: 'menu',
     label: ariaLabel,
-    onClick: (event, key) => {
+    onClick: (event, { key }) => {
       // Custom selection logic for deselection and blur
       const isCurrentlySelected = selectedKeys.has(key);
       const shouldDeselect = isCurrentlySelected && allowDeselect;

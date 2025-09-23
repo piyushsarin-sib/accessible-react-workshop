@@ -11,6 +11,8 @@ import HorizontalListExample from "./demos/Collections/HorizontalLists/Horizonta
 import SingleSelectionExample from "./demos/Collections/Selection/SingleSelectionExample";
 import MultiSelectionExample from "./demos/Collections/Selection/MultiSelectionExample";
 import UncontrolledMenuExample from "./demos/Collections/Selection/EmptyMenuExample";
+import AccordionExample from "./demos/Collections/Expansion/AccordionExample";
+import CollapsibleTreeExample from "./demos/Collections/VerticalLists/CollapsibleTreeExample";
 
 function App() {
   return (
@@ -61,6 +63,10 @@ function App() {
         <Route path="/demos/collections/single-select" element={<SingleSelectionExample />} />
         <Route path="/demos/collections/multi-select" element={<MultiSelectionExample />} />
         <Route path="/demos/collections/menu-skeleton" element={<UncontrolledMenuExample />} />
+
+        {/* Expansion Examples */}
+        <Route path="/demos/collections/accordion" element={<AccordionExample />} />
+        <Route path="/demos/collections/expansion" element={<CollapsibleTreeExample />} />
       </Routes>
     </Router>
   );

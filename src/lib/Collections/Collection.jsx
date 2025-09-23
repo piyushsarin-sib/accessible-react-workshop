@@ -117,7 +117,7 @@ const Collection = React.forwardRef(
       items,
       as: Wrapper = "ul", // eslint-disable-line no-unused-vars
       className = "",
-      itemAs: ItemWrapper = "div", // eslint-disable-line no-unused-vars
+      itemAs: ItemWrapper = "div",
       itemClassName = "",
       itemInnerAs: ItemInnerWrapper,
       itemInnerClassName = "",
@@ -136,6 +136,10 @@ const Collection = React.forwardRef(
       title,
       // Internal prop for role inheritance
       parentRole,
+      // Internal prop for tracking nesting depth for aria-level calculation
+      _nestingDepth = 0,
+      // Internal prop to distinguish between organizational sections and nested content
+      _isNestedInItem = false,
       ...props
     },
     ref,
@@ -159,8 +163,9 @@ const Collection = React.forwardRef(
     const patternConfig = pattern ? aria.getCollectionPattern(pattern) : {};
 
     // Generate indentation for manually nested Collections
+    // Only apply indentation to truly nested content, not organizational sections
     const getIndentStyle = () => {
-      if (!autoIndent || level <= 1) return {};
+      if (!autoIndent || !_isNestedInItem || level <= 1) return {};
 
       const indentValue = (level - 1) * indentSize;
       return {
@@ -217,9 +222,18 @@ const Collection = React.forwardRef(
         }
       });
 
+      // Calculate aria-level automatically based on hierarchical depth
+      // For tree-like patterns, aria-level starts at 1 for top-level sections
+      // Only increment level when Collection is actually nested within an item
+      const shouldUseAriaLevel = effectiveRole === 'tree' || pattern === 'tree' ||
+                               effectiveRole === 'group' || pattern === 'menu';
+
+      // Level 1 for direct children of root, increment only for true nesting within items
+      const computedLevel = shouldUseAriaLevel ? (_isNestedInItem ? _nestingDepth + 1 : 1) : undefined;
+
       // Get basic ARIA props for this item (accessibility built-in)
       const itemAriaProps = aria.getItemAriaProps(itemKey, {
-        level,
+        level: computedLevel,
         itemRole: patternConfig.itemRole,
         elementType: ItemWrapper,
         ...options,
@@ -329,6 +343,8 @@ const Collection = React.forwardRef(
                       child.props.indentSize !== undefined ? child.props.indentSize : indentSize
                     }
                     level={nextLevel}
+                    _nestingDepth={_nestingDepth + 1} // Increment nesting depth for Collections within items
+                    _isNestedInItem={true} // Collections within items are truly nested
                     unstyled={child.props.unstyled !== undefined ? child.props.unstyled : unstyled}
                   />
                 );
@@ -395,6 +411,8 @@ const Collection = React.forwardRef(
               autoIndent={autoIndent}
               indentSize={indentSize}
               level={level + 1}
+              _nestingDepth={_nestingDepth} // Don't increment for direct children (organizational sections)
+              _isNestedInItem={false} // Direct children are organizational, not nested content
               unstyled={unstyled}
             />
           );
@@ -418,7 +436,8 @@ const Collection = React.forwardRef(
               marginBottom: "0.5rem",
               fontSize: level > 1 ? "0.9em" : "1em",
               color: "#666",
-              ...indentStyle,
+              // Only apply indent style to truly nested content, not organizational sections
+              ...(_isNestedInItem ? indentStyle : {}),
             }}
           >
             {title}
@@ -427,7 +446,7 @@ const Collection = React.forwardRef(
         <Wrapper
           ref={ref}
           className={finalClassName}
-          style={indentStyle}
+          style={_isNestedInItem ? indentStyle : {}}
           aria-label={title}
           {...aria.getCollectionAriaProps()}
           {...props}

@@ -12,18 +12,25 @@ const NestedCollectionWithTitlesExample = () => {
       </p>
 
       <Collection
-        title="Application Menu"
-        ariaLabel="Application menu with file and edit operations"
-        pattern="menu"
+        title="Files"
+        ariaLabel="File Explorere with file and edit operations"
+        pattern="tree"
         as="ul"
         itemAs="li"
         className="list-unstyled"
       >
-        <Collection title="File Operations" as="ul" itemAs="li" pattern="menu" level={2}>
+        <Collection title="File Operations" as="ul" itemAs="li" pattern="tree">
           <Collection.Item key="new">📄 New File</Collection.Item>
           <Collection.Item key="open">📁 Open File</Collection.Item>
-          <Collection.Item key="recent">📋 Recent Files
-            <Collection title="Recent Documents" ariaLabel="Recent documents submenu" as="ul" itemAs="li" pattern="menu" level={3}>
+          <Collection.Item key="recent">
+            📋 Recent Files
+            <Collection
+              title="Recent Documents"
+              ariaLabel="Recent documents submenu"
+              as="ul"
+              itemAs="li"
+              pattern="menu"
+            >
               <Collection.Item key="doc1">Document1.txt</Collection.Item>
               <Collection.Item key="doc2">Presentation.pptx</Collection.Item>
               <Collection.Item key="doc3">Spreadsheet.xlsx</Collection.Item>
@@ -32,7 +39,7 @@ const NestedCollectionWithTitlesExample = () => {
           <Collection.Item key="save">💾 Save</Collection.Item>
         </Collection>
 
-        <Collection title="Edit Operations" as="ul" itemAs="li" pattern="menu" level={2}>
+        <Collection title="Edit Operations" as="ul" itemAs="li" pattern="menu">
           <Collection.Item key="undo">↶ Undo</Collection.Item>
           <Collection.Item key="redo">↷ Redo</Collection.Item>
           <Collection.Item key="cut">✂️ Cut</Collection.Item>
@@ -40,11 +47,18 @@ const NestedCollectionWithTitlesExample = () => {
           <Collection.Item key="paste">📄 Paste</Collection.Item>
         </Collection>
 
-        <Collection title="Export Options" as="ul" itemAs="li" pattern="menu" level={2}>
+        <Collection title="Export Options" as="ul" itemAs="li" pattern="menu">
           <Collection.Item key="export-pdf">📄 Export as PDF</Collection.Item>
           <Collection.Item key="export-word">📝 Export as Word</Collection.Item>
-          <Collection.Item key="export-more">📤 More Export Options
-            <Collection title="Export Formats" ariaLabel="Additional export formats" as="ul" itemAs="li" pattern="menu" level={3}>
+          <Collection.Item key="export-more">
+            📤 More Export Options
+            <Collection
+              title="Export Formats"
+              ariaLabel="Additional export formats"
+              as="ul"
+              itemAs="li"
+              pattern="menu"
+            >
               <Collection.Item key="export-html">🌐 HTML</Collection.Item>
               <Collection.Item key="export-markdown">📝 Markdown</Collection.Item>
               <Collection.Item key="export-json">🔗 JSON</Collection.Item>

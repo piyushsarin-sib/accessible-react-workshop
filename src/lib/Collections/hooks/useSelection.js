@@ -53,7 +53,7 @@ export const useSelection = ({
   const patternConfig = pattern ? aria.getCollectionPattern(pattern) : {};
 
   const handleSelection = useCallback(
-    (key, event) => {
+    (event, { key }) => {
       if (selectionMode === "none") return;
 
       let newSelection = new Set(selectedKeys);
@@ -91,16 +91,16 @@ export const useSelection = ({
       return {
         onClick: (e) => {
           e.preventDefault();
-          handleSelection(key, e);
-          handleClick?.(e, key, item);
+          handleSelection(e, { key });
+          handleClick?.(e, { key, item });
         },
         onKeyDown: (e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            handleSelection(key, e);
-            handleClick?.(e, key, item);
+            handleSelection(e, { key });
+            handleClick?.(e, { key, item });
           } else {
-            onKeyDown?.(e, key, item);
+            onKeyDown?.(e, { key, item });
           }
         },
         tabIndex: 0,
@@ -157,8 +157,8 @@ export const useSelection = ({
 
   // Helper methods for easier access
   const toggleSelection = useCallback(
-    (key) => {
-      handleSelection(key);
+    (event, { key }) => {
+      handleSelection(event, { key });
     },
     [handleSelection],
   );
