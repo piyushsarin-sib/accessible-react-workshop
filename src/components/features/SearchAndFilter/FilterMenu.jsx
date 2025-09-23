@@ -10,7 +10,7 @@ const menuItems = [
   // { key: "print", label: "Print", icon: "🖨️" },
 
   { id: "category_title", name: "Categories", isTitle: true },
-  { id: "all", name: "All Products" },
+  { id: "all-products", name: "All Products" },
   { id: "hearing", name: "Hearing Assistance" },
   { id: "vision", name: "Visual Assistance" },
   { id: "mobility", name: "Mobility Aids" },
@@ -18,7 +18,7 @@ const menuItems = [
 
   // prices
   { id: "prices_title", name: "Price Ranges", isTitle: true },
-  { id: "all", name: "All Prices" },
+  { id: "all-prices", name: "All Prices" },
   { id: "under1000", name: "Under ₹1,000" },
   { id: "1000-5000", name: "₹1,000 - ₹5,000" },
   { id: "above5000", name: "Above ₹5,000" },
