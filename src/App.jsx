@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import LandingPage from "./pages/LandingPage";
@@ -6,6 +5,14 @@ import ECommercePage from "./pages/ECommercePage";
 import ExamplePage from "./pages/ExamplePage";
 import ECommerceLayout from "./pages/ECommercePage/ECommerceLayout/ECommerceLayout";
 import { InputAccessibilityPage } from "./components/examples/InputAccessibilityPage";
+
+import { default as SolvedLayout } from "./solved/components/Layout";
+import { default as SolvedLandingPage } from "./solved/pages/LandingPage";
+import { default as SolvedECommercePage } from "./solved/pages/EcommercePage/ECommercePage";
+import { default as SolvedExamplePage } from "./solved/pages/ExamplePage";
+import { default as SolvedECommerceLayout } from "./solved/pages/EcommercePage/ECommerceLayout";
+import { InputAccessibilityPage as SolvedInputAccessibilityPage } from "./solved/components/examples/InputAccessibilityPage";
+
 import ListExample from "./demos/Collections/VerticalLists/ListExample";
 import HorizontalListExample from "./demos/Collections/HorizontalLists/HorizontalListExample";
 import SingleSelectionExample from "./demos/Collections/Selection/SingleSelectionExample";
@@ -50,6 +57,43 @@ function App() {
             <ECommerceLayout>
               <ECommercePage />
             </ECommerceLayout>
+          }
+        />
+
+        {/* unsolved examples */}
+
+        {/* solved examples */}
+        <Route
+          path="/solved"
+          element={
+            <SolvedLayout showHeader={true} showFooter={true} withLayout={true}>
+              <SolvedLandingPage />
+            </SolvedLayout>
+          }
+        />
+
+        <Route
+          path="/solved/examples"
+          element={
+            <SolvedLayout showHeader={true} showFooter={true} withLayout={true}>
+              <SolvedExamplePage />
+            </SolvedLayout>
+          }
+        />
+        <Route
+          path="/solved/examples/input-accessibility"
+          element={
+            <SolvedLayout>
+              <SolvedInputAccessibilityPage />
+            </SolvedLayout>
+          }
+        />
+        <Route
+          path="/solved/examples/e-commerce"
+          element={
+            <SolvedECommerceLayout>
+              <SolvedECommercePage />
+            </SolvedECommerceLayout>
           }
         />
 
