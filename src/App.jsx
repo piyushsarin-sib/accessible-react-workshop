@@ -21,6 +21,15 @@ import UncontrolledMenuExample from "./demos/Collections/Selection/EmptyMenuExam
 import AccordionExample from "./demos/Collections/Expansion/AccordionExample";
 import CollapsibleTreeExample from "./demos/Collections/VerticalLists/CollapsibleTreeExample";
 
+// Solved demo imports
+import { default as SolvedListExample } from "./solved/demos/Collections/VerticalLists/ListExample";
+import { default as SolvedHorizontalListExample } from "./solved/demos/Collections/HorizontalLists/HorizontalListExample";
+import { default as SolvedSingleSelectionExample } from "./solved/demos/Collections/Selection/SingleSelectionExample";
+import { default as SolvedMultiSelectionExample } from "./solved/demos/Collections/Selection/MultiSelectionExample";
+import { default as SolvedUncontrolledMenuExample } from "./solved/demos/Collections/Selection/EmptyMenuExample";
+import { default as SolvedAccordionExample } from "./solved/demos/Collections/Expansion/AccordionExample";
+import { default as SolvedCollapsibleTreeExample } from "./solved/demos/Collections/VerticalLists/CollapsibleTreeExample";
+
 function App() {
   return (
     <Router>
@@ -111,6 +120,15 @@ function App() {
         {/* Expansion Examples */}
         <Route path="/demos/collections/accordion" element={<AccordionExample />} />
         <Route path="/demos/collections/expansion" element={<CollapsibleTreeExample />} />
+
+        {/* SOLVED QUICK DEMOS - Complete accessibility implementations */}
+        <Route path="/solved/demos/collections/vertical-lists" element={<SolvedListExample />} />
+        <Route path="/solved/demos/collections/horizontal-lists" element={<SolvedHorizontalListExample />} />
+        <Route path="/solved/demos/collections/single-select" element={<SolvedSingleSelectionExample />} />
+        <Route path="/solved/demos/collections/multi-select" element={<SolvedMultiSelectionExample />} />
+        <Route path="/solved/demos/collections/menu-skeleton" element={<SolvedUncontrolledMenuExample />} />
+        <Route path="/solved/demos/collections/accordion" element={<SolvedAccordionExample />} />
+        <Route path="/solved/demos/collections/expansion" element={<SolvedCollapsibleTreeExample />} />
       </Routes>
     </Router>
   );

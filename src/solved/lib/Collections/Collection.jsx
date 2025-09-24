@@ -242,11 +242,10 @@ const Collection = React.forwardRef(
       });
 
       // Calculate aria-level automatically based on hierarchical depth
-      // aria-level should ONLY be used for tree structures (role="treeitem")
-      // Check both the original pattern and effective role for tree structures
-      const shouldUseAriaLevel = pattern === 'tree' || effectiveRole === 'tree' ||
-                                (parentRole === 'tree' && !pattern) ||
-                                (effectiveRole === 'group' && pattern === 'tree');
+      // For tree-like patterns, aria-level starts at 1 for top-level sections
+      // Only increment level when Collection is actually nested within an item
+      const shouldUseAriaLevel = effectiveRole === 'tree' || pattern === 'tree' ||
+                               effectiveRole === 'group' || pattern === 'menu';
 
       // Level 1 for direct children of root, increment only for true nesting within items
       const computedLevel = shouldUseAriaLevel ? (_isNestedInItem ? _nestingDepth + 1 : 1) : undefined;
@@ -477,11 +476,21 @@ const Collection = React.forwardRef(
   },
 );
 
-// Title component for section labels within collections (non-selectable)
-const Title = ({ children, ...props }) => {
+// Title component for section headers (non-selectable)
+const Title = ({ children, level = 3, as: Heading, ...props }) => {
+  // If 'as' prop is provided, use semantic HTML
+  if (Heading) {
+    return (
+      <li role="presentation" className="collection-title" {...props}>
+        <Heading>{children}</Heading>
+      </li>
+    );
+  }
+
+  // Otherwise use role="heading" with configurable level
   return (
     <li role="presentation" className="collection-title" {...props}>
-      <div className="collection-title-text">
+      <div role="heading" aria-level={level}>
         {children}
       </div>
     </li>

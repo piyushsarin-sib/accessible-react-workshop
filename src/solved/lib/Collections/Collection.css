@@ -1,0 +1,50 @@
+/* Collection Component Base Styles */
+
+/* Base Collection Container */
+.collection {
+  margin: 0;
+  list-style: none;
+}
+
+/* Collection Items */
+.collection-item {
+  margin: 0;
+  list-style: none;
+}
+
+/* Collection Title */
+.collection-title {
+  margin: 8px 0 4px 0;
+  list-style: none;
+}
+
+.collection-title > div {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.875rem;
+  padding: 4px 8px;
+}
+
+/* Reset styles for unstyled collections */
+.collection--unstyled {
+  margin: 0;
+  list-style: none;
+  /* Don't override padding - let inline styles handle indentation */
+}
+
+.collection-item--unstyled {
+  margin: 0;
+  list-style: none;
+  /* Don't override padding - let inline styles handle indentation */
+}
+
+/* Disabled collection items */
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.disabled:hover {
+  background-color: transparent !important;
+}
