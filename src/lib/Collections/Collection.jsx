@@ -140,10 +140,18 @@ const Collection = React.forwardRef(
       _nestingDepth = 0,
       // Internal prop to distinguish between organizational sections and nested content
       _isNestedInItem = false,
+      // Selection handlers function from parent (like Menu)
+      getItemHandlers,
+      // Selected keys for styling and ARIA
+      selectedKeys,
       ...props
     },
     ref,
   ) => {
+    // Use provided level and nesting props directly
+    const actualLevel = level || 1;
+    const actualIsNestedInItem = _isNestedInItem || false;
+
     // Initialize ARIA hook - always call for React rules compliance
     const aria = useCollectionAria({
       role: role,
@@ -165,9 +173,9 @@ const Collection = React.forwardRef(
     // Generate indentation for manually nested Collections
     // Only apply indentation to truly nested content, not organizational sections
     const getIndentStyle = () => {
-      if (!autoIndent || !_isNestedInItem || level <= 1) return {};
+      if (!autoIndent || !actualIsNestedInItem || actualLevel <= 1) return {};
 
-      const indentValue = (level - 1) * indentSize;
+      const indentValue = (actualLevel - 1) * indentSize;
       return {
         paddingLeft: `${indentValue}px`,
       };
@@ -184,6 +192,9 @@ const Collection = React.forwardRef(
     const getItemProps = (itemKey, item, _index, options = {}) => {
       const hasInnerElement = !!ItemInnerWrapper;
 
+      // Get selection handlers if available
+      const selectionHandlers = getItemHandlers ? getItemHandlers(itemKey, item) : {};
+
       // Extract event handlers and other props from item (child.props)
       const {
         onClick,
@@ -193,6 +204,14 @@ const Collection = React.forwardRef(
         // Extract and filter out React-specific props that shouldn't go to DOM
         ...otherItemProps
       } = item;
+
+      // Merge selection handlers with item handlers (item handlers take precedence)
+      const finalHandlers = {
+        ...selectionHandlers,
+        onClick: onClick || selectionHandlers.onClick,
+        onKeyDown: onKeyDown || selectionHandlers.onKeyDown,
+        tabIndex: tabIndex !== undefined ? tabIndex : selectionHandlers.tabIndex,
+      };
 
       // Filter out any non-DOM props that might have been passed through
       const domProps = {};
@@ -236,15 +255,14 @@ const Collection = React.forwardRef(
         level: computedLevel,
         itemRole: patternConfig.itemRole,
         elementType: ItemWrapper,
+        selected: selectedKeys ? selectedKeys.has(itemKey) : false,
         ...options,
       });
 
       // Base props for the wrapper element
       const wrapperProps = {
         className: getItemClassName(itemClassName),
-        onClick,
-        onKeyDown,
-        tabIndex,
+        ...finalHandlers,
         style,
         ...domProps, // Only valid DOM props
         ...(!hasInnerElement ? itemAriaProps : {}),
@@ -434,10 +452,10 @@ const Collection = React.forwardRef(
             style={{
               fontWeight: "bold",
               marginBottom: "0.5rem",
-              fontSize: level > 1 ? "0.9em" : "1em",
+              fontSize: actualLevel > 1 ? "0.9em" : "1em",
               color: "#666",
               // Only apply indent style to truly nested content, not organizational sections
-              ...(_isNestedInItem ? indentStyle : {}),
+              ...(actualIsNestedInItem ? indentStyle : {}),
             }}
           >
             {title}
@@ -446,7 +464,7 @@ const Collection = React.forwardRef(
         <Wrapper
           ref={ref}
           className={finalClassName}
-          style={_isNestedInItem ? indentStyle : {}}
+          style={actualIsNestedInItem ? indentStyle : {}}
           aria-label={title}
           {...aria.getCollectionAriaProps()}
           {...props}
@@ -458,7 +476,19 @@ const Collection = React.forwardRef(
   },
 );
 
+// Title component for section headers (non-selectable)
+const Title = ({ children, ...props }) => {
+  return (
+    <li role="presentation" className="collection-title" {...props}>
+      <div role="heading" aria-level="3">
+        {children}
+      </div>
+    </li>
+  );
+};
+
 Collection.Item = Item;
+Collection.Title = Title;
 Collection.Nested = NestedCollection;
 
 export default Collection;

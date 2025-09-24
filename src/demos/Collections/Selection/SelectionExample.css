@@ -8,6 +8,21 @@
   max-width: 250px;
 }
 
+/* Base menu item styles (visual only) */
+.menu-item-base {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  outline: none;
+  position: relative;
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  min-height: 40px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Interactive menu item styles */
 .menu-item {
   display: flex;
   align-items: center;

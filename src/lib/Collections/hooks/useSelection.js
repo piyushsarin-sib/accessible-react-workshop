@@ -6,14 +6,11 @@ import { useCollectionAria } from "./useCollectionAria";
  * @param {Object} options - Configuration options
  * @param {string} options.selectionMode - 'none', 'single', or 'multiple'
  * @param {Set} options.selectedKeys - Controlled selected keys (controlled mode)
- * @param {Function} options.onChange - Controlled selection change handler
+ * @param {Function} options.onChange - Selection change handler (called on both controlled and uncontrolled modes)
  * @param {Set} options.defaultSelectedKeys - Default selected items (uncontrolled mode)
  * @param {string} options.role - Collection role for proper ARIA attributes
  * @param {string} options.pattern - Pre-configured pattern ('listbox', 'menu', 'tabs', 'tree', 'radiogroup')
  * @param {string} options.label - Accessible label for the collection
- * @param {Function} options.onClick - Custom click handler called after selection
- * @param {Function} options.onSelect - Alternative name for onClick (maps to onClick internally)
- * @param {Function} options.onKeyDown - Custom keydown handler called after selection
  * @returns {Object} Selection state and handlers
  */
 export const useSelection = ({
@@ -24,13 +21,7 @@ export const useSelection = ({
   role,
   pattern,
   label,
-  onClick,
-  onSelect,
-  onKeyDown,
 } = {}) => {
-  // Map onSelect to onClick for backward compatibility
-  const handleClick = onSelect || onClick;
-
   // Determine if we're in controlled or uncontrolled mode
   const isControlled = controlledSelectedKeys !== undefined;
 
@@ -39,7 +30,6 @@ export const useSelection = ({
 
   // Use controlled or uncontrolled state
   const selectedKeys = isControlled ? controlledSelectedKeys : internalSelectedKeys;
-  const setSelectedKeys = isControlled ? onChange : setInternalSelectedKeys;
 
   // Initialize ARIA hook for proper selection attributes
   const aria = useCollectionAria({
@@ -53,7 +43,7 @@ export const useSelection = ({
   const patternConfig = pattern ? aria.getCollectionPattern(pattern) : {};
 
   const handleSelection = useCallback(
-    (event, { key }) => {
+    (event, { key, item }) => {
       if (selectionMode === "none") return;
 
       let newSelection = new Set(selectedKeys);
@@ -70,17 +60,20 @@ export const useSelection = ({
         }
       }
 
-      // Call onChange with event first, then selection data
-      if (isControlled && onChange) {
-        onChange(event, { selectedKeys: newSelection });
+      // Update state for both controlled and uncontrolled modes
+      if (isControlled) {
+        // In controlled mode, call onChange to notify parent with item data
+        onChange?.(event, { selectedKeys: newSelection, selectedItem: item, key });
       } else {
-        setSelectedKeys(newSelection);
+        // In uncontrolled mode, update internal state and call onChange if provided
+        setInternalSelectedKeys(newSelection);
+        onChange?.(event, { selectedKeys: newSelection, selectedItem: item, key });
       }
     },
     // setSelectedKeys is intentionally omitted - it's either onChange (controlled) or setState (uncontrolled)
     // Adding it would cause unnecessary re-renders when consumers don't memoize onChange
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectedKeys, selectionMode],
+    [selectedKeys, selectionMode, isControlled],
   );
 
   // Separate handlers from ARIA props
@@ -91,22 +84,18 @@ export const useSelection = ({
       return {
         onClick: (e) => {
           e.preventDefault();
-          handleSelection(e, { key });
-          handleClick?.(e, { key, item });
+          handleSelection(e, { key, item });
         },
         onKeyDown: (e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            handleSelection(e, { key });
-            handleClick?.(e, { key, item });
-          } else {
-            onKeyDown?.(e, { key, item });
+            handleSelection(e, { key, item });
           }
         },
         tabIndex: 0,
       };
     },
-    [selectionMode, handleSelection, handleClick, onKeyDown],
+    [selectionMode, handleSelection],
   );
 
   const getItemAriaProps = useCallback(
@@ -138,19 +127,27 @@ export const useSelection = ({
 
   const clearSelection = useCallback(() => {
     const newSelection = new Set();
-    setSelectedKeys(newSelection);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // setSelectedKeys omitted for controlled/uncontrolled pattern
+    if (isControlled) {
+      onChange?.(null, { selectedKeys: newSelection });
+    } else {
+      setInternalSelectedKeys(newSelection);
+      onChange?.(null, { selectedKeys: newSelection });
+    }
+  }, [isControlled, onChange]);
 
   const selectAll = useCallback(
     (allKeys) => {
       if (selectionMode !== "multiple") return;
 
       const newSelection = new Set(allKeys);
-      setSelectedKeys(newSelection);
+      if (isControlled) {
+        onChange?.(null, { selectedKeys: newSelection });
+      } else {
+        setInternalSelectedKeys(newSelection);
+        onChange?.(null, { selectedKeys: newSelection });
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [selectionMode], // setSelectedKeys omitted for controlled/uncontrolled pattern
+    [selectionMode, isControlled, onChange],
   );
 
   const isSelected = useCallback((key) => selectedKeys.has(key), [selectedKeys]);
@@ -163,11 +160,18 @@ export const useSelection = ({
     [handleSelection],
   );
 
-  const replaceSelection = useCallback((key) => {
-    const newSelection = new Set([key]);
-    setSelectedKeys(newSelection);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // setSelectedKeys omitted for controlled/uncontrolled pattern
+  const replaceSelection = useCallback(
+    (key) => {
+      const newSelection = new Set([key]);
+      if (isControlled) {
+        onChange?.(null, { selectedKeys: newSelection });
+      } else {
+        setInternalSelectedKeys(newSelection);
+        onChange?.(null, { selectedKeys: newSelection });
+      }
+    },
+    [isControlled, onChange],
+  );
 
   return {
     selectedKeys,

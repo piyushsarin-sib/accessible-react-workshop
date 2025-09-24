@@ -1,41 +1,62 @@
 import React from 'react';
 import Collection from './Collection';
 import { useSelection } from './hooks/useSelection';
+import '../../demos/Collections/Selection/SelectionExample.css';
+
+// Context to provide selection handlers to nested Menu components
+const MenuContext = React.createContext(null);
 
 const Menu = ({
-  items = [],
-  onSelect,
   selectedKey,
   onChange,
   defaultSelectedKey = null,
-  defaultSelection = null,
-  allowDeselect = true,
   className = 'selection-menu',
   ariaLabel,
   children,
-  renderItem,
   ...props
 }) => {
-  console.log('Menu component rendering with:', {
-    itemsLength: items.length,
-    hasChildren: !!children,
-    ariaLabel,
-    className,
-    isControlled: selectedKey !== undefined
-  });
 
-  // Convert selection to key for useSelection hook
-  const getSelectionKey = (selection) => {
-    if (!selection) return null;
-    return typeof selection === 'object' ? selection.key || selection.id : selection;
-  };
-
-  // Support legacy defaultSelection prop
-  const defaultKey = defaultSelectedKey || getSelectionKey(defaultSelection);
-  const defaultSelectionSet = defaultKey ? new Set([defaultKey]) : new Set();
+  const defaultSelectionSet = defaultSelectedKey ? new Set([defaultSelectedKey]) : new Set();
 
   // Convert single key to Set for controlled mode
   const controlledSelectionSet = selectedKey ? new Set([selectedKey]) : new Set();
+
+  // Create a helper to build selectedItems from children (including nested)
+  const buildSelectedItems = (newSelection) => {
+    const childrenItems = [];
+
+    const collectOptions = (children) => {
+      React.Children.forEach(children, (child) => {
+        if (React.isValidElement(child) && child.type === Menu.Option) {
+          const key = child.props.value || child.key;
+          if (key) {
+            childrenItems.push({
+              key,
+              value: key,
+              label: child.props.children,
+              ...child.props
+            });
+          }
+          // Also collect nested options
+          if (child.props.children) {
+            const childArray = React.Children.toArray(child.props.children);
+            const nestedOptions = childArray.filter(c =>
+              React.isValidElement(c) && c.type === Menu.Option
+            );
+            if (nestedOptions.length > 0) {
+              collectOptions(nestedOptions);
+            }
+          }
+        }
+      });
+    };
+
+    collectOptions(children);
+
+    return Array.from(newSelection)
+      .map(key => childrenItems.find(item => item.key === key || item.value === key))
+      .filter(Boolean);
+  };
 
   const {
     selectedKeys,
@@ -44,129 +65,119 @@ const Menu = ({
   } = useSelection({
     selectionMode: 'single',
     selectedKeys: selectedKey !== undefined ? controlledSelectionSet : undefined,
-    onChange: selectedKey !== undefined ? (event, { selectedKeys: newSelection }) => {
-      const selectedItems = Array.from(newSelection)
-        .map(key => items.find(item => (item.key || item.id) === key))
-        .filter(Boolean);
+    onChange: (event, { selectedKeys: newSelection }) => {
+      // Build selected items and call onChange callback
+      const selectedItems = newSelection.size === 0 ? [] : buildSelectedItems(newSelection);
       onChange?.(event, { selectedItems });
-    } : undefined,
+    },
     defaultSelectedKeys: defaultSelectionSet,
     pattern: 'menu',
-    label: ariaLabel,
-    onClick: (event, { key }) => {
-      // Custom selection logic for deselection and blur
-      const isCurrentlySelected = selectedKeys.has(key);
-      const shouldDeselect = isCurrentlySelected && allowDeselect;
-
-      // If deselecting, blur the element to remove focus styling
-      if (shouldDeselect && event?.target) {
-        event.target.blur();
-      }
-
-      // Find the selected item object
-      const selectedItem = items.find(item =>
-        (item.key || item.id) === key
-      ) || { key };
-
-      // Notify parent of selection change (legacy callback)
-      const selectedItems = shouldDeselect ? [] : [selectedItem];
-      onSelect?.(event, { selectedItems });
-    }
+    label: ariaLabel
   });
 
-  // Get current selected key for backward compatibility
-  const currentSelectedKey = selectedKeys.size > 0 ? [...selectedKeys][0] : null;
-
-  // If using children pattern (JSX)
-  if (children) {
-    return (
+  return (
+    <MenuContext.Provider value={{ getItemHandlers, selectedKeys }}>
       <Collection
         as="ul"
         itemAs="li"
         className={className}
+        autoIndent={true}
+        indentSize={24}
+        getItemHandlers={getItemHandlers}
+        selectedKeys={selectedKeys}
         {...getCollectionAriaProps()}
         {...props}
       >
-        {React.Children.map(children, (child, index) => {
-          if (React.isValidElement(child) && child.type === Menu.Item) {
-            const key = child.props.itemKey || child.key || index;
-            const isSelected = currentSelectedKey === key;
-            const itemHandlers = getItemHandlers(key, child.props);
-            
-            return (
-              <Collection.Item
-                key={key}
-                className={`menu-item ${child.props.isTitle ? 'title-item' : ''} ${isSelected ? 'selected' : ''}`}
-                data-selected={isSelected}
-                aria-selected={isSelected}
-                {...itemHandlers}
-              >
-                {child.props.children}
-                {isSelected && (
-                  <span className="selection-indicator" aria-hidden="true">
-                    ✓
-                  </span>
-                )}
-              </Collection.Item>
-            );
-          }
-          return child;
-        })}
+        {children}
       </Collection>
-    );
-  }
-
-  // If using items array pattern
-  return (
-    <Collection
-      as="ul"
-      itemAs="li"
-      className={className}
-      {...getCollectionAriaProps()}
-      {...props}
-    >
-      {items.map((item, index) => {
-        const key = item.key || item.id || index;
-        const isSelected = currentSelectedKey === key;
-        const itemHandlers = getItemHandlers(key, item);
-        
-        return (
-          <Collection.Item
-            key={key}
-            className={`menu-item ${item.isTitle ? 'title-item' : ''} ${isSelected ? 'selected' : ''}`}
-            data-selected={isSelected}
-            aria-selected={isSelected}
-            {...itemHandlers}
-          >
-            {renderItem ? renderItem(item, isSelected) : (
-              <>
-                {item.icon && (
-                  <span className="menu-icon" aria-hidden="true">
-                    {item.icon}
-                  </span>
-                )}
-                <span className="menu-label">
-                  {item.label || item.placeholder || item.name || ''}
-                </span>
-                {isSelected && (
-                  <span className="selection-indicator" aria-hidden="true">
-                    ✓
-                  </span>
-                )}
-              </>
-            )}
-          </Collection.Item>
-        );
-      })}
-    </Collection>
+    </MenuContext.Provider>
   );
 };
 
-// Menu.Item component for JSX pattern
-Menu.Item = () => {
-  // This is just a placeholder component
-  // The actual rendering is handled by the parent Menu component
-  return null;
+// Menu component definitions for JSX pattern
+
+// Menu.Title - renders as Collection.Title (non-selectable section headers)
+const MenuTitle = ({ children, className = '', ...props }) => {
+  const titleClass = `menu-item title-item ${className}`.trim();
+  return <Collection.Title className={titleClass} {...props}>{children}</Collection.Title>;
 };
+
+Menu.Title = MenuTitle;
+
+// Menu.Option - renders as Collection.Item (selectable menu items)
+const MenuOption = ({ value, disabled, children, className = '', ...props }) => {
+  const context = React.useContext(MenuContext);
+  const { getItemHandlers, selectedKeys } = context || {};
+
+  // Check if this item is selected
+  const isSelected = selectedKeys ? selectedKeys.has(value) : false;
+
+  // Get selection handlers for this item
+  const itemData = { value, disabled, children, ...props };
+  const handlers = getItemHandlers ? getItemHandlers(value, itemData) : {};
+
+  // Build CSS classes
+  const menuItemClass = `menu-item${isSelected ? ' selected' : ''}${disabled ? ' disabled' : ''} ${className}`.trim();
+
+  // Check if children contain nested Menu.Option components
+  const childArray = React.Children.toArray(children);
+  const hasNestedOptions = childArray.some(child =>
+    React.isValidElement(child) && child.type === Menu.Option
+  );
+
+  if (hasNestedOptions) {
+    // Separate content from nested options
+    const content = childArray.filter(child =>
+      !React.isValidElement(child) || child.type !== Menu.Option
+    );
+    const nestedOptions = childArray.filter(child =>
+      React.isValidElement(child) && child.type === Menu.Option
+    );
+
+    return (
+      <Collection.Item
+        key={value}
+        role="menuitem"
+        aria-disabled={disabled}
+        aria-expanded="true"
+        className={menuItemClass}
+        {...handlers}
+        {...props}
+      >
+        {content}
+        <Collection
+          as="ul"
+          itemAs="li"
+          role="menu"
+          autoIndent={true}
+          indentSize={24}
+          getItemHandlers={getItemHandlers}
+          selectedKeys={selectedKeys}
+          _isNestedInItem={true}
+          level={2}
+        >
+          {nestedOptions}
+        </Collection>
+      </Collection.Item>
+    );
+  }
+
+  return (
+    <Collection.Item
+      key={value}
+      role="menuitem"
+      aria-disabled={disabled}
+      className={menuItemClass}
+      {...handlers}
+      {...props}
+    >
+      {children}
+    </Collection.Item>
+  );
+};
+
+Menu.Option = MenuOption;
+
+
 
 export default Menu;

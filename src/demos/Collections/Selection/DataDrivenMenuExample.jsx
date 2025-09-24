@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Menu from "../../../lib/Collections/Menu";
 
-const SimpleMenuExample = () => {
+const CompoundAPIMenuExample = () => {
   const [selectedKey, setSelectedKey] = useState(null);
 
   const handleChange = (_event, { selectedItems }) => {
@@ -9,12 +9,12 @@ const SimpleMenuExample = () => {
   };
 
   return (
-    <>
-      <h3 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "16px" }}>
-        Single Selection Menu (controlled mode)
-      </h3>
+    <div style={{ marginBottom: "32px" }}>
+      <h4 style={{ fontSize: "16px", fontWeight: "600", marginBottom: "8px" }}>
+        🧩 Compound API Menu
+      </h4>
       <p style={{ fontSize: "14px", color: "#666", marginBottom: "12px" }}>
-        Click items to select. Only one item can be selected at a time.
+        Using Menu.Option components - perfect for static, design-time structure
       </p>
 
       <Menu
@@ -29,15 +29,11 @@ const SimpleMenuExample = () => {
         <Menu.Option value="print">🖨️ Print</Menu.Option>
       </Menu>
 
-      <div style={{ marginTop: "16px", fontSize: "14px", color: "#666" }}>
-        <strong>Selected:</strong>{" "}
-        {selectedKey || "None"}
-        <br />
-        <strong>Selected Key:</strong>{" "}
-        {selectedKey || "None"}
+      <div style={{ marginTop: "12px", fontSize: "14px", color: "#666" }}>
+        <strong>Selected:</strong> {selectedKey || "None"}
       </div>
-    </>
+    </div>
   );
 };
 
-export default SimpleMenuExample;
+export default CompoundAPIMenuExample;

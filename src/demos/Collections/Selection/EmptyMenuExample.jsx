@@ -1,18 +1,9 @@
 import Menu from "../../../lib/Collections/Menu";
 import "./SelectionExample.css";
 
-// Menu with empty labels but unique keys
-const emptyMenuItems = [
-  { key: "1", label: "" },
-  { key: "2", label: "" },
-  { key: "3", label: "" },
-  { key: "4", label: "" },
-  { key: "5", label: "" },
-];
-
 const UncontrolledMenuExample = () => {
-  const handleSelect = (event, { selectedItems }) => {
-    console.log(`Empty item selected:`, selectedItems, event);
+  const handleChange = () => {
+    // Handle selection change
   };
 
   return (
@@ -25,12 +16,16 @@ const UncontrolledMenuExample = () => {
       </p>
 
       <Menu
-        items={emptyMenuItems}
-        onSelect={handleSelect}
+        onChange={handleChange}
         defaultSelectedKey="3"
         ariaLabel="Empty options menu"
-        allowDeselect={true}
-      />
+      >
+        <Menu.Option value="1"> </Menu.Option>
+        <Menu.Option value="2"> </Menu.Option>
+        <Menu.Option value="3"> </Menu.Option>
+        <Menu.Option value="4"> </Menu.Option>
+        <Menu.Option value="5"> </Menu.Option>
+      </Menu>
 
       <div style={{ marginTop: "16px", fontSize: "12px", color: "#999" }}>
         <strong>Mode:</strong> Uncontrolled - Menu manages selection internally
