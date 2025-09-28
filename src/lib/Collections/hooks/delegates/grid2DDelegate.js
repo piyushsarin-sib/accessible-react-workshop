@@ -3,75 +3,103 @@
  * Handles true 2D navigation with row/column awareness
  */
 export const create2DDelegate = (itemKeys, totalItems, loop, getCurrentPosition, actualColumnsCount, rowsCount) => {
+
+  // Helper: Calculate index from row/col
+  const getIndexFromPosition = (row, col) => row * actualColumnsCount + col;
+
+  // Helper: Find last valid row for a column (handles incomplete grids)
+  const findLastValidRowForColumn = (col) => {
+    let row = rowsCount - 1;
+    let index = getIndexFromPosition(row, col);
+
+    while (index >= totalItems && row > 0) {
+      row--;
+      index = getIndexFromPosition(row, col);
+    }
+
+    return { row, index };
+  };
+
+  // Helper: Handle horizontal wrapping (left/right)
+  const navigateHorizontal = (current, direction) => {
+    const isRight = direction === "right" || direction === "next";
+    let newCol = current.col + (isRight ? 1 : -1);
+    let newRow = current.row;
+
+    // Handle column overflow/underflow
+    if (newCol >= actualColumnsCount) {
+      newCol = 0;
+      newRow++;
+      if (newRow >= rowsCount) {
+        return loop ? 0 : null; // Wrap to start or stop
+      }
+    } else if (newCol < 0) {
+      newCol = actualColumnsCount - 1;
+      newRow--;
+      if (newRow < 0) {
+        return loop ? totalItems - 1 : null; // Wrap to end or stop
+      }
+    }
+
+    const newIndex = getIndexFromPosition(newRow, newCol);
+
+    // Ensure within bounds
+    if (newIndex >= totalItems) {
+      return loop ? 0 : null;
+    }
+
+    return newIndex;
+  };
+
+  // Helper: Handle vertical column-major navigation (up/down)
+  const navigateVertical = (current, direction) => {
+    const isDown = direction === "down";
+    let newRow = current.row + (isDown ? 1 : -1);
+
+    // Handle row overflow/underflow with column-major traversal
+    if (newRow >= rowsCount || getIndexFromPosition(newRow, current.col) >= totalItems) {
+      if (!loop) return null;
+
+      // Move to next/previous column
+      const newCol = current.col + (isDown ? 1 : -1);
+
+      if (newCol >= actualColumnsCount) {
+        return 0; // Wrap to first item
+      } else if (newCol < 0) {
+        return findLastValidRowForColumn(actualColumnsCount - 1).index; // Last column, last row
+      }
+
+      // Go to first/last row of new column
+      return isDown ? newCol : findLastValidRowForColumn(newCol).index;
+    } else if (newRow < 0) {
+      if (!loop) return null;
+
+      // Move to previous column, last row
+      const newCol = current.col - 1;
+      if (newCol < 0) {
+        return findLastValidRowForColumn(actualColumnsCount - 1).index;
+      }
+      return findLastValidRowForColumn(newCol).index;
+    }
+
+    return getIndexFromPosition(newRow, current.col);
+  };
+
   const getNextIndex = (direction, currentKey) => {
     const current = getCurrentPosition(currentKey);
-    let newIndex = current.index;
-    let newRow = current.row;
-    let newCol = current.col;
+    let newIndex;
 
     switch (direction) {
-      case "next":
       case "right":
-        newCol = current.col + 1;
-        if (newCol >= actualColumnsCount) {
-          if (loop) {
-            newCol = 0;
-            newRow = current.row;
-          } else {
-            return null;
-          }
-        }
-        newIndex = newRow * actualColumnsCount + newCol;
-        break;
-
-      case "previous":
+      case "next":
       case "left":
-        newCol = current.col - 1;
-        if (newCol < 0) {
-          if (loop) {
-            newCol = actualColumnsCount - 1;
-            newRow = current.row;
-          } else {
-            return null;
-          }
-        }
-        newIndex = newRow * actualColumnsCount + newCol;
+      case "previous":
+        newIndex = navigateHorizontal(current, direction);
         break;
 
       case "down":
-        newRow = current.row + 1;
-        if (newRow >= rowsCount) {
-          newRow = loop ? 0 : current.row;
-        }
-        newIndex = newRow * actualColumnsCount + current.col;
-
-        // Handle case where new index exceeds total items
-        if (newIndex >= totalItems) {
-          if (loop) {
-            newIndex = current.col; // Go to first row, same column
-          } else {
-            return null;
-          }
-        }
-        break;
-
       case "up":
-        newRow = current.row - 1;
-        if (newRow < 0) {
-          if (loop) {
-            // Go to last row, but check if that position exists
-            const lastRowIndex = (rowsCount - 1) * actualColumnsCount + current.col;
-            newRow = lastRowIndex < totalItems ? rowsCount - 1 : rowsCount - 2;
-          } else {
-            return null;
-          }
-        }
-        newIndex = newRow * actualColumnsCount + current.col;
-
-        // Ensure index is valid
-        if (newIndex >= totalItems) {
-          newIndex = totalItems - 1;
-        }
+        newIndex = navigateVertical(current, direction);
         break;
 
       case "home":
@@ -86,7 +114,7 @@ export const create2DDelegate = (itemKeys, totalItems, loop, getCurrentPosition,
         return null;
     }
 
-    return newIndex >= 0 && newIndex < totalItems ? itemKeys[newIndex] : null;
+    return newIndex !== null && newIndex >= 0 && newIndex < totalItems ? itemKeys[newIndex] : null;
   };
 
   return { getNextIndex };

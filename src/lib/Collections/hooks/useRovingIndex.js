@@ -299,13 +299,8 @@ export const useRovingIndex = ({
           options.ref.current = element;
         }
       },
-      onClick: (event) => {
-        // Allow focusing item on click
-        navigateTo(key);
-        options.onClick?.(event);
-      },
       onFocus: (event) => {
-        // Update active key when item receives focus (for mouse/programmatic focus)
+        // Update active key when item receives focus (for keyboard navigation)
         if (isActive !== true) {
           navigateTo(key);
         }

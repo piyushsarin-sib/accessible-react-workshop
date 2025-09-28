@@ -1,5 +1,6 @@
 import Collection from "../../../lib/Collections/Collection";
 import { useExpansion } from "../../../lib/Collections/hooks/useExpansion";
+import { useRovingIndex } from "../../../lib/Collections/hooks/useRovingIndex";
 
 const DynamicTreeExample = () => {
   // Dynamic tree data structure
@@ -73,6 +74,30 @@ const DynamicTreeExample = () => {
     allowMultiple: true,
   });
 
+  // Get all visible tree items for keyboard navigation
+  const getVisibleTreeItems = () => {
+    const items = [];
+    const traverse = (nodes, level = 0) => {
+      nodes.forEach(item => {
+        items.push({ key: item.key, name: item.name, level });
+        if (item.type === 'folder' && item.children && expansion.isExpanded(item.key)) {
+          traverse(item.children, level + 1);
+        }
+      });
+    };
+    traverse(treeData);
+    return items;
+  };
+
+  const visibleItems = getVisibleTreeItems();
+
+  // Tree keyboard navigation (vertical only - left/right for expand/collapse)
+  const treeNav = useRovingIndex({
+    items: visibleItems,
+    orientation: "vertical", // Only up/down navigation
+    defaultActiveKey: visibleItems.length > 0 ? visibleItems[0].key : null,
+  });
+
   const handleItemClick = (event, { key }) => {
     // Prevent event bubbling to avoid triggering parent expansion/collapse
     event?.stopPropagation();
@@ -91,6 +116,7 @@ const DynamicTreeExample = () => {
         <Collection.Item
           key={item.key}
           onClick={(e) => handleItemClick(e, { key: item.key })}
+          {...treeNav.getItemProps(item.key)}
         >
           {item.name}
         </Collection.Item>
@@ -105,6 +131,7 @@ const DynamicTreeExample = () => {
           hasChildren: true,
           onClick: (e) => handleItemClick(e, { key: item.key })
         })}
+        {...treeNav.getItemProps(item.key)}
       >
         {isExpanded ? item.name.replace('📁', '📂') : item.name}
 
@@ -128,6 +155,7 @@ const DynamicTreeExample = () => {
       </h3>
       <p style={{ fontSize: "14px", color: "#666", marginBottom: "12px" }}>
         Hook manages expansion state internally. Tree rendered from data structure.
+        <strong>Keyboard:</strong> ↑↓ navigate, Enter/Space expand/collapse folders, ←→ reserved for expand/collapse.
       </p>
 
       {/* Controls */}
@@ -173,6 +201,7 @@ const DynamicTreeExample = () => {
           as="ul"
           itemAs="li"
           className="list-unstyled"
+          {...treeNav.getCollectionProps()}
         >
           {treeData.map(item => renderTreeItem(item))}
         </Collection>

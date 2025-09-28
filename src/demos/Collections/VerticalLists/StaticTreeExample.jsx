@@ -1,5 +1,6 @@
 import Collection from "../../../lib/Collections/Collection";
 import { useExpansion } from "../../../lib/Collections/hooks/useExpansion";
+import { useRovingIndex } from "../../../lib/Collections/hooks/useRovingIndex";
 
 const StaticTreeExample = () => {
   // All expandable folder keys - in a real app, extract from data structure
@@ -9,6 +10,45 @@ const StaticTreeExample = () => {
   const expansion = useExpansion({
     defaultExpanded: new Set(),
     allowMultiple: true,
+  });
+
+  // Get all visible tree items for keyboard navigation
+  const getVisibleStaticTreeItems = () => {
+    const items = [
+      { key: 'documents', name: 'Documents', level: 0 }
+    ];
+
+    if (expansion.isExpanded('documents')) {
+      items.push({ key: 'resume', name: 'Resume.pdf', level: 1 });
+      items.push({ key: 'contracts', name: 'Legal Documents', level: 1 });
+
+      if (expansion.isExpanded('contracts')) {
+        items.push({ key: 'contract1', name: 'Service Agreement.pdf', level: 2 });
+      }
+    }
+
+    items.push({ key: 'projects', name: 'Projects', level: 0 });
+
+    if (expansion.isExpanded('projects')) {
+      items.push({ key: 'src', name: 'src', level: 1 });
+
+      if (expansion.isExpanded('src')) {
+        items.push({ key: 'app', name: 'App.jsx', level: 2 });
+      }
+    }
+
+    items.push({ key: 'readme', name: 'README.md', level: 0 });
+
+    return items;
+  };
+
+  const visibleItems = getVisibleStaticTreeItems();
+
+  // Tree keyboard navigation (vertical only - left/right for expand/collapse)
+  const treeNav = useRovingIndex({
+    items: visibleItems,
+    orientation: "vertical", // Only up/down navigation
+    defaultActiveKey: visibleItems.length > 0 ? visibleItems[0].key : null,
   });
 
   const handleItemClick = (event, { key }) => {
@@ -24,6 +64,7 @@ const StaticTreeExample = () => {
       </h3>
       <p style={{ fontSize: "14px", color: "#666", marginBottom: "12px" }}>
         Hook manages expansion state internally. Tree structure hardcoded in JSX.
+        <strong>Keyboard:</strong> ↑↓ navigate, Enter/Space expand/collapse folders, ←→ reserved for expand/collapse.
       </p>
 
       {/* Controls */}
@@ -69,6 +110,7 @@ const StaticTreeExample = () => {
           as="ul"
           itemAs="li"
           className="list-unstyled"
+          {...treeNav.getCollectionProps()}
         >
           {/* Documents Folder */}
           <Collection.Item
@@ -77,6 +119,7 @@ const StaticTreeExample = () => {
               hasChildren: true,
               onClick: (e) => handleItemClick(e, { key: 'documents' })
             })}
+            {...treeNav.getItemProps('documents')}
           >
             {expansion.isExpanded('documents') ? '📂' : '📁'} Documents
 
@@ -89,6 +132,7 @@ const StaticTreeExample = () => {
                 <Collection.Item
                   key="resume"
                   onClick={(e) => handleItemClick(e, { key: 'resume' })}
+                  {...treeNav.getItemProps('resume')}
                 >
                   📄 Resume.pdf
                 </Collection.Item>
@@ -99,6 +143,7 @@ const StaticTreeExample = () => {
                     hasChildren: true,
                     onClick: (e) => handleItemClick(e, { key: 'contracts' })
                   })}
+                  {...treeNav.getItemProps('contracts')}
                 >
                   {expansion.isExpanded('contracts') ? '📂' : '📁'} Legal Documents
 
@@ -111,6 +156,7 @@ const StaticTreeExample = () => {
                       <Collection.Item
                         key="contract1"
                         onClick={(e) => handleItemClick(e, { key: 'contract1' })}
+                        {...treeNav.getItemProps('contract1')}
                       >
                         📄 Service Agreement.pdf
                       </Collection.Item>
@@ -128,6 +174,7 @@ const StaticTreeExample = () => {
               hasChildren: true,
               onClick: (e) => handleItemClick(e, { key: 'projects' })
             })}
+            {...treeNav.getItemProps('projects')}
           >
             {expansion.isExpanded('projects') ? '📂' : '📁'} Projects
 
@@ -143,6 +190,7 @@ const StaticTreeExample = () => {
                     hasChildren: true,
                     onClick: (e) => handleItemClick(e, { key: 'src' })
                   })}
+                  {...treeNav.getItemProps('src')}
                 >
                   {expansion.isExpanded('src') ? '📂' : '📁'} src
 
@@ -155,6 +203,7 @@ const StaticTreeExample = () => {
                       <Collection.Item
                         key="app"
                         onClick={(e) => handleItemClick(e, { key: 'app' })}
+                        {...treeNav.getItemProps('app')}
                       >
                         ⚛️ App.jsx
                       </Collection.Item>
@@ -169,6 +218,7 @@ const StaticTreeExample = () => {
           <Collection.Item
             key="readme"
             onClick={(e) => handleItemClick(e, { key: 'readme' })}
+            {...treeNav.getItemProps('readme')}
           >
             📄 README.md
           </Collection.Item>
