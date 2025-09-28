@@ -30,6 +30,9 @@ import { default as SolvedUncontrolledMenuExample } from "./solved/demos/Collect
 import { default as SolvedAccordionExample } from "./solved/demos/Collections/Expansion/AccordionExample";
 import { default as SolvedCollapsibleTreeExample } from "./solved/demos/Collections/VerticalLists/CollapsibleTreeExample";
 
+// Keyboard Navigation demos
+import RovingIndexExample from "./demos/Collections/KeyboardNavigation/RovingIndexExample";
+
 function App() {
   return (
     <Router>
@@ -106,6 +109,30 @@ function App() {
           }
         />
 
+        {/* SOLVED QUICK DEMOS - Complete accessibility implementations */}
+        <Route path="/solved/demos/collections/vertical-lists" element={<SolvedListExample />} />
+        <Route
+          path="/solved/demos/collections/horizontal-lists"
+          element={<SolvedHorizontalListExample />}
+        />
+        <Route
+          path="/solved/demos/collections/single-select"
+          element={<SolvedSingleSelectionExample />}
+        />
+        <Route
+          path="/solved/demos/collections/multi-select"
+          element={<SolvedMultiSelectionExample />}
+        />
+        <Route
+          path="/solved/demos/collections/menu-skeleton"
+          element={<SolvedUncontrolledMenuExample />}
+        />
+        <Route path="/solved/demos/collections/accordion" element={<SolvedAccordionExample />} />
+        <Route
+          path="/solved/demos/collections/expansion"
+          element={<SolvedCollapsibleTreeExample />}
+        />
+
         {/* QUICK DEMOS */}
 
         <Route path="/demos/collections/vertical-lists" element={<ListExample />} />
@@ -121,14 +148,8 @@ function App() {
         <Route path="/demos/collections/accordion" element={<AccordionExample />} />
         <Route path="/demos/collections/expansion" element={<CollapsibleTreeExample />} />
 
-        {/* SOLVED QUICK DEMOS - Complete accessibility implementations */}
-        <Route path="/solved/demos/collections/vertical-lists" element={<SolvedListExample />} />
-        <Route path="/solved/demos/collections/horizontal-lists" element={<SolvedHorizontalListExample />} />
-        <Route path="/solved/demos/collections/single-select" element={<SolvedSingleSelectionExample />} />
-        <Route path="/solved/demos/collections/multi-select" element={<SolvedMultiSelectionExample />} />
-        <Route path="/solved/demos/collections/menu-skeleton" element={<SolvedUncontrolledMenuExample />} />
-        <Route path="/solved/demos/collections/accordion" element={<SolvedAccordionExample />} />
-        <Route path="/solved/demos/collections/expansion" element={<SolvedCollapsibleTreeExample />} />
+        {/* KEYBOARD NAVIGATION DEMOS */}
+        <Route path="/demos/collections/roving-index" element={<RovingIndexExample />} />
       </Routes>
     </Router>
   );

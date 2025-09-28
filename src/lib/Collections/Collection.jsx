@@ -201,6 +201,7 @@ const Collection = React.forwardRef(
         onKeyDown,
         tabIndex,
         style,
+        ref,
         // Extract and filter out React-specific props that shouldn't go to DOM
         ...otherItemProps
       } = item;
@@ -265,6 +266,7 @@ const Collection = React.forwardRef(
         className: getItemClassName(itemClassName),
         ...finalHandlers,
         style,
+        ref,
         ...domProps, // Only valid DOM props
         ...(!hasInnerElement ? itemAriaProps : {}),
       };
