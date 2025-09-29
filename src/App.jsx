@@ -6,6 +6,8 @@ import ExamplePage from "./pages/ExamplePage";
 import ECommerceLayout from "./pages/ECommercePage/ECommerceLayout/ECommerceLayout";
 import { InputAccessibilityPage } from "./components/examples/InputAccessibilityPage";
 import Card from "./playground/Card";
+import ProductsGrid from "./playground/ProductsGrid";
+import FilterMenu from "./playground/FilterMenu";
 
 import ListExample from "./demos/VerticalLists/ListExample";
 import HorizontalListExample from "./demos/HorizontalLists/HorizontalListExample";
@@ -35,6 +37,22 @@ function App() {
           element={
             <Layout>
               <Card />
+            </Layout>
+          }
+        />
+        <Route
+          path="/playground/product-grid"
+          element={
+            <Layout>
+              <ProductsGrid />
+            </Layout>
+          }
+        />
+        <Route
+          path="/playground/menu"
+          element={
+            <Layout>
+              <FilterMenu />
             </Layout>
           }
         />
