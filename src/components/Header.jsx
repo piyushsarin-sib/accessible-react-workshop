@@ -23,10 +23,18 @@ const Header = () => {
           <ul className="flex space-x-6 mr-6">
             <li>
               <a
-                href="/examples"
+                href="/demo"
                 className="transition-colors duration-300"
               >
-                Examples
+                Demo
+              </a>
+            </li>
+            <li>
+              <a
+                href="/exercises"
+                className="transition-colors duration-300"
+              >
+                Exercises
               </a>
             </li>
           </ul>

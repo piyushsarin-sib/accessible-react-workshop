@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import LandingPage from "./pages/LandingPage";
 import ECommercePage from "./pages/ECommercePage";
-import ExamplePage from "./pages/ExamplePage";
+import ExercisesPage from "./pages/ExercisesPage";
 import ECommerceLayout from "./pages/ECommercePage/ECommerceLayout/ECommerceLayout";
 import CardWrapper from "./playground/Card";
 import ProductsGrid from "./playground/ProductGrid";
@@ -34,10 +34,10 @@ function App() {
         />
 
         <Route
-          path="/examples"
+          path="/exercises"
           element={
             <Layout showHeader={true} showFooter={true} withLayout={true}>
-              <ExamplePage />
+              <ExercisesPage />
             </Layout>
           }
         />
