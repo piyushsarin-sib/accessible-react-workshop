@@ -2,10 +2,10 @@ import { useState } from "react";
 import Menu from "../../../lib/Collections/Menu";
 
 const SimpleMenuExample = () => {
-  const [selectedKey, setSelectedKey] = useState(null);
+  const [selectedKeys, setSelectedKeys] = useState([]);
 
-  const handleChange = (_event, { selectedItems }) => {
-    setSelectedKey(selectedItems[0]?.key || null);
+  const handleChange = (_event, { selectedKeys }) => {
+    setSelectedKeys(selectedKeys);
   };
 
   return (
@@ -18,7 +18,7 @@ const SimpleMenuExample = () => {
       </p>
 
       <Menu
-        selectedKey={selectedKey}
+        selectedKeys={selectedKeys}
         onChange={handleChange}
         ariaLabel="File operations menu"
       >
@@ -31,10 +31,10 @@ const SimpleMenuExample = () => {
 
       <div style={{ marginTop: "16px", fontSize: "14px", color: "#666" }}>
         <strong>Selected:</strong>{" "}
-        {selectedKey || "None"}
+        {selectedKeys[0] || "None"}
         <br />
-        <strong>Selected Key:</strong>{" "}
-        {selectedKey || "None"}
+        <strong>Selected Keys:</strong>{" "}
+        {selectedKeys.length > 0 ? selectedKeys.join(', ') : "None"}
       </div>
     </>
   );

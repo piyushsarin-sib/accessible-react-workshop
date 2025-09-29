@@ -81,7 +81,7 @@ export const useCollectionAria = ({
 
   // Get pattern configuration first if provided
   const patternConfig = pattern ? getCollectionPattern(pattern) : {};
-  
+
   // Resolve the role: explicit role takes priority, then pattern role
   const resolvedRole = role || patternConfig.role;
 
@@ -139,7 +139,8 @@ export const useCollectionAria = ({
 
   const getItemAriaProps = useMemo(() => {
     return (key, options = {}) => {
-      const { level, expanded, hasPopup, controls, disabled, current, itemRole, elementType } = options;
+      const { level, expanded, hasPopup, controls, disabled, current, itemRole, elementType } =
+        options;
 
       const props = {};
 
@@ -164,27 +165,27 @@ export const useCollectionAria = ({
 
         // Check if we should avoid overriding semantic HTML roles
         const semanticElements = {
-          'button': 'button',
-          'a': 'link',
-          'article': 'article',
-          'section': 'region',
-          'nav': 'navigation',
-          'aside': 'complementary',
-          'main': 'main',
-          'header': 'banner',
-          'footer': 'contentinfo',
-          'form': 'form',
-          'input': null, // varies by type
-          'textarea': 'textbox',
-          'select': 'combobox',
-          'img': 'img',
-          'figure': 'figure',
-          'table': 'table',
-          'thead': 'rowgroup',
-          'tbody': 'rowgroup',
-          'tr': 'row',
-          'th': 'columnheader',
-          'td': 'cell'
+          button: "button",
+          a: "link",
+          article: "article",
+          section: "region",
+          nav: "navigation",
+          aside: "complementary",
+          main: "main",
+          header: "banner",
+          footer: "contentinfo",
+          form: "form",
+          input: null, // varies by type
+          textarea: "textbox",
+          select: "combobox",
+          img: "img",
+          figure: "figure",
+          table: "table",
+          thead: "rowgroup",
+          tbody: "rowgroup",
+          tr: "row",
+          th: "columnheader",
+          td: "cell",
         };
 
         // Only apply collection item role if element doesn't have semantic role
@@ -208,8 +209,8 @@ export const useCollectionAria = ({
         }
       }
 
-      // Tree/hierarchical attributes
-      if (level !== undefined) {
+      // Tree/hierarchical attributes - only for treeitem role
+      if (level !== undefined && (props.role === "treeitem" || effectiveRole === "tree")) {
         props["aria-level"] = level;
       }
       if (expanded !== undefined) {
@@ -237,7 +238,7 @@ export const useCollectionAria = ({
   /* No role, no selection - just a labeled grouping */
   const getGroupAriaProps = useMemo(() => {
     return (options = {}) => {
-      const { label, labelledBy, level } = options;
+      const { label, labelledBy } = options;
       const props = {};
 
       if (label) {
@@ -246,14 +247,10 @@ export const useCollectionAria = ({
       if (labelledBy) {
         props["aria-labelledby"] = labelledBy;
       }
-      if (level !== undefined) {
-        props["aria-level"] = level;
-      }
 
       return props;
     };
   }, []);
-
 
   return {
     getCollectionAriaProps,

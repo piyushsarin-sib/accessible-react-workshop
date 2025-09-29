@@ -2,16 +2,16 @@ import { useState } from "react";
 import Menu from "../../../../lib/Collections/Menu";
 
 const FilterMenu = () => {
-  const [selectedKey, setSelectedKey] = useState(null);
+  const [selectedKeys, setSelectedKeys] = useState([]);
 
-  const handleChange = (event, { selectedItems }) => {
-    console.log(`Filter menu selection:`, selectedItems, event);
-    setSelectedKey(selectedItems[0]?.key || selectedItems[0]?.value || null);
+  const handleChange = (event, { selectedKeys }) => {
+    console.log(`Filter menu selection:`, selectedKeys, event);
+    setSelectedKeys(selectedKeys);
   };
 
   return (
     <Menu
-      selectedKey={selectedKey}
+      selectedKeys={selectedKeys}
       onChange={handleChange}
       ariaLabel="Product filters menu"
     >

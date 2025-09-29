@@ -3,7 +3,6 @@ import SectionedMenuExample from "./ComponentAPIMenuExample";
 import "./SelectionExample.css";
 
 const SingleSelectionExample = () => {
-
   return (
     <div style={{ padding: "20px", backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
       <h3 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "16px" }}>

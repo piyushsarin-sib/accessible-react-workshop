@@ -2,10 +2,10 @@ import { useState } from "react";
 import Menu from "../../../lib/Collections/Menu";
 
 const MenuWithTitlesExample = () => {
-  const [selectedKey, setSelectedKey] = useState(null);
+  const [selectedKeys, setSelectedKeys] = useState([]);
 
-  const handleChange = (_event, { selectedItems }) => {
-    setSelectedKey(selectedItems[0]?.key || selectedItems[0]?.value || null);
+  const handleChange = (_event, { selectedKeys }) => {
+    setSelectedKeys(selectedKeys);
   };
 
   return (
@@ -23,7 +23,7 @@ const MenuWithTitlesExample = () => {
         </p>
 
         <Menu
-          selectedKey={selectedKey}
+          selectedKeys={selectedKeys}
           onChange={handleChange}
           ariaLabel="Menu with sections"
         >
@@ -44,7 +44,7 @@ const MenuWithTitlesExample = () => {
         </Menu>
 
         <div style={{ marginTop: "12px", fontSize: "14px", color: "#666" }}>
-          <strong>Selected:</strong> {selectedKey || "None"}
+          <strong>Selected:</strong> {selectedKeys[0] || "None"}
         </div>
       </div>
     </div>
