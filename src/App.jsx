@@ -8,6 +8,7 @@ import { InputAccessibilityPage } from "./components/examples/InputAccessibility
 import Card from "./playground/Card";
 import ProductsGrid from "./playground/ProductsGrid";
 import FilterMenu from "./playground/FilterMenu";
+import NestedCollectionWithTitles from "./playground/NestedCollectionWithTitles";
 
 import ListExample from "./demos/VerticalLists/ListExample";
 import HorizontalListExample from "./demos/HorizontalLists/HorizontalListExample";
@@ -53,6 +54,14 @@ function App() {
           element={
             <Layout>
               <FilterMenu />
+            </Layout>
+          }
+        />
+        <Route
+          path="/playground/nested-collection"
+          element={
+            <Layout>
+              <NestedCollectionWithTitles />
             </Layout>
           }
         />
