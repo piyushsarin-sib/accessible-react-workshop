@@ -12,7 +12,6 @@ const ProductList = ({ products, onAddToCart }) => {
     defaultActiveKey: products.length > 0 ? products[0].id : null,
   });
 
-
   if (products.length === 0) {
     return (
       <div className="text-center py-8" aria-live="polite">
@@ -28,7 +27,7 @@ const ProductList = ({ products, onAddToCart }) => {
       <div className="sr-only" aria-live="polite">
         {products.length} {products.length === 1 ? "product" : "products"} found
       </div>
-      {/* COLLECTIONSSSSSSSSSS START */}
+      {/* COLLECTIONS START */}
       <Collection
         as="ul"
         itemAs="li"
@@ -62,7 +61,7 @@ const ProductList = ({ products, onAddToCart }) => {
           </Collection.Item>
         ))}
       </Collection>
-      {/* COLLECTIONSSSSSSSSSS END */}
+      {/* COLLECTIONS END */}
     </>
   );
 };
