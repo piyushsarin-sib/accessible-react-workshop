@@ -1,11 +1,10 @@
 import { useState } from "react";
-import Menu from "../../../../lib/Collections/Menu";
+import Menu from "../../../../lib/Menu";
 
 const FilterMenu = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
 
   const handleChange = (event, { selectedKeys }) => {
-    console.log(`Filter menu selection:`, selectedKeys, event);
     setSelectedKeys(selectedKeys);
   };
 
