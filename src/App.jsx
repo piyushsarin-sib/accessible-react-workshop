@@ -7,13 +7,6 @@ import ECommerceLayout from "./pages/ECommercePage/ECommerceLayout/ECommerceLayo
 import { InputAccessibilityPage } from "./components/examples/InputAccessibilityPage";
 import Card from "./playground/Card";
 
-import { default as SolvedLayout } from "./solved/components/Layout";
-import { default as SolvedLandingPage } from "./solved/pages/LandingPage";
-import { default as SolvedECommercePage } from "./solved/pages/EcommercePage/ECommercePage";
-import { default as SolvedExamplePage } from "./solved/pages/ExamplePage";
-import { default as SolvedECommerceLayout } from "./solved/pages/EcommercePage/ECommerceLayout";
-import { InputAccessibilityPage as SolvedInputAccessibilityPage } from "./solved/components/examples/InputAccessibilityPage";
-
 import ListExample from "./demos/VerticalLists/ListExample";
 import HorizontalListExample from "./demos/HorizontalLists/HorizontalListExample";
 import SingleSelectionExample from "./demos/Selection/SingleSelectionExample";
@@ -68,41 +61,6 @@ function App() {
             <ECommerceLayout>
               <ECommercePage />
             </ECommerceLayout>
-          }
-        />
-
-        {/* solved examples */}
-        <Route
-          path="/solved"
-          element={
-            <SolvedLayout showHeader={true} showFooter={true} withLayout={true}>
-              <SolvedLandingPage />
-            </SolvedLayout>
-          }
-        />
-
-        <Route
-          path="/solved/examples"
-          element={
-            <SolvedLayout showHeader={true} showFooter={true} withLayout={true}>
-              <SolvedExamplePage />
-            </SolvedLayout>
-          }
-        />
-        <Route
-          path="/solved/examples/input-accessibility"
-          element={
-            <SolvedLayout>
-              <SolvedInputAccessibilityPage />
-            </SolvedLayout>
-          }
-        />
-        <Route
-          path="/solved/examples/e-commerce"
-          element={
-            <SolvedECommerceLayout>
-              <SolvedECommercePage />
-            </SolvedECommerceLayout>
           }
         />
 
