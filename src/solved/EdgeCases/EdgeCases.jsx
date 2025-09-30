@@ -6,7 +6,7 @@ export default function AccessibilityWorkshopDemo() {
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef(null);
   const cartButtonRef = useRef(null); // to return focus after closing
-  const liveRegionRef = useRef(null); // single live region
+  const liveRegionRef = useRef(null); // global live region
   const firstAddToCartRef = useRef(null); // first product's button
 
   const products = [
@@ -49,7 +49,7 @@ export default function AccessibilityWorkshopDemo() {
     };
 
     modalNode.addEventListener("keydown", handleKeyDown);
-    firstEl?.focus();
+    firstEl?.focus(); // focus first element when modal opens
 
     return () => {
       modalNode.removeEventListener("keydown", handleKeyDown);
@@ -121,7 +121,7 @@ export default function AccessibilityWorkshopDemo() {
       <main id="mainContent" className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
 
-        {/* Single global live region */}
+        {/* Global live region */}
         <div
           ref={liveRegionRef}
           className="sr-only"
@@ -189,29 +189,32 @@ export default function AccessibilityWorkshopDemo() {
             maxWidth: "400px",
           }}
         >
-          <div className="flex" style={{ flexDirection: "column", gap: "1rem" }}>
-          <h2>Cart</h2>
-          <p>Items in your cart: {cartCount}</p>
-          <div className="flex justify-between">
-            <Button
-             disabled={cartCount === 0}
-             onClick={() => {
-              alert("Proceed to checkout");
-              setCartCount(0);
-              setCartOpen(false);
-              cartButtonRef.current?.focus();
-            }}>Checkout</Button>
+          <div className="flex flex-col gap-4">
+            <h2>Cart</h2>
+            <p>Items in your cart: {cartCount}</p>
+            <div className="flex justify-between">
+              <Button
+                disabled={cartCount === 0}
+                onClick={() => {
+                  alert("Proceed to checkout");
+                  setCartCount(0);
+                  setCartOpen(false);
+                  cartButtonRef.current?.focus();
+                }}
+              >
+                Checkout
+              </Button>
 
-            <Button
-             variant="secondary"
-              onClick={() => {
-                setCartOpen(false);
-                cartButtonRef.current?.focus();
-              }}
-            >
-              Close Cart
-            </Button>
-          </div>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setCartOpen(false);
+                  cartButtonRef.current?.focus();
+                }}
+              >
+                Close Cart
+              </Button>
+            </div>
           </div>
         </dialog>
       )}
