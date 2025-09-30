@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 
 export default function AccessibilityWorkshopDemo() {
@@ -7,6 +7,7 @@ export default function AccessibilityWorkshopDemo() {
   const cartRef = useRef(null);
   const cartButtonRef = useRef(null); // to return focus after closing
   const firstAddToCartRef = useRef(null); // for skip link
+  const liveRegionRef = useRef(null); // live region for screen readers
 
   const products = [
     { id: 1, name: "Braille Keyboard", price: "Rs 45000" },
@@ -18,6 +19,13 @@ export default function AccessibilityWorkshopDemo() {
     e.preventDefault();
     firstAddToCartRef.current?.focus();
   };
+
+  // Update live region on cart changes
+  useEffect(() => {
+    if (liveRegionRef.current) {
+      liveRegionRef.current.textContent = `Cart updated: ${cartCount} item${cartCount !== 1 ? 's' : ''}`;
+    }
+  }, [cartCount]);
 
   return (
     <div>
@@ -76,6 +84,14 @@ export default function AccessibilityWorkshopDemo() {
       {/* Main Content */}
       <main id="mainContent" className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
+
+        {/* Live Region */}
+        <div
+          ref={liveRegionRef}
+          className="sr-only"
+          aria-live="polite"
+          aria-atomic="true"
+        />
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -165,8 +181,7 @@ export default function AccessibilityWorkshopDemo() {
 
 /* 
   FIX APPLIED:
-  ✅ Added skip link at the top of page for keyboard users.
-  ✅ First product's Add to Cart button focused when skip link clicked.
-  2. No live region to announce cart updates for screen readers.
+  ✅ Skip link for keyboard users.
+  ✅ Live region added to announce cart updates.
   3. No focus trap in modal — keyboard can move outside modal when open.
 */
