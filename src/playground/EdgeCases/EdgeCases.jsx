@@ -145,3 +145,10 @@ export default function AccessibilityWorkshopDemo() {
     </div>
   );
 }
+
+/* 
+  ISSUES in this base version:
+  1. No skip link for keyboard users to jump to main content quickly.
+  2. No live region to announce cart updates for screen readers.
+  3. No focus trap in modal — keyboard can move outside modal when open.
+*/
