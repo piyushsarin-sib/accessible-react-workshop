@@ -6,16 +6,32 @@ export default function AccessibilityWorkshopDemo() {
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef(null);
   const cartButtonRef = useRef(null); // to return focus after closing
+  const firstAddToCartRef = useRef(null); // for skip link
 
   const products = [
     { id: 1, name: "Braille Keyboard", price: "Rs 45000" },
     { id: 2, name: "Wheelchair", price: "Rs 2500" },
   ];
 
+  // Handle skip to main content
+  const handleSkipToContent = (e) => {
+    e.preventDefault();
+    firstAddToCartRef.current?.focus();
+  };
+
   return (
     <div>
       {/* Header Navigation */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
+        {/* Skip Link */}
+        <a
+          href="#mainContent"
+          onClick={handleSkipToContent}
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-2 py-1 rounded z-50"
+        >
+          Skip to main content
+        </a>
+
         <nav
           className="container mx-auto px-4 py-4 flex justify-between items-center"
           aria-label="Main Navigation"
@@ -63,7 +79,7 @@ export default function AccessibilityWorkshopDemo() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {products.map((product) => (
+          {products.map((product, index) => (
             <section
               key={product.id}
               className="border p-4 rounded-md"
@@ -75,6 +91,7 @@ export default function AccessibilityWorkshopDemo() {
               <p>{product.price}</p>
 
               <Button
+                ref={index === 0 ? firstAddToCartRef : null} // first button for skip link
                 className="mt-2"
                 size="small"
                 onClick={() => setCartCount(cartCount + 1)}
@@ -147,8 +164,9 @@ export default function AccessibilityWorkshopDemo() {
 }
 
 /* 
-  ISSUES in this base version:
-  1. No skip link for keyboard users to jump to main content quickly.
+  FIX APPLIED:
+  ✅ Added skip link at the top of page for keyboard users.
+  ✅ First product's Add to Cart button focused when skip link clicked.
   2. No live region to announce cart updates for screen readers.
   3. No focus trap in modal — keyboard can move outside modal when open.
 */
