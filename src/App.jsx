@@ -8,6 +8,7 @@ import CardWrapper from "./playground/Card";
 import ProductsGrid from "./playground/ProductGrid";
 import FilterMenu from "./playground/FilterMenu";
 import NestedCollectionWithTitles from "./playground/NestedCollectionWithTitles";
+import EdgeCases from "./playground/EdgeCases";
 
 import ListExample from "./demos/VerticalLists/ListExample";
 import HorizontalListExample from "./demos/HorizontalLists/HorizontalListExample";
@@ -80,6 +81,15 @@ function App() {
           element={
             <Layout>
               <NestedCollectionWithTitles />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/playground/edge-cases"
+          element={
+            <Layout>
+              <EdgeCases />
             </Layout>
           }
         />

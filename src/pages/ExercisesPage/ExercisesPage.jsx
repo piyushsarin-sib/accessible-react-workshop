@@ -43,6 +43,13 @@ export default function ExamplePage() {
           <h2 className="text-2xl font-semibold text-gray-700">Filter Menu Accessibility</h2>
           <p className="text-gray-600 mt-2">Improved filter menu layout with accessibility in mind</p>
         </Link>
+        <Link
+          to="/playground/edge-cases"
+          className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full"
+        >
+          <h2 className="text-2xl font-semibold text-gray-700">Edge Cases Accessibility</h2>
+          <p className="text-gray-600 mt-2">Improved handling of edge cases with accessibility in mind</p>
+        </Link>
       </div>
     </div>
   );
