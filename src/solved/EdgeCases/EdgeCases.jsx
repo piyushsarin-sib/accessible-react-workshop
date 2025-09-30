@@ -6,34 +6,44 @@ export default function AccessibilityWorkshopDemo() {
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef(null);
   const cartButtonRef = useRef(null); // to return focus after closing
-  const liveRegionRef = useRef(null); // global live region
-  const firstAddToCartRef = useRef(null); // first product's button
+  const firstAddToCartRef = useRef(null); // for skip link
+  const liveRegionRef = useRef(null); // live region for screen readers
 
   const products = [
     { id: 1, name: "Braille Keyboard", price: "Rs 45000" },
     { id: 2, name: "Wheelchair", price: "Rs 2500" },
   ];
 
-  // Skip to main content focusing first product
+  // Handle skip to main content
   const handleSkipToContent = (e) => {
     e.preventDefault();
     firstAddToCartRef.current?.focus();
   };
 
-  // Focus trap for modal
+  // Update live region on cart changes
+  useEffect(() => {
+    if (liveRegionRef.current) {
+      liveRegionRef.current.textContent = `Cart updated: ${cartCount} item${cartCount !== 1 ? 's' : ''}`;
+    }
+  }, [cartCount]);
+
+  // Focus trap inside modal
   useEffect(() => {
     if (!cartOpen || !cartRef.current) return;
 
     const modalNode = cartRef.current;
 
+    // All focusable elements inside modal
     const focusableEls = modalNode.querySelectorAll(
       "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
     );
+
     const firstEl = focusableEls[0];
     const lastEl = focusableEls[focusableEls.length - 1];
 
     const handleKeyDown = (e) => {
       if (e.key === "Tab") {
+        // Loop focus inside modal
         if (e.shiftKey && document.activeElement === firstEl) {
           e.preventDefault();
           lastEl.focus();
@@ -49,25 +59,20 @@ export default function AccessibilityWorkshopDemo() {
     };
 
     modalNode.addEventListener("keydown", handleKeyDown);
-    firstEl?.focus(); // focus first element when modal opens
+
+    // Focus first element when modal opens
+    firstEl?.focus();
 
     return () => {
       modalNode.removeEventListener("keydown", handleKeyDown);
     };
   }, [cartOpen]);
 
-  // Update live region on cart changes
-  useEffect(() => {
-    if (liveRegionRef.current && cartCount > 0) {
-      liveRegionRef.current.textContent = `Cart updated: ${cartCount} item${cartCount > 1 ? "s" : ""}`;
-    }
-  }, [cartCount]);
-
   return (
     <div>
       {/* Header Navigation */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
-        {/* Skip link */}
+        {/* Skip Link */}
         <a
           href="#mainContent"
           onClick={handleSkipToContent}
@@ -121,7 +126,7 @@ export default function AccessibilityWorkshopDemo() {
       <main id="mainContent" className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
 
-        {/* Global live region */}
+        {/* Live Region */}
         <div
           ref={liveRegionRef}
           className="sr-only"
@@ -143,7 +148,7 @@ export default function AccessibilityWorkshopDemo() {
               <p>{product.price}</p>
 
               <Button
-                ref={index === 0 ? firstAddToCartRef : null} // first button
+                ref={index === 0 ? firstAddToCartRef : null} // first button for skip link
                 className="mt-2"
                 size="small"
                 onClick={() => setCartCount(cartCount + 1)}
@@ -156,11 +161,10 @@ export default function AccessibilityWorkshopDemo() {
         </div>
       </main>
 
-      {/* Overlay (purely visual, hidden from screen readers) */}
+      {/* Overlay */}
       {cartOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          style={{ pointerEvents: "auto" }}
           aria-hidden="true"
           onClick={() => {
             setCartOpen(false);
@@ -169,7 +173,7 @@ export default function AccessibilityWorkshopDemo() {
         />
       )}
 
-      {/* Cart Modal with focus trap */}
+      {/* Cart Modal with Focus Trap */}
       {cartOpen && (
         <dialog
           ref={cartRef}
@@ -221,3 +225,10 @@ export default function AccessibilityWorkshopDemo() {
     </div>
   );
 }
+
+/* 
+  FIXES APPLIED:
+  ✅ Skip link for keyboard users
+  ✅ Live region for cart updates
+  ✅ Focus trap inside modal with Escape key support
+*/
