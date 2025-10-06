@@ -5,11 +5,12 @@ import Icon from '../../common/Icon';
 import Badge from '../../common/Badge';
 
 const CartButton = () => {
-  const { totalItems, openCartModal } = React.useContext(CartContext);
+  const { totalItems, cartModalState } = React.useContext(CartContext);
 
   return (
     <Button
-      onClick={openCartModal}
+      {...cartModalState.trigger}
+      onClick={cartModalState.toggle}
       className="relative p-2 bg-blue-600 text-white rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
       ariaLabel={`Open cart with ${totalItems} items`}
     >

@@ -1,12 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CartContext } from '../../../context/CartContextCore';
-import Modal from '../../common/Modal';
-import Button from '../../common/Button';
-import Icon from '../../common/Icon';
-import QuantitySelector from '../../common/QuantitySelector';
+import Modal from '@lib/Modal';
+import Button from '@common/Button';
+import QuantitySelector from '@common/QuantitySelector';
 
-const AddToCartModal = ({ product, onAddToCart, onClose }) => {
+const AddToCartModal = ({ product, onAddToCart, onClose, modalState }) => {
   const [quantity, setQuantity] = useState(0);
   const { openCartModal, cart, removeFromCart } = useContext(CartContext);
   
@@ -30,6 +29,10 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
     }
   };
 
+  const handleClose = () => {
+    onClose();
+  };
+
   const handleAddToCart = () => {
     if (quantity === 0) {
       // If quantity is zero, remove item from cart
@@ -40,7 +43,7 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
       console.log('Adding/updating product in cart:', product.id, 'quantity:', quantity);
       onAddToCart(product, quantity);
     }
-    onClose();
+    handleClose();
   };
 
   const handleGoToCart = () => {
@@ -53,7 +56,7 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
       console.log('Adding/updating product in cart in handleGoToCart:', product.id, 'quantity:', quantity);
       onAddToCart(product, quantity);
     }
-    onClose();
+    handleClose();
     openCartModal();
   };
 
@@ -76,10 +79,9 @@ const AddToCartModal = ({ product, onAddToCart, onClose }) => {
 
   return (
     <Modal
-      isOpen={true}
-      onClose={onClose}
+      {...modalState}
+      close={handleClose}
       title={product.name}
-      className="w-full max-w-2xl"
     >
       <div className="mb-4">
         <p className="mb-4">{product.description}</p>
@@ -139,6 +141,7 @@ AddToCartModal.propTypes = {
   }),
   onAddToCart: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  modalState: PropTypes.object.isRequired,
 };
 
 export default AddToCartModal;

@@ -2,12 +2,19 @@ import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { OrderConfirmationModal } from '../components/features/OrderConfirmation';
 import { CartContext } from './CartContextCore';
+import { useOverlay, PLACEMENTS } from '../lib/Overlay';
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({ name: '', phone: '' });
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+
+  const cartModalState = useOverlay({
+    bodyId: 'cart-modal',
+    pattern: 'modal',
+    placement: PLACEMENTS.CENTER,
+    style: { width: '90%', maxWidth: '800px', maxHeight: '80vh' },
+  });
 
   const addToCart = useCallback((product, quantity) => {
     setCart((prevCart) => {
@@ -49,12 +56,12 @@ export const CartProvider = ({ children }) => {
 
   const openCartModal = useCallback(() => {
     console.log('Opening cart modal...');
-    setIsCartModalOpen(true);
-  }, []);
+    cartModalState.open();
+  }, [cartModalState]);
 
   const closeCartModal = useCallback(() => {
-    setIsCartModalOpen(false);
-  }, []);
+    cartModalState.close();
+  }, [cartModalState]);
   
   const closeConfirmationModal = useCallback(() => {
     setIsConfirmationOpen(false);
@@ -95,14 +102,14 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
 
   const value = useMemo(
-    () => ({ 
-      cart, 
-      addToCart, 
+    () => ({
+      cart,
+      addToCart,
       updateCartItemQuantity,
       removeFromCart,
-      totalItems, 
+      totalItems,
       totalPrice,
-      isCartModalOpen,
+      cartModalState,
       openCartModal,
       closeCartModal,
       customerInfo,
@@ -112,13 +119,13 @@ export const CartProvider = ({ children }) => {
       closeConfirmationModal
     }),
     [
-      cart, 
-      addToCart, 
+      cart,
+      addToCart,
       updateCartItemQuantity,
       removeFromCart,
-      totalItems, 
+      totalItems,
       totalPrice,
-      isCartModalOpen,
+      cartModalState,
       openCartModal,
       closeCartModal,
       customerInfo,

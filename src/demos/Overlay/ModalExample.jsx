@@ -1,12 +1,11 @@
 import React from 'react';
-import { useOverlay, Overlay, PLACEMENTS } from '@lib/Overlay';
+import { useOverlay } from '@lib/Overlay';
+import Modal from '@lib/Modal';
 import Button from '@common/Button';
 
 const ModalExample = () => {
   const modalDisclosure = useOverlay({
-    placement: PLACEMENTS.CENTER,
-    pattern: 'dialog',
-    style: { width: '400px', minHeight: '200px' },
+    style: { width: '400px' },
     bodyId: 'modal-overlay',
     triggerId: 'modal-overlay-trigger',
   });
@@ -67,37 +66,19 @@ const ModalExample = () => {
         ))}
       </div>
 
-      <Overlay
-        {...modalDisclosure}
-        pattern="modal"
-        backdrop={true}
-        autoFocus={true} // eslint-disable-line jsx-a11y/no-autofocus
-        closeOnOutsideClick={true}
-        zIndex={1000}
-      >
-        <div style={{ padding: '24px' }}>
-          <h4 style={{ margin: '0 0 16px 0', fontSize: '18px' }}>
-            Confirm Action
-          </h4>
-          <p style={{ margin: '0 0 24px 0', color: '#666' }}>
-            Are you sure you want to proceed with this action? This cannot be undone.
-          </p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-            <Button
-              onClick={handleCancel}
-              variant="secondary"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSave}
-              variant="primary"
-            >
-              Confirm
-            </Button>
-          </div>
+      <Modal {...modalDisclosure} title="Confirm Action">
+        <p style={{ margin: '0 0 24px 0', color: '#666' }}>
+          Are you sure you want to proceed with this action? This cannot be undone.
+        </p>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+          <Button onClick={handleCancel} variant="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleSave} variant="primary">
+            Confirm
+          </Button>
         </div>
-      </Overlay>
+      </Modal>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import SearchAndFilter from "../../components/features/SearchAndFilter";
 import ProductList from "../../components/features/ProductList";
 import Panel from "../../components/common/Panel";
 import CartModal from "../../components/features/Cart/CartModal";
+import { useOverlay, PLACEMENTS } from "@lib/Overlay";
 
 // Add category property to each product
 const products = [
@@ -99,12 +100,21 @@ const ECommercePage = () => {
   const [filters, setFilters] = useState({ categories: [], prices: [] });
   const { addToCart } = useContext(CartContext);
 
+  const addToCartModalState = useOverlay({
+    bodyId: 'add-to-cart-modal',
+    pattern: 'modal',
+    placement: PLACEMENTS.CENTER,
+    style: { width: '100%', maxWidth: '48rem' },
+  });
+
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
+    addToCartModalState.open();
   };
 
   const handleCloseModal = () => {
     setSelectedProduct(null);
+    addToCartModalState.close();
   };
 
   const handleAddToCart = (product, quantity) => {
@@ -187,6 +197,7 @@ const ECommercePage = () => {
           product={selectedProduct}
           onAddToCart={handleAddToCart}
           onClose={handleCloseModal}
+          modalState={addToCartModalState}
         />
       )}
       <CartModal />
