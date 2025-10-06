@@ -12,6 +12,9 @@ const Menu = ({
   className = 'selection-menu',
   ariaLabel,
   children,
+  close, // Destructure to exclude
+  open, // Destructure to exclude
+  toggle, // Destructure to exclude
   ...props
 }) => {
   // Use the new useMenu hook for all menu logic
@@ -24,7 +27,7 @@ const Menu = ({
   });
 
   return (
-    <MenuContext.Provider value={{ menu }}>
+    <MenuContext.Provider value={{ menu, close, open, toggle }}>
       <Collection
         as="ul"
         itemAs="li"
