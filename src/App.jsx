@@ -2,13 +2,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import LandingPage from "./pages/LandingPage";
 import ECommercePage from "./pages/ECommercePage";
-import ExamplePage from "./pages/ExamplePage";
+import ExercisesPage from "./pages/ExercisesPage";
 import ECommerceLayout from "./pages/ECommercePage/ECommerceLayout/ECommerceLayout";
-import { InputAccessibilityPage } from "./components/examples/InputAccessibilityPage";
-import Card from "./playground/Card";
-import ProductsGrid from "./playground/ProductsGrid";
+import CardWrapper from "./playground/Card";
+import ProductsGrid from "./playground/ProductGrid";
 import FilterMenu from "./playground/FilterMenu";
 import NestedCollectionWithTitles from "./playground/NestedCollectionWithTitles";
+import EdgeCases from "./playground/EdgeCases";
 
 import ListExample from "./demos/VerticalLists/ListExample";
 import HorizontalListExample from "./demos/HorizontalLists/HorizontalListExample";
@@ -38,11 +38,29 @@ function App() {
             </Layout>
           }
         />
+
         <Route
-          path="/playground/:folderName"
+          path="/exercises"
+          element={
+            <Layout showHeader={true} showFooter={true} withLayout={true}>
+              <ExercisesPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/examples/e-commerce"
+          element={
+            <ECommerceLayout>
+              <ECommercePage />
+            </ECommerceLayout>
+          }
+        />
+
+        <Route
+          path="/playground/Card"
           element={
             <Layout>
-              <Card />
+              <CardWrapper />
             </Layout>
           }
         />
@@ -55,7 +73,7 @@ function App() {
           }
         />
         <Route
-          path="/playground/menu"
+          path="/playground/filter-menu"
           element={
             <Layout>
               <FilterMenu />
@@ -63,7 +81,7 @@ function App() {
           }
         />
         <Route
-          path="/playground/nested-collection"
+          path="/playground/nested-collection-with-titles"
           element={
             <Layout>
               <NestedCollectionWithTitles />
@@ -72,27 +90,11 @@ function App() {
         />
 
         <Route
-          path="/examples"
-          element={
-            <Layout showHeader={true} showFooter={true} withLayout={true}>
-              <ExamplePage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/examples/input-accessibility"
+          path="/playground/edge-cases"
           element={
             <Layout>
-              <InputAccessibilityPage />
+              <EdgeCases />
             </Layout>
-          }
-        />
-        <Route
-          path="/examples/e-commerce"
-          element={
-            <ECommerceLayout>
-              <ECommercePage />
-            </ECommerceLayout>
           }
         />
 

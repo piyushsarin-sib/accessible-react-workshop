@@ -26,13 +26,6 @@ const Header = () => {
           >
             Accessible eCommerce
           </Link>
-          {/* Navigation links */}
-          <Link
-            to="/examples"
-            className="ml-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Examples
-          </Link>
         </div>
         {/* Cart button */}
         <CartButton aria-label="View shopping cart" />

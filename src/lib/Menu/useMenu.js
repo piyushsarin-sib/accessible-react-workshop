@@ -1,5 +1,5 @@
-import { useId } from 'react';
-import useOverlay from '../Overlay/hooks/useOverlay';
+import { useId } from "react";
+import useOverlay from "../Overlay/hooks/useOverlay";
 
 /**
  * Hook for integrating menu with overlay
@@ -13,13 +13,7 @@ import useOverlay from '../Overlay/hooks/useOverlay';
  * @param {string} options.overlayId - ID for overlay element
  * @returns {Object} Overlay controls (trigger, body, open, close, toggle, setVisible)
  */
-export const useMenu = ({
-  overlayConfig,
-  style,
-  className,
-  triggerId,
-  overlayId
-} = {}) => {
+export const useMenu = ({ overlayConfig, style, className, triggerId, overlayId } = {}) => {
   // Generate stable IDs for overlay integration
   const generatedTriggerId = useId();
   const generatedOverlayId = useId();
@@ -27,12 +21,12 @@ export const useMenu = ({
   // Always call useOverlay (unconditional hook call)
   // Use stable generated IDs if not provided
   const overlayControls = useOverlay({
-    pattern: 'menu',
+    pattern: "menu",
     ...(overlayConfig || {}),
     style,
     className,
     triggerId: triggerId || generatedTriggerId,
-    bodyId: overlayId || generatedOverlayId
+    bodyId: overlayId || generatedOverlayId,
   });
 
   return overlayControls;

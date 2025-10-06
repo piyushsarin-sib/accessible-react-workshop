@@ -30,7 +30,9 @@ const SectionedMenuExample = () => {
         <MenuList.Title>📤 Export & Print</MenuList.Title>
         <MenuList.Option value="export">📤 Export</MenuList.Option>
         <MenuList.Option value="print">🖨️ Print</MenuList.Option>
-        <MenuList.Option value="pdf" disabled>📋 Export PDF (Pro)</MenuList.Option>
+        <MenuList.Option value="pdf" disabled>
+          📋 Export PDF (Pro)
+        </MenuList.Option>
       </MenuList>
 
       <div style={{ marginTop: "12px", fontSize: "14px", color: "#666" }}>

@@ -15,11 +15,7 @@ const UncontrolledMenuExample = () => {
         Menu manages its own selection state internally. Default selection on item "3".
       </p>
 
-      <MenuList
-        onChange={handleChange}
-        defaultSelectedKey="3"
-        ariaLabel="Empty options menu"
-      >
+      <MenuList onChange={handleChange} defaultSelectedKey="3" ariaLabel="Empty options menu">
         <MenuList.Option value="1"> </MenuList.Option>
         <MenuList.Option value="2"> </MenuList.Option>
         <MenuList.Option value="3"> </MenuList.Option>

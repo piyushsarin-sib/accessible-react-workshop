@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../../common/Modal';
 import Button from '../../common/Button';
-import FeedbackForm from './FeedbackForm';
 
 /**
  * OrderConfirmationModal component for displaying order confirmation and feedback form
@@ -10,7 +9,6 @@ import FeedbackForm from './FeedbackForm';
  */
 const OrderConfirmationModal = ({ onClose, isOpen = true }) => {
   const [showAnimation, setShowAnimation] = useState(true);
-  const [showFeedback, setShowFeedback] = useState(false);
   
   // Automatically transition from animation to confirmation after 4 seconds
   useEffect(() => {
@@ -46,7 +44,7 @@ const OrderConfirmationModal = ({ onClose, isOpen = true }) => {
           </p>
         </div>
       );
-    } else if (!showFeedback) {
+    } else {
       return (
         <div aria-live="polite">
           <h2 className="text-2xl font-bold mb-4 text-center">
@@ -74,27 +72,15 @@ const OrderConfirmationModal = ({ onClose, isOpen = true }) => {
             </div>
           </div>
           
-          <div className="text-center">
-            <p className="mb-4 text-gray-700">But we'd love to hear about your experience!</p>
-            <Button
-              onClick={() => setShowFeedback(true)}
-              variant="primary"
-            >
-              Share Your Feedback
-            </Button>
-          </div>
         </div>
       );
-    } else {
-      return <FeedbackForm onClose={onClose} />;
     }
   };
   
   // Get title based on state
   const getModalTitle = () => {
     if (showAnimation) return "Processing Your Order";
-    if (!showFeedback) return "Order Confirmed";
-    return "Your Feedback";
+   return "Order Confirmed";
   };
 
   return (

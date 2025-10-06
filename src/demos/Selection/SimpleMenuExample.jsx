@@ -30,11 +30,9 @@ const SimpleMenuExample = () => {
       </MenuList>
 
       <div style={{ marginTop: "16px", fontSize: "14px", color: "#666" }}>
-        <strong>Selected:</strong>{" "}
-        {selectedKeys[0] || "None"}
+        <strong>Selected:</strong> {selectedKeys[0] || "None"}
         <br />
-        <strong>Selected Keys:</strong>{" "}
-        {selectedKeys.length > 0 ? selectedKeys.join(', ') : "None"}
+        <strong>Selected Keys:</strong> {selectedKeys.length > 0 ? selectedKeys.join(", ") : "None"}
       </div>
     </>
   );
