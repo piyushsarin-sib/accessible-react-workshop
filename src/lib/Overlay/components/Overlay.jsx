@@ -1,16 +1,16 @@
-import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import { PLACEMENTS } from '../constants';
-import usePosition from '../hooks/usePosition';
-import OverlayContent from './OverlayContent';
-import Backdrop from './Backdrop';
-import useClickOutside from '../hooks/useClickOutside';
-import useFocusManagement from '../hooks/useFocusManagement';
-import useKeyboardHandlers from '../hooks/useKeyboardHandlers';
-import useInert from '../hooks/useInert';
-import useScrollLock from '../hooks/useScrollLock';
-import '../Overlay.css';
+import React, { useRef } from "react";
+import PropTypes from "prop-types";
+import ReactDOM from "react-dom";
+import { PLACEMENTS } from "../constants";
+import usePosition from "../hooks/usePosition";
+import OverlayContent from "./OverlayContent";
+import Backdrop from "./Backdrop";
+import useClickOutside from "../hooks/useClickOutside";
+import useFocusManagement from "../hooks/useFocusManagement";
+import useKeyboardHandlers from "../hooks/useKeyboardHandlers";
+import useInert from "../hooks/useInert";
+import useScrollLock from "../hooks/useScrollLock";
+import "../Overlay.css";
 
 const Overlay = ({
   body = {},
@@ -22,7 +22,7 @@ const Overlay = ({
   toggle,
   portalTarget,
   backdrop = false,
-  pattern = 'menu',
+  pattern = "menu",
   autoFocus = true,
   closeOnOutsideClick = true,
   zIndex = 1000,
@@ -35,7 +35,7 @@ const Overlay = ({
     id: bodyId,
     placement = PLACEMENTS.BOTTOM_START,
     style = {},
-    className = '',
+    className = "",
   } = body;
 
   const { ref: triggerRef, id: triggerId } = trigger;
@@ -43,12 +43,14 @@ const Overlay = ({
 
   // Build CSS class names
   const overlayClasses = [
-    'overlay',
-    elevation && 'overlay--elevation',
-    border && 'overlay--border',
-    placement === PLACEMENTS.CENTER && 'overlay--modal',
+    "overlay",
+    elevation && "overlay--elevation",
+    border && "overlay--border",
+    placement === PLACEMENTS.CENTER && "overlay--modal",
     className,
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   // Dynamic styles (only what can't be in CSS)
   const overlayStyles = {
@@ -159,7 +161,7 @@ Overlay.propTypes = {
     PropTypes.func,
   ]),
   backdrop: PropTypes.bool,
-  pattern: PropTypes.oneOf(['menu', 'dialog', 'modal', 'popover', 'tooltip']),
+  pattern: PropTypes.oneOf(["menu", "dialog", "modal", "popover", "tooltip"]),
   autoFocus: PropTypes.bool,
   closeOnOutsideClick: PropTypes.bool,
   zIndex: PropTypes.number,

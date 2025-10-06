@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Menu from "../../lib/Menu";
+import { MenuList } from "../../lib/Menu";
 
 const SectionedMenuExample = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
@@ -17,21 +17,21 @@ const SectionedMenuExample = () => {
         Menu with sections and disabled items - perfect for organized navigation
       </p>
 
-      <Menu
+      <MenuList
         selectedKeys={selectedKeys}
         onChange={handleChange}
         ariaLabel="File operations with component API"
       >
-        <Menu.Title>📁 File Operations</Menu.Title>
-        <Menu.Option value="new">📄 New File</Menu.Option>
-        <Menu.Option value="open">📁 Open File</Menu.Option>
-        <Menu.Option value="save">💾 Save</Menu.Option>
+        <MenuList.Title>📁 File Operations</MenuList.Title>
+        <MenuList.Option value="new">📄 New File</MenuList.Option>
+        <MenuList.Option value="open">📁 Open File</MenuList.Option>
+        <MenuList.Option value="save">💾 Save</MenuList.Option>
 
-        <Menu.Title>📤 Export & Print</Menu.Title>
-        <Menu.Option value="export">📤 Export</Menu.Option>
-        <Menu.Option value="print">🖨️ Print</Menu.Option>
-        <Menu.Option value="pdf" disabled>📋 Export PDF (Pro)</Menu.Option>
-      </Menu>
+        <MenuList.Title>📤 Export & Print</MenuList.Title>
+        <MenuList.Option value="export">📤 Export</MenuList.Option>
+        <MenuList.Option value="print">🖨️ Print</MenuList.Option>
+        <MenuList.Option value="pdf" disabled>📋 Export PDF (Pro)</MenuList.Option>
+      </MenuList>
 
       <div style={{ marginTop: "12px", fontSize: "14px", color: "#666" }}>
         <strong>Selected:</strong> {selectedKeys[0] || "None"}

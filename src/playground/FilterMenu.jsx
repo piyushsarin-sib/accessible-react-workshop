@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Menu from "../lib/Menu";
+import Button from "../components/common/Button";
+import { PLACEMENTS } from "../lib/Overlay";
 
 const FilterMenu = () => {
   const [selectedKey, setSelectedKey] = useState(null);
@@ -10,6 +12,9 @@ const FilterMenu = () => {
 
   return (
     <Menu
+      trigger={<Button variant="secondary">Filters</Button>}
+      overlayConfig={{ placement: PLACEMENTS.BOTTOM_START }}
+      style={{ width: "250px" }}
       selectedKey={selectedKey}
       onChange={handleChange}
       ariaLabel="Product filters menu"

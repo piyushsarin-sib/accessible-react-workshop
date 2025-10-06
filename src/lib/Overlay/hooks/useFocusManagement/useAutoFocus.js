@@ -11,13 +11,16 @@ import { getFocusableElements } from '../../helpers/focusUtils';
 const useAutoFocus = ({ enabled, containerRef }) => {
   useEffect(() => {
     if (enabled) {
-      const focusableElements = getFocusableElements(containerRef?.current);
-      if (focusableElements.length > 0) {
-        focusableElements[0].focus({ preventScroll: true });
-      } else if (containerRef?.current) {
-        // If no focusable elements, focus the container itself
-        containerRef.current.focus({ preventScroll: true });
-      }
+      // Use requestAnimationFrame to ensure DOM is fully positioned before focusing
+      requestAnimationFrame(() => {
+        const focusableElements = getFocusableElements(containerRef?.current);
+        if (focusableElements.length > 0) {
+          focusableElements[0].focus({ preventScroll: true });
+        } else if (containerRef?.current) {
+          // If no focusable elements, focus the container itself
+          containerRef.current.focus({ preventScroll: true });
+        }
+      });
     }
   }, [enabled, containerRef]);
 };

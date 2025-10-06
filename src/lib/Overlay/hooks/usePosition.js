@@ -6,11 +6,15 @@ const usePosition = (visible, placement, triggerRef, overlayRef) => {
 
   const calculatePosition = useCallback(() => {
     if (!visible || !triggerRef?.current || !overlayRef?.current) {
-      return { x: 0, y: 0 };
+      return null;
     }
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const overlayRect = overlayRef.current.getBoundingClientRect();
+
+    // Account for page scroll (needed for position: absolute)
+    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
     let x = 0;
     let y = 0;
@@ -34,8 +38,8 @@ const usePosition = (visible, placement, triggerRef, overlayRef) => {
         y = triggerRect.bottom;
         break;
       case PLACEMENTS.BOTTOM_START:
-        x = triggerRect.left;
-        y = triggerRect.bottom;
+        x = triggerRect.left + scrollX;
+        y = triggerRect.bottom + scrollY;
         break;
       case PLACEMENTS.BOTTOM_END:
         x = triggerRect.right - overlayRect.width;
@@ -80,7 +84,9 @@ const usePosition = (visible, placement, triggerRef, overlayRef) => {
   useLayoutEffect(() => {
     if (visible) {
       const newPosition = calculatePosition();
-      setPosition(newPosition);
+      if (newPosition) {
+        setPosition(newPosition);
+      }
     }
   }, [visible, calculatePosition]);
 

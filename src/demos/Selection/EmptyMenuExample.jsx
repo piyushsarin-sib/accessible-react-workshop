@@ -1,4 +1,4 @@
-import Menu from "../../lib/Menu";
+import { MenuList } from "../../lib/Menu";
 import "./SelectionExample.css";
 
 const UncontrolledMenuExample = () => {
@@ -15,17 +15,17 @@ const UncontrolledMenuExample = () => {
         Menu manages its own selection state internally. Default selection on item "3".
       </p>
 
-      <Menu
+      <MenuList
         onChange={handleChange}
         defaultSelectedKey="3"
         ariaLabel="Empty options menu"
       >
-        <Menu.Option value="1"> </Menu.Option>
-        <Menu.Option value="2"> </Menu.Option>
-        <Menu.Option value="3"> </Menu.Option>
-        <Menu.Option value="4"> </Menu.Option>
-        <Menu.Option value="5"> </Menu.Option>
-      </Menu>
+        <MenuList.Option value="1"> </MenuList.Option>
+        <MenuList.Option value="2"> </MenuList.Option>
+        <MenuList.Option value="3"> </MenuList.Option>
+        <MenuList.Option value="4"> </MenuList.Option>
+        <MenuList.Option value="5"> </MenuList.Option>
+      </MenuList>
 
       <div style={{ marginTop: "16px", fontSize: "12px", color: "#999" }}>
         <strong>Mode:</strong> Uncontrolled - Menu manages selection internally

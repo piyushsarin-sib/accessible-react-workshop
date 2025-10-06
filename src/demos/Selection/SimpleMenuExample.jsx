@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Menu from "../../lib/Menu";
+import { MenuList } from "../../lib/Menu";
 
 const SimpleMenuExample = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
@@ -17,17 +17,17 @@ const SimpleMenuExample = () => {
         Click items to select. Only one item can be selected at a time.
       </p>
 
-      <Menu
+      <MenuList
         selectedKeys={selectedKeys}
         onChange={handleChange}
         ariaLabel="File operations menu"
       >
-        <Menu.Option value="new">📄 New File</Menu.Option>
-        <Menu.Option value="open">📁 Open File</Menu.Option>
-        <Menu.Option value="save">💾 Save</Menu.Option>
-        <Menu.Option value="export">📤 Export</Menu.Option>
-        <Menu.Option value="print">🖨️ Print</Menu.Option>
-      </Menu>
+        <MenuList.Option value="new">📄 New File</MenuList.Option>
+        <MenuList.Option value="open">📁 Open File</MenuList.Option>
+        <MenuList.Option value="save">💾 Save</MenuList.Option>
+        <MenuList.Option value="export">📤 Export</MenuList.Option>
+        <MenuList.Option value="print">🖨️ Print</MenuList.Option>
+      </MenuList>
 
       <div style={{ marginTop: "16px", fontSize: "14px", color: "#666" }}>
         <strong>Selected:</strong>{" "}
