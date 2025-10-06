@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Menu from "../lib/Menu";
+import Menu from "@lib/Menu";
 import Button from "../components/common/Button";
-import { PLACEMENTS } from "../lib/Overlay";
+import { PLACEMENTS } from "@lib/Overlay";
 
 const FilterMenu = () => {
   const [selectedKey, setSelectedKey] = useState(null);

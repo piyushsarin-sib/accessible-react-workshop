@@ -1,6 +1,6 @@
 import React from 'react';
-import { useOverlay, Overlay, PLACEMENTS } from '../../lib/Overlay';
-import Button from '../../components/common/Button';
+import { useOverlay, Overlay, PLACEMENTS } from '@lib/Overlay';
+import Button from '@common/Button';
 
 const ModalExample = () => {
   const modalDisclosure = useOverlay({

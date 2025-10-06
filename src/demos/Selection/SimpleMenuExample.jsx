@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MenuList } from "../../lib/Menu";
+import { MenuList } from "@lib/Menu";
 
 const SimpleMenuExample = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);

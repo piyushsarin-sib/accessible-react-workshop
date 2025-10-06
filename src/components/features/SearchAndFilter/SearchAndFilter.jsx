@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 import FilterMenu from "./FilterMenu";
-import { useMenu } from "../../../lib/Menu";
-import { PLACEMENTS } from "../../../lib/Overlay";
+import { useMenu } from "@lib/Menu";
+import { PLACEMENTS } from "@lib/Overlay";
 
 // Categories derived from the product list for filtering
 const categories = [

@@ -1,4 +1,4 @@
-import Menu from "../../../lib/Menu";
+import Menu from "@lib/Menu";
 
 const FilterMenu = ({ menuState, onChange, categories, priceRanges, selectedKeys }) => {
   return (

@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useCollectionAria } from "../../Collections/hooks/useCollectionAria";
+import { useCollectionAria } from "@lib/Collections/hooks/useCollectionAria";
 
 /**
  * Hook for managing collection item selection

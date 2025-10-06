@@ -1,5 +1,5 @@
 import React from "react";
-import { Overlay } from "../Overlay";
+import { Overlay } from "@lib/Overlay";
 import MenuList from "./MenuList";
 import MenuTitle from "./MenuTitle";
 import MenuOption from "./MenuOption";

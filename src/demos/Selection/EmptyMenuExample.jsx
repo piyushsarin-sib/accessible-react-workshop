@@ -1,4 +1,4 @@
-import { MenuList } from "../../lib/Menu";
+import { MenuList } from "@lib/Menu";
 import "./SelectionExample.css";
 
 const UncontrolledMenuExample = () => {

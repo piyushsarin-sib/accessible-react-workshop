@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { PLACEMENTS } from "../../lib/Overlay";
-import Button from "../../components/common/Button";
-import Menu, { useMenu } from "../../lib/Menu";
+import { PLACEMENTS } from "@lib/Overlay";
+import Button from "@common/Button";
+import Menu, { useMenu } from "@lib/Menu";
 
 const MenuWithOverlay = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);

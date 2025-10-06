@@ -1,4 +1,4 @@
-import Collection from "../../lib/Collections/Collection";
+import Collection from "@lib/Collections/Collection";
 import "./HorizontalListExample.css";
 
 const NavigationMenuExample = () => {

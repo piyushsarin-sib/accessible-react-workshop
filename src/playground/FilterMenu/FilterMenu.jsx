@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Menu from "../../lib/Menu";
+import Menu from "@lib/Menu";
 
 const FilterMenu = () => {
   const [selectedKey, setSelectedKey] = useState(null);
