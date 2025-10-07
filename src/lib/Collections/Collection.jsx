@@ -167,9 +167,6 @@ const Collection = React.forwardRef(
 
     const effectiveRole = aria.effectiveRole;
 
-    // Get pattern configuration if needed
-    const patternConfig = pattern ? aria.getCollectionPattern(pattern) : {};
-
     // Generate indentation for manually nested Collections
     // Only apply indentation to truly nested content, not organizational sections
     const getIndentStyle = () => {
@@ -242,20 +239,14 @@ const Collection = React.forwardRef(
         }
       });
 
-      // Calculate aria-level automatically based on hierarchical depth
-      // aria-level should ONLY be used for tree structures (role="treeitem")
-      // Check both the original pattern and effective role for tree structures
-      const shouldUseAriaLevel = pattern === 'tree' || effectiveRole === 'tree' ||
-                                (parentRole === 'tree' && !pattern) ||
-                                (effectiveRole === 'group' && pattern === 'tree');
-
+      // Calculate level based on hierarchical depth
       // Level 1 for direct children of root, increment only for true nesting within items
-      const computedLevel = shouldUseAriaLevel ? (_isNestedInItem ? _nestingDepth + 1 : 1) : undefined;
+      const computedLevel = _isNestedInItem ? _nestingDepth + 1 : 1;
 
       // Get basic ARIA props for this item (accessibility built-in)
+      // Hook will decide whether to apply aria-level based on role
       const itemAriaProps = aria.getItemAriaProps(itemKey, {
         level: computedLevel,
-        itemRole: patternConfig.itemRole,
         elementType: ItemWrapper,
         selected: selectedKeys ? selectedKeys.has(itemKey) : false,
         ...options,

@@ -80,7 +80,7 @@ export const useMenuState = ({
       // Find the item data from menuNodes
       const item = menuNodes.find(node => node.key === key);
       return {
-        ...selection.getItemHandlers(key, item),
+        ...selection.getItemSelectionProps(key, item),
         ...navigation.getItemProps(key)
       };
     },
