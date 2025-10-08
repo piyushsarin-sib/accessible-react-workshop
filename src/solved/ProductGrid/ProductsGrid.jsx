@@ -79,7 +79,10 @@ const ProductsGrid = () => {
       className="grid grid-cols-2 md:grid-cols-4 gap-4"
     >
       {products.map((product) => (
-        <></>
+        <Collection.Item
+          key={product.id}
+          className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
+        ></Collection.Item>
       ))}
 
       <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
