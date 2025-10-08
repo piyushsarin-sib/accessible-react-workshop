@@ -11,6 +11,8 @@ import { useMemo } from "react";
  * @param {string} options.label - Accessible label for the collection
  * @param {string} options.labelledBy - ID of element that labels the collection
  * @param {string} options.describedBy - ID of element that describes the collection
+ * @param {string} options.activeDescendant - ID of the currently active descendant element
+ * @param {boolean} options.busy - Whether the collection is loading/busy
  * @returns {Object} ARIA attributes for collection and items
  */
 export const useCollectionAria = ({
@@ -21,6 +23,8 @@ export const useCollectionAria = ({
   label,
   labelledBy,
   describedBy,
+  activeDescendant,
+  busy,
   parentRole,
   pattern,
 } = {}) => {
@@ -155,9 +159,19 @@ export const useCollectionAria = ({
         props["aria-describedby"] = describedBy;
       }
 
+      // Active descendant - for composite widgets with keyboard navigation
+      if (activeDescendant) {
+        props["aria-activedescendant"] = activeDescendant;
+      }
+
+      // Busy state - for loading collections
+      if (busy !== undefined) {
+        props["aria-busy"] = busy;
+      }
+
       return props;
     };
-  }, [effectiveRole, selectionMode, orientation, label, labelledBy, describedBy, config]);
+  }, [effectiveRole, selectionMode, orientation, label, labelledBy, describedBy, activeDescendant, busy, config]);
 
   const getItemAriaProps = useMemo(() => {
     return (key, options = {}) => {
