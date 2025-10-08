@@ -30,19 +30,6 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
           setVisible(false);
         }
       }
-
-      // INSTRUCTIONS:
-      // - Check if the pressed key is Tab using: isTabKey(event)
-      // - If it's a Tab key:
-      //   a) Check if focus trap should be applied using: shouldApplyFocusTrap(backdrop, placement)
-      //      - backdrop: boolean indicating if backdrop exists
-      //      - placement: strings like 'center', 'top', etc.
-      //   b) If focus trap should apply:
-      //      - Call: applyFocusTrap(event, containerRef?.current)
-      //        - event: the keyboard event
-      //        - containerRef?.current: the overlay DOM element
-      //   c) If focus trap should NOT apply (non-modal overlays):
-      //      - Close the overlay: set visibility to false using setVisible
     },
     [setVisible, containerRef, backdrop, placement],
   );
