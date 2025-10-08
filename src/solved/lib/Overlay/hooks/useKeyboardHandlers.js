@@ -25,6 +25,7 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
       // 2. TODO Handle Tab key
       if (isTabKey(event)) {
         if (shouldApplyFocusTrap(backdrop, placement)) {
+          applyFocusTrap(event, containerRef?.current);
         } else {
         }
       }
