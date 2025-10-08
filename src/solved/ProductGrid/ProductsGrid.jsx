@@ -84,11 +84,13 @@ const ProductsGrid = () => {
       pattern="grid"
       ariaLabel="Product cards"
       className="grid grid-cols-2 md:grid-cols-4 gap-4"
+      {...gridNav.getCollectionProps()}
     >
       {products.map((product) => (
         <Collection.Item
           key={product.id}
           className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
+          {...gridNav.getItemProps(product.id)}
         >
           <img
             src={product.image}
