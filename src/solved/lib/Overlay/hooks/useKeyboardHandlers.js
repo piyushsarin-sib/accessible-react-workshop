@@ -27,6 +27,7 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
         if (shouldApplyFocusTrap(backdrop, placement)) {
           applyFocusTrap(event, containerRef?.current);
         } else {
+          setVisible(false);
         }
       }
 
