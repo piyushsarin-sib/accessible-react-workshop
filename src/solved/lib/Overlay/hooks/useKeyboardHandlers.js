@@ -27,7 +27,7 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
       // - If it's a Tab key:
       //   a) Check if focus trap should be applied using: shouldApplyFocusTrap(backdrop, placement)
       //      - backdrop: boolean indicating if backdrop exists
-      //      - placement: string like 'center', 'top', etc.
+      //      - placement: strings like 'center', 'top', etc.
       //   b) If focus trap should apply:
       //      - Call: applyFocusTrap(event, containerRef?.current)
       //        - event: the keyboard event
