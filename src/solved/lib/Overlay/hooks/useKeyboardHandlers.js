@@ -18,7 +18,8 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
     (event) => {
       // 1. Handle Escape key
       if (shouldCloseOnEscape(event)) {
-        // TODO: Close the overlay: set visibility to false using setVisible.
+        setVisible(false);
+        return;
       }
 
       // 2. TODO Handle Tab key
