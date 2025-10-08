@@ -23,6 +23,9 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
       }
 
       // 2. TODO Handle Tab key
+      if (isTabKey(event)) {
+      }
+
       // INSTRUCTIONS:
       // - Check if the pressed key is Tab using: isTabKey(event)
       // - If it's a Tab key:
