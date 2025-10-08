@@ -78,6 +78,10 @@ const ProductsGrid = () => {
       ariaLabel="Product cards"
       className="grid grid-cols-2 md:grid-cols-4 gap-4"
     >
+      {products.map((product) => (
+        <></>
+      ))}
+
       <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {products.map((product) => (
           <li
