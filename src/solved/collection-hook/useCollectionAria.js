@@ -70,8 +70,8 @@ export const useCollectionAria = ({
       },
       navigation: {
         role: "navigation",
-        itemRole: "", // TODO, HINT: links are naturally interactive,
-        selectionAttribute: "", // TODO
+        itemRole: null, // links are naturally interactive
+        selectionAttribute: null,
       },
       list: {
         role: "list",
