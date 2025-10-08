@@ -140,7 +140,7 @@ export const useCollectionAria = ({
       const finalOrientation = orientation ?? config.orientation;
       const defaultOrientation = roleDefaults[effectiveRole];
 
-      // TODO: Only add aria-orientation if:
+      // Only add aria-orientation if:
       // 1. Role supports orientation (default is not null), AND
       // 2. Orientation is explicitly set or from pattern, AND
       // 3. It differs from the role's default
@@ -153,7 +153,7 @@ export const useCollectionAria = ({
         props["aria-orientation"] = finalOrientation;
       }
 
-      // TODO: Labelling
+      // Labelling
       if (label) {
         props["aria-label"] = label;
       }
@@ -161,6 +161,7 @@ export const useCollectionAria = ({
         props["aria-labelledby"] = labelledBy;
       }
       if (describedBy) {
+        props["aria-describedby"] = describedBy;
       }
 
       // Active descendant - for composite widgets with keyboard navigation
