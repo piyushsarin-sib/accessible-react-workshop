@@ -158,6 +158,7 @@ export const useCollectionAria = ({
         props["aria-label"] = label;
       }
       if (labelledBy) {
+        props["aria-labelledby"] = labelledBy;
       }
       if (describedBy) {
       }
