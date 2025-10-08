@@ -76,7 +76,7 @@ export const useCollectionAria = ({
       list: {
         role: "list",
         itemRole: "listitem",
-        selectionAttribute: "", // TODO
+        selectionAttribute: null,
       },
     };
 
