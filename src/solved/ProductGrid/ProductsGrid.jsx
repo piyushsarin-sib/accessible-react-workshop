@@ -71,7 +71,13 @@ const ProductsGrid = () => {
   }
 
   return (
-    <Collection as="ul" itemAs="li" pattern="grid" ariaLabel="Product cards">
+    <Collection
+      as="ul"
+      itemAs="li"
+      pattern="grid"
+      ariaLabel="Product cards"
+      className="grid grid-cols-2 md:grid-cols-4 gap-4"
+    >
       <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {products.map((product) => (
           <li
