@@ -155,6 +155,7 @@ export const useCollectionAria = ({
 
       // TODO: Labelling
       if (label) {
+        props["aria-label"] = label;
       }
       if (labelledBy) {
       }
