@@ -145,6 +145,14 @@ export const useCollectionAria = ({
       // 2. Orientation is explicitly set or from pattern, AND
       // 3. It differs from the role's default
 
+      if (
+        defaultOrientation !== null &&
+        finalOrientation &&
+        finalOrientation !== defaultOrientation
+      ) {
+        props["aria-orientation"] = finalOrientation;
+      }
+
       // TODO: Labelling
       if (label) {
       }
