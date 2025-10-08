@@ -55,8 +55,8 @@ export const useCollectionAria = ({
       radiogroup: {
         role: "radiogroup",
         itemRole: "radio",
-        selectionAttribute: "", // TODO
-        selectionMode: "", // TODO
+        selectionAttribute: "aria-checked",
+        selectionMode: "single",
       },
       grid: {
         role: "grid",
