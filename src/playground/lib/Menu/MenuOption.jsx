@@ -1,9 +1,9 @@
-import React from 'react';
-import Collection from '../Collections/Collection';
-import { MenuContext } from './MenuContext';
+import React from "react";
+import Collection from "@lib/Collections/Collection";
+import { MenuContext } from "./MenuContext";
 
 // Menu.Option - renders as Collection.Item (selectable menu items)
-const MenuOption = ({ value, disabled, children, className = '', ...props }) => {
+const MenuOption = ({ value, disabled, children, className = "", ...props }) => {
   const context = React.useContext(MenuContext);
   const { menu } = context || {};
 
@@ -11,7 +11,9 @@ const MenuOption = ({ value, disabled, children, className = '', ...props }) => 
   const isSelected = menu?.selectedKeys ? menu.selectedKeys.has(value) : false;
 
   // Build CSS classes
-  const menuItemClass = `menu-item${isSelected ? ' selected' : ''}${disabled ? ' disabled' : ''} ${className}`.trim();
+  const menuItemClass = `menu-item${isSelected ? " selected" : ""}${
+    disabled ? " disabled" : ""
+  } ${className}`.trim();
 
   return (
     <Collection.Item
@@ -27,6 +29,6 @@ const MenuOption = ({ value, disabled, children, className = '', ...props }) => 
   );
 };
 
-MenuOption.displayName = 'Menu.Option';
+MenuOption.displayName = "Menu.Option";
 
 export default MenuOption;

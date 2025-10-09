@@ -20,12 +20,28 @@ const priceRanges = [
 const MenuWithOverlay = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
 
-  const menuState = useMenu({
-    overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
-    style: { width: "200px" },
-    overlayId: "menu-overlay",
-    triggerId: "menu-overlay-trigger",
-  });
+  /**
+   * TODO: Call useMenu hook and pass configuration object. Assign the return value
+   *  menuState
+   *
+   * Configuration object takes following props:
+   *
+   * Required props:
+   * - overlayConfig: Configuration for overlay positioning
+   *   - placement: Where menu appears relative to trigger (use PLACEMENTS constants)
+   *     eg: PLACEMENTS.BOTTOM_START - positions menu below trigger, aligned to left
+   * - overlayId: Unique ID for the menu element (accessibility)
+   *     eg: "menu-overlay"
+   * - triggerId: Unique ID for the trigger button (accessibility)
+   *     eg: "menu-overlay-trigger"
+   *
+   * Optional props:
+   * - style: Custom styles for the menu
+   *     eg: { width: "200px" }
+   *
+   */
+
+  // const menuState =
 
   const handleMenuChange = (event, { selectedKeys: newSelectedKeys }) => {
     console.log("Menu selection changed:", newSelectedKeys);
@@ -48,10 +64,17 @@ const MenuWithOverlay = () => {
         Previous Button
       </Button>
 
+      {/*
+        TODO: Connect menuState to the trigger button
+
+        Spread menuState.trigger on the button to add accessibility attributes
+        eg: {...menuState.trigger}
+
+        Use menuState.toggle function for onClick to open/close the menu
+        eg: onClick={menuState.toggle}
+      */}
       <button
         type="button"
-        {...menuState.trigger}
-        onClick={menuState.toggle}
         style={{ width: "400px" }}
         className="md:w-auto px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 accessible-focus"
       >
@@ -88,8 +111,13 @@ const MenuWithOverlay = () => {
         </span>
       </button>
 
+      {/*
+        TODO: Connect menuState to the Menu component
+
+        Spread menuState on the Menu component to pass overlay props and positioning
+        eg: {...menuState}
+      */}
       <Menu
-        {...menuState}
         onChange={handleMenuChange}
         selectedKeys={selectedKeys}
         selectionMode="multiple"
