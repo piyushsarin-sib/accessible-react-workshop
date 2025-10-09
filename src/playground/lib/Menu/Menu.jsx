@@ -42,7 +42,21 @@ const Menu = ({
   ...props
 }) => {
   return (
-    //  TODO: Wrap Overlay around MenuList
+    /*
+      TODO: Wrap Overlay around MenuList
+
+      Props to pass to Overlay:
+      - trigger: Trigger element ref and id
+      - body: Overlay ref, visibility, placement, styles
+      - setVisible: Control overlay visibility
+      - close: Close overlay function
+      - open: Open overlay function
+      - toggle: Toggle overlay function
+      - pattern: "menu" (overlay type)
+      - autoFocus: false (for menus). you might require eslint-disable-next-line jsx-a11y/no-autofocus
+      - closeOnOutsideClick: true (close on outside click)
+    */
+
     <MenuList
       selectedKeys={selectedKeys}
       defaultSelectedKeys={defaultSelectedKeys}
