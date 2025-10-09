@@ -40,6 +40,8 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
         // For modal overlays: apply focus trap
         if (shouldApplyFocusTrap(backdrop, placement)) {
           applyFocusTrap(event, containerRef?.current);
+        } else {
+          setVisible(false);
         }
       }
     },
