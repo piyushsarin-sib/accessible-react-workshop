@@ -4,11 +4,15 @@ import LandingPage from "./pages/LandingPage";
 import ECommercePage from "./pages/ECommercePage";
 import ExercisesPage from "./pages/ExercisesPage";
 import ECommerceLayout from "./pages/ECommercePage/ECommerceLayout/ECommerceLayout";
+
+
 import CardWrapper from "./playground/Card";
 import ProductsGrid from "./playground/ProductGrid";
 import FilterMenu from "./playground/FilterMenu";
 import NestedCollectionWithTitles from "./playground/NestedCollectionWithTitles";
 import EdgeCases from "./playground/EdgeCases";
+import ECommIssues from "./playground/ECommIssues";
+import Overlay from "./playground/Overlay";
 
 import ListExample from "./demos/VerticalLists/ListExample";
 import HorizontalListExample from "./demos/HorizontalLists/HorizontalListExample";
@@ -16,10 +20,8 @@ import SingleSelectionExample from "./demos/Selection/SingleSelectionExample";
 import MultiSelectionExample from "./demos/Selection/MultiSelectionExample";
 import UncontrolledMenuExample from "./demos/Selection/EmptyMenuExample";
 import CollapsibleTreeExample from "./demos/Expansion/CollapsibleTreeExample";
-
 // Keyboard Navigation demos
 import RovingIndexExample from "./demos/KeyboardNavigation/RovingIndexExample";
-
 // Overlay demos
 import MenuWithOverlay from "./demos/Overlay/MenuWithOverlay";
 import ModalExample from "./demos/Overlay/ModalExample";
@@ -48,11 +50,11 @@ function App() {
           }
         />
         <Route
-          path="/examples/e-commerce"
+          path="/playground/e-commerce-issues"
           element={
-            <ECommerceLayout>
-              <ECommercePage />
-            </ECommerceLayout>
+            <Layout>
+              <ECommIssues />
+            </Layout>
           }
         />
 
@@ -88,6 +90,14 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/playground/overlay"
+          element={
+            <Layout>
+              <Overlay />
+            </Layout>
+          }
+        />
 
         <Route
           path="/playground/edge-cases"
@@ -95,6 +105,15 @@ function App() {
             <Layout>
               <EdgeCases />
             </Layout>
+          }
+        />
+
+                <Route
+          path="/examples/e-commerce"
+          element={
+            <ECommerceLayout>
+              <ECommercePage />
+            </ECommerceLayout>
           }
         />
 
