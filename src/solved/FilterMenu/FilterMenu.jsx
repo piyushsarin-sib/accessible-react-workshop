@@ -41,7 +41,12 @@ const MenuWithOverlay = () => {
    *
    */
 
-  // const menuState =
+  const menuState = useMenu({
+    overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
+    style: { width: "200px" },
+    overlayId: "menu-overlay",
+    triggerId: "menu-overlay-trigger",
+  });
 
   const handleMenuChange = (event, { selectedKeys: newSelectedKeys }) => {
     console.log("Menu selection changed:", newSelectedKeys);
