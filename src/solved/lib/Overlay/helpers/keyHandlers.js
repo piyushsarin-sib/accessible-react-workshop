@@ -64,7 +64,8 @@ export const applyFocusTrap = (event, container) => {
   // Shift+Tab on first element - wrap to last
   if (event.shiftKey && activeElement === firstElement) {
     event.preventDefault();
-    // TODO: call focus on lastElement
+    lastElement.focus();
+    return true;
   }
 
   // Tab on last element - wrap to first
