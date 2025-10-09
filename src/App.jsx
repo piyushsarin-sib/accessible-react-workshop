@@ -20,6 +20,11 @@ import CollapsibleTreeExample from "./demos/Expansion/CollapsibleTreeExample";
 // Keyboard Navigation demos
 import RovingIndexExample from "./demos/KeyboardNavigation/RovingIndexExample";
 
+// Overlay demos
+import MenuWithOverlay from "./demos/Overlay/MenuWithOverlay";
+import ModalExample from "./demos/Overlay/ModalExample";
+import SimpleTooltip from "./demos/Overlay/SimpleTooltip";
+
 function App() {
   return (
     <Router>
@@ -51,12 +56,11 @@ function App() {
           }
         />
 
-
         <Route
           path="/playground/Card"
           element={
             <Layout>
-              <CardWrapper/>
+              <CardWrapper />
             </Layout>
           }
         />
@@ -94,7 +98,6 @@ function App() {
           }
         />
 
-
         {/* QUICK DEMOS */}
 
         <Route path="/demos/vertical-lists" element={<ListExample />} />
@@ -110,6 +113,11 @@ function App() {
 
         {/* KEYBOARD NAVIGATION DEMOS */}
         <Route path="/demos/key-nav/roving-index" element={<RovingIndexExample />} />
+
+        {/* OVERLAY DEMOS */}
+        <Route path="/demos/overlay/menu" element={<MenuWithOverlay />} />
+        <Route path="/demos/overlay/modal" element={<ModalExample />} />
+        <Route path="/demos/overlay/tooltip" element={<SimpleTooltip />} />
       </Routes>
     </Router>
   );

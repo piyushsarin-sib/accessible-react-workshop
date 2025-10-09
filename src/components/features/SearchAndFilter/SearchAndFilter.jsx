@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from "prop-types";
 
-import SimpleMenuExample from "./FilterMenu";
-
-/* eslint-disable no-unused-vars */
+import FilterMenu from "./FilterMenu";
+import { useMenu } from "@lib/Menu";
+import { PLACEMENTS } from "@lib/Overlay";
 
 // Categories derived from the product list for filtering
 const categories = [
-  { id: "all", name: "All Products" },
   { id: "hearing", name: "Hearing Assistance" },
   { id: "vision", name: "Visual Assistance" },
   { id: "mobility", name: "Mobility Aids" },
@@ -16,7 +15,6 @@ const categories = [
 
 // Price ranges for filtering
 const priceRanges = [
-  { id: "all", name: "All Prices" },
   { id: "under1000", name: "Under ₹1,000" },
   { id: "1000-5000", name: "₹1,000 - ₹5,000" },
   { id: "above5000", name: "Above ₹5,000" },
@@ -24,25 +22,35 @@ const priceRanges = [
 
 const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedPrice, setSelectedPrice] = useState("all");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const filterRef = useRef(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedPrices, setSelectedPrices] = useState([]);
   const searchInputRef = useRef(null);
 
-  // Handle click outside to close filter dropdown
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (filterRef.current && !filterRef.current.contains(event.target)) {
-        setIsFilterOpen(false);
-      }
-    };
+  const menuState = useMenu({
+    overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
+    style: { width: "250px" },
+  });
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // Price range IDs for checking
+  const priceIds = ["under1000", "1000-5000", "above5000"];
+
+  const handleMenuChange = (event, { selectedKeys }) => {
+    const selectedArray = Array.from(selectedKeys);
+
+    // Separate the selected keys into categories and prices
+    const selectedCategoryIds = categories.map((c) => c.id);
+
+    // Filter out categories and prices from selectedKeys
+    const newCategories = selectedArray.filter((key) => selectedCategoryIds.includes(key));
+    const newPrices = selectedArray.filter((key) => priceIds.includes(key));
+
+    // Update state
+    setSelectedCategories(newCategories);
+    setSelectedPrices(newPrices);
+    onFilterChange({ categories: newCategories, prices: newPrices });
+
+    // Don't close menu in multiple selection mode - let user select multiple items
+  };
 
   // Handle search input change with debouncing
   const handleSearchChange = (e) => {
@@ -57,35 +65,18 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
     return () => clearTimeout(timeoutId);
   };
 
-  // Handle category filter change
-  const handleCategoryChange = (categoryId) => {
-    setSelectedCategory(categoryId);
-    onFilterChange({ category: categoryId, price: selectedPrice });
-  };
-
-  // Handle price filter change
-  const handlePriceChange = (priceId) => {
-    setSelectedPrice(priceId);
-    onFilterChange({ category: selectedCategory, price: priceId });
-  };
-
   // Clear all filters
   const clearFilters = () => {
     setSearchQuery("");
-    setSelectedCategory("all");
-    setSelectedPrice("all");
+    setSelectedCategories([]);
+    setSelectedPrices([]);
     onSearchChange("");
-    onFilterChange({ category: "all", price: "all" });
+    onFilterChange({ categories: [], prices: [] });
 
     // Focus back on search input for better keyboard navigation
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
-  };
-
-  // Toggle filter dropdown
-  const toggleFilters = () => {
-    setIsFilterOpen(!isFilterOpen);
   };
 
   return (
@@ -157,137 +148,52 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
         </div>
 
         {/* Filter dropdown button */}
-        <div className="relative" ref={filterRef}>
-          <button
-            type="button"
-            onClick={toggleFilters}
-            className="w-full md:w-auto px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 accessible-focus"
-            aria-expanded={isFilterOpen}
-            aria-controls="filter-dropdown"
-          >
-            <span className="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-                />
-              </svg>
-              Filters
-              <svg
-                className={`ml-2 h-5 w-5 transform ${isFilterOpen ? "rotate-180" : ""}`}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </span>
-          </button>
+        <button
+          type="button"
+          {...menuState.trigger}
+          onClick={menuState.toggle}
+          className="w-full md:w-auto px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 accessible-focus"
+        >
+          <span className="flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+              />
+            </svg>
+            Filters
+            <svg
+              className="ml-2 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </span>
+        </button>
 
-          {/* Filter dropdown panel */}
-          {isFilterOpen && (
-            <>
-              <section
-                id="filter-dropdown"
-                className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-md shadow-lg z-10"
-                aria-labelledby="filter-heading"
-              >
-                <div className="p-4">
-                  <h3 id="filter-heading" className="font-medium text-gray-900 mb-4">
-                    Filter Products
-                  </h3>
-
-                  <SimpleMenuExample />
-
-                  {/* Category filter */}
-                  {/* <fieldset className="mb-4">
-                    <legend className="text-sm font-semibold text-gray-900 mb-2">Category</legend>
-                    <div className="space-y-2">
-                      {categories.map((category) => (
-                        <div key={category.id} className="flex items-center">
-                          <input
-                            id={`category-${category.id}`}
-                            name="category"
-                            type="radio"
-                            checked={selectedCategory === category.id}
-                            onChange={() => handleCategoryChange(category.id)}
-                            className="h-4 w-4 text-blue-600 border-gray-300 accessible-focus"
-                            aria-describedby={`category-${category.id}-description`}
-                          />
-                          <label
-                            htmlFor={`category-${category.id}`}
-                            className="ml-3 text-sm text-gray-900 font-medium"
-                          >
-                            {category.name}
-                          </label>
-                          <span id={`category-${category.id}-description`} className="sr-only">
-                            Filter products by {category.name}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </fieldset> */}
-
-                  {/* Price range filter */}
-                  {/* <fieldset className="mb-4">
-                    <legend className="text-sm font-semibold text-gray-900 mb-2">
-                      Price Range
-                    </legend>
-                    <div className="space-y-2">
-                      {priceRanges.map((price) => (
-                        <div key={price.id} className="flex items-center">
-                          <input
-                            id={`price-${price.id}`}
-                            name="price"
-                            type="radio"
-                            checked={selectedPrice === price.id}
-                            onChange={() => handlePriceChange(price.id)}
-                            className="h-4 w-4 text-blue-600 border-gray-300 accessible-focus"
-                            aria-describedby={`price-${price.id}-description`}
-                          />
-                          <label
-                            htmlFor={`price-${price.id}`}
-                            className="ml-3 text-sm text-gray-900 font-medium"
-                          >
-                            {price.name}
-                          </label>
-                          <span id={`price-${price.id}-description`} className="sr-only">
-                            Filter products by price range {price.name}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </fieldset> */}
-
-                  {/* Action buttons */}
-                  {/* <div className="flex justify-end pt-2 border-t border-gray-200">
-                    <button
-                      type="button"
-                      onClick={clearFilters}
-                      className="text-sm text-blue-600 hover:text-blue-800 accessible-focus"
-                    >
-                      Clear all filters
-                    </button>
-                  </div> */}
-                </div>
-              </section>
-            </>
-          )}
-        </div>
+        <FilterMenu
+          menuState={menuState}
+          onChange={handleMenuChange}
+          categories={categories}
+          priceRanges={priceRanges}
+          selectedKeys={[...selectedCategories, ...selectedPrices]}
+        />
 
         {/* Clear search button - only show when there is text */}
         {searchQuery && (
@@ -303,7 +209,7 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
       </div>
 
       {/* Active filters display */}
-      {(selectedCategory !== "all" || selectedPrice !== "all" || searchQuery) && (
+      {(selectedCategories.length > 0 || selectedPrices.length > 0 || searchQuery) && (
         <div className="mt-4 flex flex-wrap items-center gap-2" aria-live="polite">
           <span className="text-sm text-gray-600">Active filters:</span>
 
@@ -324,43 +230,57 @@ const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
             </span>
           )}
 
-          {selectedCategory !== "all" && (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900">
-              Category: {categories.find((c) => c.id === selectedCategory)?.name}
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedCategory("all");
-                  onFilterChange({ category: "all", price: selectedPrice });
-                }}
-                className="ml-1 inline-flex text-blue-700 accessible-focus"
-                aria-label={`Remove category filter: ${
-                  categories.find((c) => c.id === selectedCategory)?.name
-                }`}
+          {selectedCategories
+            .filter((c) => c !== "all-cat")
+            .map((catId) => (
+              <span
+                key={catId}
+                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900"
               >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </span>
-          )}
+                Category: {categories.find((c) => c.id === catId)?.name}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newCategories = selectedCategories.filter((c) => c !== catId);
+                    const categoriesToSet = newCategories.length > 0 ? newCategories : ["all-cat"];
+                    setSelectedCategories(categoriesToSet);
+                    onFilterChange({ categories: categoriesToSet, prices: selectedPrices });
+                  }}
+                  className="ml-1 inline-flex text-blue-700 accessible-focus"
+                  aria-label={`Remove category filter: ${
+                    categories.find((c) => c.id === catId)?.name
+                  }`}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </span>
+            ))}
 
-          {selectedPrice !== "all" && (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900">
-              Price: {priceRanges.find((p) => p.id === selectedPrice)?.name}
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedPrice("all");
-                  onFilterChange({ category: selectedCategory, price: "all" });
-                }}
-                className="ml-1 inline-flex text-blue-700 accessible-focus"
-                aria-label={`Remove price filter: ${
-                  priceRanges.find((p) => p.id === selectedPrice)?.name
-                }`}
+          {selectedPrices
+            .filter((p) => p !== "all-prices")
+            .map((priceId) => (
+              <span
+                key={priceId}
+                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900"
               >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </span>
-          )}
+                Price: {priceRanges.find((p) => p.id === priceId)?.name}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newPrices = selectedPrices.filter((p) => p !== priceId);
+                    const pricesToSet = newPrices.length > 0 ? newPrices : ["all-prices"];
+                    setSelectedPrices(pricesToSet);
+                    onFilterChange({ categories: selectedCategories, prices: pricesToSet });
+                  }}
+                  className="ml-1 inline-flex text-blue-700 accessible-focus"
+                  aria-label={`Remove price filter: ${
+                    priceRanges.find((p) => p.id === priceId)?.name
+                  }`}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </span>
+            ))}
 
           <button
             type="button"

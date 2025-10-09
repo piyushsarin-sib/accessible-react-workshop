@@ -1,45 +1,41 @@
-import React from 'react';
-import { CartContext } from '../../../context/CartContextCore.js';
-import Modal from '../../common/Modal';
-import Button from '../../common/Button';
-import QuantitySelector from '../../common/QuantitySelector';
+import React from "react";
+import { CartContext } from "../../../context/CartContextCore.js";
+import Modal from "@lib/Modal";
+import Button from "@common/Button";
+import QuantitySelector from "@common/QuantitySelector";
 
 const CartModal = () => {
-  const { 
-    cart, 
-    isCartModalOpen, 
-    closeCartModal, 
-    removeFromCart, 
+  const {
+    cart,
+    removeFromCart,
     updateCartItemQuantity,
-    placeOrder 
+    placeOrder,
+    cartModalState,
   } = React.useContext(CartContext);
-  
+
   // Use the totalPrice from context if available, otherwise calculate it here
   const totalPrice = cart.reduce((sum, item) => {
     // Extract the numeric part from the price string
-    const priceText = typeof item.price === 'string' ? item.price.replace(/[^\d.-]/g, '') : item.price;
+    const priceText =
+      typeof item.price === "string" ? item.price.replace(/[^\d.-]/g, "") : item.price;
     const priceValue = parseFloat(priceText);
-    return sum + (priceValue * item.quantity);
+    return sum + priceValue * item.quantity;
   }, 0);
-  
+
   const handleCheckout = () => {
     placeOrder();
   };
 
   return (
     <Modal
-      isOpen={isCartModalOpen}
-      onClose={closeCartModal}
+      {...cartModalState}
       title="Your Cart"
-      className="w-full max-w-2xl"
+      style={{ width: '100%', maxWidth: '48rem' }}
     >
       {cart.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-gray-500 mb-4">Your cart is empty</p>
-          <Button
-            onClick={closeCartModal}
-            variant="primary"
-          >
+          <Button onClick={cartModalState.close} variant="primary">
             Continue Shopping
           </Button>
         </div>
@@ -49,11 +45,7 @@ const CartModal = () => {
             {cart.map((item) => (
               <div key={item.id} className="py-4 flex items-center">
                 <div className="h-20 w-20 flex-shrink-0">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="h-full w-full object-cover"
-                  />
+                  <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                 </div>
                 <div className="ml-4 flex-grow">
                   <h3 className="font-medium">{item.name}</h3>
@@ -62,7 +54,9 @@ const CartModal = () => {
                     <QuantitySelector
                       quantity={item.quantity}
                       onIncrease={() => updateCartItemQuantity(item.id, item.quantity + 1)}
-                      onDecrease={() => updateCartItemQuantity(item.id, Math.max(1, item.quantity - 1))}
+                      onDecrease={() =>
+                        updateCartItemQuantity(item.id, Math.max(1, item.quantity - 1))
+                      }
                       minQuantity={1}
                       size="small"
                       ariaLabel={`Quantity selector for ${item.name}`}
@@ -99,17 +93,13 @@ const CartModal = () => {
             </div>
             <div className="flex justify-between">
               <Button
-                onClick={() => cart.forEach(item => removeFromCart(item.id))}
+                onClick={() => cart.forEach((item) => removeFromCart(item.id))}
                 variant="secondary"
                 ariaLabel="Clear cart"
               >
                 Clear Cart
               </Button>
-              <Button
-                onClick={handleCheckout}
-                variant="primary"
-                ariaLabel="Proceed to checkout"
-              >
+              <Button onClick={handleCheckout} variant="primary" ariaLabel="Proceed to checkout">
                 Checkout
               </Button>
             </div>

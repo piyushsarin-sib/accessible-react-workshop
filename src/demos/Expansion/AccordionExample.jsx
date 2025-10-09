@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Accordion from '../../lib/Accordion';
-import Collection from '../../lib/Collections/Collection';
-import { useExpansion } from '../../lib/interactions/expansion/useExpansion';
+import Accordion from '@lib/Accordion';
+import Collection from '@lib/Collections/Collection';
+import { useExpansion } from '@lib/interactions/expansion/useExpansion';
 
 const AccordionExample = () => {
   // State for controlled accordion

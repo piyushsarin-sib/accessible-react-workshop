@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useCollectionAria } from "../../Collections/hooks/useCollectionAria";
+import { useCollectionAria } from "@lib/Collections/hooks/useCollectionAria";
 
 /**
  * Hook for managing collection item selection
@@ -31,16 +31,14 @@ export const useSelection = ({
   // Use controlled or uncontrolled state
   const selectedKeys = isControlled ? controlledSelectedKeys : internalSelectedKeys;
 
-  // Initialize ARIA hook for proper selection attributes
+  // Initialize ARIA hook for proper selection attributes (pattern is handled internally)
   const aria = useCollectionAria({
     role,
+    pattern,
     selectionMode: selectionMode !== "none" ? selectionMode : undefined,
     selectedKeys,
     label,
   });
-
-  // Get pattern configuration if provided (from the single aria hook)
-  const patternConfig = pattern ? aria.getCollectionPattern(pattern) : {};
 
   const handleSelection = useCallback(
     (event, { key, item }) => {
@@ -192,7 +190,5 @@ export const useSelection = ({
     selectionCount: selectedKeys.size,
     // Collection ARIA props
     getCollectionAriaProps: aria.getCollectionAriaProps,
-    // Pattern configuration (useful for components)
-    patternConfig,
   };
 };

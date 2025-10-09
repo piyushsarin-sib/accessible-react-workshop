@@ -1,36 +1,27 @@
-import { useState } from "react";
-import Menu from "../../../lib/Menu";
+import Menu from "@lib/Menu";
 
-const FilterMenu = () => {
-  const [selectedKey, setSelectedKey] = useState(null);
-
-  const handleChange = (event, { selectedItems }) => {
-    setSelectedKey(selectedItems[0]?.key || selectedItems[0]?.value || null);
-  };
-
+const FilterMenu = ({ menuState, onChange, categories, priceRanges, selectedKeys }) => {
   return (
     <Menu
-      selectedKey={selectedKey}
-      onChange={handleChange}
+      {...menuState}
+      onChange={onChange}
+      selectedKeys={selectedKeys}
+      selectionMode="multiple"
       ariaLabel="Product filters menu"
     >
       <Menu.Title>📦 Categories</Menu.Title>
-      <Menu.Option value="all-products">All Products</Menu.Option>
-      <Menu.Option value="hearing">🦻 Hearing Assistance</Menu.Option>
-      <Menu.Option value="vision">👁️ Visual Assistance</Menu.Option>
-      <Menu.Option value="mobility">🦽 Mobility Aids</Menu.Option>
-      <Menu.Option value="sensory">🤲 Sensory Tools</Menu.Option>
+      {categories.map((category) => (
+        <Menu.Option key={category.id} value={category.id}>
+          {category.name}
+        </Menu.Option>
+      ))}
 
       <Menu.Title>💰 Price Ranges</Menu.Title>
-      <Menu.Option value="all-prices">All Prices</Menu.Option>
-      <Menu.Option value="under1000">Under ₹1,000</Menu.Option>
-      <Menu.Option value="1000-5000">₹1,000 - ₹5,000</Menu.Option>
-      <Menu.Option value="above5000">Above ₹5,000</Menu.Option>
-
-      <Menu.Title>⭐ Ratings</Menu.Title>
-      <Menu.Option value="5-star">⭐⭐⭐⭐⭐ 5 Star</Menu.Option>
-      <Menu.Option value="4-star">⭐⭐⭐⭐ 4 Star & Above</Menu.Option>
-      <Menu.Option value="3-star">⭐⭐⭐ 3 Star & Above</Menu.Option>
+      {priceRanges.map((price) => (
+        <Menu.Option key={price.id} value={price.id}>
+          {price.name}
+        </Menu.Option>
+      ))}
     </Menu>
   );
 };

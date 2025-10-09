@@ -1,5 +1,5 @@
-import Collection from "../../lib/Collections/Collection";
-import { useRovingIndex } from "../../lib/interactions/keyboard/hooks/useRovingIndex";
+import Collection from "@lib/Collections/Collection";
+import { useRovingIndex } from "@lib/interactions/keyboard/hooks/useRovingIndex";
 
 const VerticalNavigationExample = () => {
   // Sample data for vertical navigation

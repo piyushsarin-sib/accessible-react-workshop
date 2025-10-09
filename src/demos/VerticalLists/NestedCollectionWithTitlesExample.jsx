@@ -1,4 +1,4 @@
-import Collection from "../../lib/Collections/Collection";
+import Collection from "@lib/Collections/Collection";
 import "./ListExample.css";
 
 const NestedCollectionWithTitlesExample = () => {

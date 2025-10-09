@@ -1,4 +1,4 @@
-import Collection from "../../lib/Collections/Collection";
+import Collection from "@lib/Collections/Collection";
 import "../../demos/VerticalLists/ListExample.css";
 
 const NestedCollectionWithTitles = () => {

@@ -11,6 +11,8 @@ import { useMemo } from "react";
  * @param {string} options.label - Accessible label for the collection
  * @param {string} options.labelledBy - ID of element that labels the collection
  * @param {string} options.describedBy - ID of element that describes the collection
+ * @param {string} options.activeDescendant - ID of the currently active descendant element
+ * @param {boolean} options.busy - Whether the collection is loading/busy
  * @returns {Object} ARIA attributes for collection and items
  */
 export const useCollectionAria = ({
@@ -21,6 +23,8 @@ export const useCollectionAria = ({
   label,
   labelledBy,
   describedBy,
+  activeDescendant,
+  busy,
   parentRole,
   pattern,
 } = {}) => {
@@ -41,7 +45,7 @@ export const useCollectionAria = ({
         role: "tablist",
         itemRole: "tab",
         selectionAttribute: "aria-selected",
-        orientation: "horizontal",
+        // Default orientation is horizontal, only specify if vertical
       },
       tree: {
         role: "tree",
@@ -79,12 +83,6 @@ export const useCollectionAria = ({
     return patterns[pattern] || {};
   };
 
-  // Get pattern configuration first if provided
-  const patternConfig = pattern ? getCollectionPattern(pattern) : {};
-
-  // Resolve the role: explicit role takes priority, then pattern role
-  const resolvedRole = role || patternConfig.role;
-
   // Determine effective role based on inheritance
   const getEffectiveRole = (explicitRole, parentRole) => {
     // If explicitly set, use it
@@ -101,7 +99,16 @@ export const useCollectionAria = ({
     return parentRole && inheritanceRules[parentRole] ? inheritanceRules[parentRole] : undefined;
   };
 
-  const effectiveRole = getEffectiveRole(resolvedRole, parentRole);
+  // Compute pattern config with all resolved roles (memoized to prevent dependency issues)
+  const config = useMemo(() => {
+    const patternConfig = pattern ? getCollectionPattern(pattern) : {};
+    const resolvedRole = role || patternConfig.role;
+    const effectiveRole = getEffectiveRole(resolvedRole, parentRole);
+
+    return { ...patternConfig, effectiveRole, resolvedRole };
+  }, [pattern, role, parentRole]);
+
+  const effectiveRole = config.effectiveRole;
 
   const getCollectionAriaProps = useMemo(() => {
     return () => {
@@ -117,9 +124,28 @@ export const useCollectionAria = ({
         props["aria-multiselectable"] = selectionMode === "multiple";
       }
 
-      // Orientation
-      if (orientation && ["horizontal", "vertical"].includes(orientation)) {
-        props["aria-orientation"] = orientation;
+      // Orientation - only add when it differs from the role's default
+      const roleDefaults = {
+        tablist: "horizontal",
+        toolbar: "horizontal",
+        menubar: "horizontal",
+        listbox: "vertical",
+        menu: "vertical",
+        slider: "horizontal",
+        scrollbar: "vertical",
+        tree: null,  // Trees don't use aria-orientation (always hierarchical)
+        grid: null,  // Grids use row/column model, not orientation
+      };
+
+      const finalOrientation = orientation ?? config.orientation;
+      const defaultOrientation = roleDefaults[effectiveRole];
+
+      // Only add aria-orientation if:
+      // 1. Role supports orientation (default is not null), AND
+      // 2. Orientation is explicitly set or from pattern, AND
+      // 3. It differs from the role's default
+      if (defaultOrientation !== null && finalOrientation && finalOrientation !== defaultOrientation) {
+        props["aria-orientation"] = finalOrientation;
       }
 
       // Labelling
@@ -133,9 +159,19 @@ export const useCollectionAria = ({
         props["aria-describedby"] = describedBy;
       }
 
+      // Active descendant - for composite widgets with keyboard navigation
+      if (activeDescendant) {
+        props["aria-activedescendant"] = activeDescendant;
+      }
+
+      // Busy state - for loading collections
+      if (busy !== undefined) {
+        props["aria-busy"] = busy;
+      }
+
       return props;
     };
-  }, [effectiveRole, selectionMode, orientation, label, labelledBy, describedBy]);
+  }, [effectiveRole, selectionMode, orientation, label, labelledBy, describedBy, activeDescendant, busy, config]);
 
   const getItemAriaProps = useMemo(() => {
     return (key, options = {}) => {
@@ -144,9 +180,12 @@ export const useCollectionAria = ({
 
       const props = {};
 
-      // Item role
-      if (itemRole) {
-        props.role = itemRole;
+      // Item role - prioritize explicit itemRole, then pattern config, then auto-determine
+      const resolvedItemRole = itemRole ?? config.itemRole;
+
+      if (resolvedItemRole != null) {
+        // If we have an explicit item role from options or pattern, use it
+        props.role = resolvedItemRole;
       } else if (effectiveRole) {
         // Auto-determine item role based on effective collection role
         const itemRoles = {
@@ -199,14 +238,9 @@ export const useCollectionAria = ({
       }
 
       // Selection state
-      if (selectionMode !== "none") {
+      if (selectionMode !== "none" && config.selectionAttribute) {
         const isSelected = selectedKeys.has(key);
-
-        if (effectiveRole === "radiogroup" || props.role === "radio") {
-          props["aria-checked"] = isSelected;
-        } else {
-          props["aria-selected"] = isSelected;
-        }
+        props[config.selectionAttribute] = isSelected;
       }
 
       // Tree/hierarchical attributes - only for treeitem role
@@ -233,7 +267,7 @@ export const useCollectionAria = ({
 
       return props;
     };
-  }, [effectiveRole, selectionMode, selectedKeys]);
+  }, [effectiveRole, selectionMode, selectedKeys, config]);
 
   /* No role, no selection - just a labeled grouping */
   const getGroupAriaProps = useMemo(() => {
@@ -256,8 +290,6 @@ export const useCollectionAria = ({
     getCollectionAriaProps,
     getItemAriaProps,
     getGroupAriaProps,
-    getCollectionPattern,
-    getEffectiveRole: (explicitRole, parentRole) => getEffectiveRole(explicitRole, parentRole),
     effectiveRole,
   };
 };
