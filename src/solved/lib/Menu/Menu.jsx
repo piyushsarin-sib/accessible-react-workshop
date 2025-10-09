@@ -42,20 +42,22 @@ const Menu = ({
   ...props
 }) => {
   return (
-    //  TODO: Wrap Overlay around MenuList
-    <MenuList
-      selectedKeys={selectedKeys}
-      defaultSelectedKeys={defaultSelectedKeys}
-      selectionMode={selectionMode}
-      onChange={onChange}
-      ariaLabel={ariaLabel}
-      close={close}
-      open={open}
-      toggle={toggle}
-      {...props}
-    >
-      {children}
-    </MenuList>
+    // TODO: Wrap Overlay around MenuList
+    <Overlay>
+      <MenuList
+        selectedKeys={selectedKeys}
+        defaultSelectedKeys={defaultSelectedKeys}
+        selectionMode={selectionMode}
+        onChange={onChange}
+        ariaLabel={ariaLabel}
+        close={close}
+        open={open}
+        toggle={toggle}
+        {...props}
+      >
+        {children}
+      </MenuList>
+    </Overlay>
   );
 };
 
