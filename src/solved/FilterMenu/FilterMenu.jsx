@@ -125,6 +125,7 @@ const MenuWithOverlay = () => {
         eg: {...menuState}
       */}
       <Menu
+        {...menuState}
         onChange={handleMenuChange}
         selectedKeys={selectedKeys}
         selectionMode="multiple"
