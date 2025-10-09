@@ -1,0 +1,1 @@
+pkill -f "Visual Studio Code"
