@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
+      '@contexts': fileURLToPath(new URL('./src/contexts', import.meta.url)),
       '@common': fileURLToPath(new URL('./src/components/common', import.meta.url)),
       '@features': fileURLToPath(new URL('./src/components/features', import.meta.url)),
       '@context': fileURLToPath(new URL('./src/context', import.meta.url)),

@@ -3,7 +3,6 @@ import Layout from "./components/Layout";
 import LandingPage from "./pages/LandingPage";
 import ECommercePage from "./pages/ECommercePage";
 import ExercisesPage from "./pages/ExercisesPage";
-import ECommerceLayout from "./pages/ECommercePage/ECommerceLayout/EcommerceLayout";
 import DemoPage from "./pages/DemoPage";
 // Playground imports
 import {
@@ -62,11 +61,7 @@ function App() {
        {/* E-Commerce Example */}
         <Route
           path="/e-commerce"
-          element={
-            <ECommerceLayout>
-              <ECommercePage />
-            </ECommerceLayout>
-          }
+          element={<ECommercePage />}
         />
 
         {/* Playground Routes */}

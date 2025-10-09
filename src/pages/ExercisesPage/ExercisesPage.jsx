@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 export default function ExercisesPage() {
   const demoLinks = [
     {
-      to: "/demo/e-commerce-issues",
+      to: "/playground/e-commerce-issues",
       title: "Inaccessible eCommerce",
       desc: "E-commerce page with accessibility issues to fix",
     },
     {
-      to: "/playground/card",
+      to: "/playground/card-wrapper",
       title: "Card Accessibility",
       desc: "Enhanced card components with proper accessibility",
     },
@@ -34,7 +34,7 @@ export default function ExercisesPage() {
       desc: "Improved handling of edge cases with accessibility in mind",
     },
     {
-      to: "/examples/e-commerce",
+      to: "/e-commerce",
       title: "Completely Accessible eCommerce",
       desc: "E-commerce page fully accessible",
     },
