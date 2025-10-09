@@ -56,7 +56,7 @@ const Menu = ({
       - autoFocus: false (for menus). you might require eslint-disable-next-line jsx-a11y/no-autofocus
       - closeOnOutsideClick: true (close on outside click)
     */
-    <Overlay>
+    <Overlay trigger={trigger} body={body} open={open} close={close}>
       <MenuList
         selectedKeys={selectedKeys}
         defaultSelectedKeys={defaultSelectedKeys}
