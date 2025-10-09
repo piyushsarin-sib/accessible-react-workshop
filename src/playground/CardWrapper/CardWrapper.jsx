@@ -18,7 +18,7 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         id={id}
         aria-labelledby={titleId}
         aria-describedby={`${descriptionId} ${priceId}`}
-        className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus:ring-2 focus:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
+        className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
       >
         {/* ✅ Fixed: descriptive alt text for image add meaningful description */}
         <img
@@ -41,13 +41,13 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         {/* ✅ Fixed 1: using <button> and removing the alt */}
         <button
           onClick={handleAddToCart}
-          className="outline-none bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 text-sm w-full transition-colors rounded"
+          className="focus-visible:outline focus-visible:ring-2 focus-visible:ring-blue-500 bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 text-sm w-full transition-colors rounded"
           aria-label={`Add ${title} to cart`}
         >
           Add to Cart
         </button>
         {/* ✅ Fixed 3: added ARIA associations (aria-labelledby/aria-describedby) */}
-        {/* ❌ ISSUE 4: Focus-visible not used, outline-none hides focus */}
+        {/* ✅ Fixed 4: Focus-visible used, outline-none hides focus */}
         {/* ❌ ISSUE 5: Motion-reduce preference ignored in transitions */}
       </article>
     </li>
