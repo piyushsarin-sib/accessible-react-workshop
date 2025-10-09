@@ -1,12 +1,19 @@
 import React, { useState, useContext } from "react";
-import { CartContext } from "../../context/CartContextCore";
-import AddToCartModal from "../../components/features/AddToCart";
-import AccessibilityCarousel from "../../components/features/AccessibilityCarousel";
-import SearchAndFilter from "../../components/features/SearchAndFilter";
-import ProductList from "../../components/features/ProductList";
-import Panel from "../../components/common/Panel";
-import CartModal from "../../components/features/Cart/CartModal";
+
+import AddToCartModal from "@components/features/AddToCart";
+import AccessibilityCarousel from "@components/features/AccessibilityCarousel";
+import SearchAndFilter from "@components/features/SearchAndFilter";
+import ProductList from "@components/features/ProductList";
+import Panel from "@components/common/Panel";
+import CartModal from "@components/features/Cart/CartModal";
+import Header from '@components/layout/Header';
+import Footer from '@components/layout/Footer';
+
+
 import { useOverlay, PLACEMENTS } from "@lib/Overlay";
+import { CartContext } from "@context/CartContextCore";
+import { CartProvider } from '@context/CartContext.jsx';
+
 
 // Add category property to each product
 const products = [
@@ -94,7 +101,7 @@ const products = [
   },
 ];
 
-const ECommercePage = () => {
+const ECommerce = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({ categories: [], prices: [] });
@@ -204,5 +211,18 @@ const ECommercePage = () => {
     </>
   );
 };
+
+const ECommercePage = () => {
+  return (
+    <CartProvider>
+      <div className="bg-gray-50 min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow"><ECommerce/></main>
+        <Footer />
+      </div>
+    </CartProvider>
+  );
+};
+
 
 export default ECommercePage;

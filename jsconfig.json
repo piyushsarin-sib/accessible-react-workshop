@@ -3,16 +3,15 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"],
+      "@contexts/*": ["src/contexts/*"],
       "@common/*": ["src/components/common/*"],
       "@features/*": ["src/components/features/*"],
       "@context/*": ["src/context/*"],
       "@lib/*": ["src/lib/*"],
-      "@demo/*": ["src/demos/*"],
+      "@demo/*": ["src/demo/*"],
       "@pages/*": ["src/pages/*"],
       "@assets/*": ["src/assets/*"],
-      "@styles/*": ["src/styles/*"],
-      "@solved/*": ["src/solved/*"],
-      "@playground/*": ["src/playground/*"]
+      "@styles/*": ["src/styles/*"]
     }
   },
   "include": ["src"]

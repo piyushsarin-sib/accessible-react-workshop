@@ -1,24 +1,32 @@
 #!/bin/bash
 
-# Directory containing scripts in the repo
+
 SCRIPT_DIR=".github"
+SCRIPTS=("git-next.sh" "git-prev.sh" "git-nextdiff.sh")
 
-# Iterate over all .sh files in SCRIPT_DIR
-for file in "$SCRIPT_DIR"/*.sh; do
-  # Skip if no .sh files found
-  [ -e "$file" ] || continue
-
-  filename=$(basename "$file")
+for filename in "${SCRIPTS[@]}"; do
+  file="$SCRIPT_DIR/$filename"
   
-  # Copy file to home directory
+  # Skip if file doesn't exist
+  if [ ! -f "$file" ]; then
+    echo "⚠️ Skipping: $file not found."
+    continue
+  fi
+
+  # Copy file to home directory (keep original filename)
   cp "$file" ~/"$filename"
   
   # Make it executable
   chmod +x ~/"$filename"
   
-  # Set git alias using filename without .sh extension
-  alias_name="${filename%.sh}"
+  # Create alias name by removing 'git-' prefix and '.sh' suffix
+  alias_name="${filename#git-}"
+  alias_name="${alias_name%.sh}"
+  
+  # Set global git alias
   git config --global alias.$alias_name "!~/$(basename "$file")"
   
-  echo "Setup alias '$alias_name' for ~/$(basename "$file")"
+  echo "✅ Setup alias 'git $alias_name' for ~/$(basename "$file")"
 done
+
+echo "🎉 Setup completed successfully!"
