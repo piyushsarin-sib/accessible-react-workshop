@@ -7,7 +7,7 @@
       "@features/*": ["src/components/features/*"],
       "@context/*": ["src/context/*"],
       "@lib/*": ["src/lib/*"],
-      "@demo/*": ["src/demo/*"],
+      "@demo/*": ["src/demos/*"],
       "@pages/*": ["src/pages/*"],
       "@assets/*": ["src/assets/*"],
       "@styles/*": ["src/styles/*"],

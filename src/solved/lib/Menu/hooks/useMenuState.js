@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import { useSelection } from '../../interactions/selection/useSelection';
-import { useRovingIndex } from '../../interactions/keyboard/hooks/useRovingIndex';
+import React, { useMemo } from "react";
+import { useSelection } from "@lib/interactions/selection/useSelection";
+import { useRovingIndex } from "@lib/interactions/keyboard/hooks/useRovingIndex";
 
 /**
  * Hook for managing menu state including selection and keyboard navigation
@@ -21,7 +21,7 @@ export const useMenuState = ({
   defaultSelectedKeys,
   onChange,
   ariaLabel,
-  selectionMode = 'single'
+  selectionMode = "single",
 }) => {
   // Simple function to extract menu options from children
   const createMenuNodes = (children) => {
@@ -30,8 +30,8 @@ export const useMenuState = ({
     React.Children.forEach(children, (child) => {
       if (React.isValidElement(child)) {
         // Check if it's a Menu.Option by checking displayName or value prop
-        const isMenuOption = child.type?.displayName === 'Menu.Option' ||
-                            child.props.value !== undefined;
+        const isMenuOption =
+          child.type?.displayName === "Menu.Option" || child.props.value !== undefined;
 
         if (isMenuOption) {
           const key = child.props.value || child.key;
@@ -40,7 +40,7 @@ export const useMenuState = ({
               key,
               value: key,
               label: child.props.children,
-              disabled: child.props.disabled || false
+              disabled: child.props.disabled || false,
             });
           }
         }
@@ -60,31 +60,31 @@ export const useMenuState = ({
     onChange: (event, { selectedKeys }) => {
       onChange?.(event, { selectedKeys });
     },
-    pattern: 'menu',
-    label: ariaLabel
+    pattern: "menu",
+    label: ariaLabel,
   });
 
   const navigation = useRovingIndex({
     items: menuNodes,
     orientation: "vertical",
     loop: true,
-    defaultActiveKey: menuNodes.length > 0 ? menuNodes[0].key : null
+    defaultActiveKey: menuNodes.length > 0 ? menuNodes[0].key : null,
   });
 
   return {
     getCollectionProps: () => ({
       ...selection.getCollectionAriaProps(),
-      ...navigation.getCollectionProps()
+      ...navigation.getCollectionProps(),
     }),
     getItemProps: (key) => {
       // Find the item data from menuNodes
-      const item = menuNodes.find(node => node.key === key);
+      const item = menuNodes.find((node) => node.key === key);
       return {
         ...selection.getItemSelectionProps(key, item),
-        ...navigation.getItemProps(key)
+        ...navigation.getItemProps(key),
       };
     },
     selectedKeys: selection.selectedKeys,
-    menuNodes
+    menuNodes,
   };
 };

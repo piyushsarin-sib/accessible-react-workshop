@@ -1,9 +1,9 @@
-import Collection from '../Collections/Collection';
-import { useMenuState } from './hooks/useMenuState';
-import MenuTitle from './MenuTitle';
-import MenuOption from './MenuOption';
-import { MenuContext } from './MenuContext';
-import '../../demos/Selection/SelectionExample.css';
+import Collection from "@lib/Collections/Collection";
+import { useMenuState } from "./hooks/useMenuState";
+import MenuTitle from "./MenuTitle";
+import MenuOption from "./MenuOption";
+import { MenuContext } from "./MenuContext";
+import "@demo/Selection/SelectionExample.css";
 
 /**
  * MenuList - Standalone menu component without overlay
@@ -13,8 +13,8 @@ const MenuList = ({
   selectedKeys,
   onChange,
   defaultSelectedKeys = [],
-  selectionMode = 'single',
-  className = 'selection-menu',
+  selectionMode = "single",
+  className = "selection-menu",
   ariaLabel,
   children,
   close,
@@ -29,7 +29,7 @@ const MenuList = ({
     defaultSelectedKeys,
     onChange,
     ariaLabel,
-    selectionMode
+    selectionMode,
   });
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import Collection from '../Collections/Collection';
+import Collection from '@lib/Collections/Collection';
 import { MenuContext } from './MenuContext';
 
 // Menu.Option - renders as Collection.Item (selectable menu items)

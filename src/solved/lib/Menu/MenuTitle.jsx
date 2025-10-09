@@ -1,5 +1,5 @@
 import React from 'react';
-import Collection from '../Collections/Collection';
+import Collection from '@lib/Collections/Collection';
 
 // Menu.Title - renders as Collection.Title (non-selectable section headers)
 const MenuTitle = ({ children, className = '', ...props }) => {

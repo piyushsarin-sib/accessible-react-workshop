@@ -88,12 +88,6 @@ const MenuWithOverlay = () => {
         </span>
       </button>
 
-      {/*
-        TODO: Connect menuState to the Menu component
-
-        Spread menuState on the Menu component to pass overlay props and positioning
-        eg: {...menuState}
-      */}
       <Menu
         {...menuState}
         onChange={handleMenuChange}
