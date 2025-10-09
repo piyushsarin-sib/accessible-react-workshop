@@ -48,11 +48,6 @@ const MenuWithOverlay = () => {
         Previous Button
       </Button>
 
-      {/* MENU TRIGGER */}
-      {/* <Button variant="primary" {...menuState.trigger} onClick={menuState.toggle}>
-        Open Menu ▼
-      </Button> */}
-
       <button
         type="button"
         {...menuState.trigger}

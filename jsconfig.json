@@ -10,7 +10,9 @@
       "@demo/*": ["src/demo/*"],
       "@pages/*": ["src/pages/*"],
       "@assets/*": ["src/assets/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@solved/*": ["src/solved/*"],
+      "@playground/*": ["src/playground/*"]
     }
   },
   "include": ["src"]
