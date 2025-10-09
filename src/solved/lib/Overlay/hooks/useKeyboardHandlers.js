@@ -35,6 +35,9 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
       //        - containerRef?.current: the overlay DOM element
       //   c) If focus trap should NOT apply (non-modal overlays):
       //      - Close the overlay: set visibility to false using setVisible
+
+      if (isTabKey(event)) {
+      }
     },
     [setVisible, containerRef, backdrop, placement],
   );
