@@ -18,18 +18,22 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
     (event) => {
       // 1. Handle Escape key
       if (shouldCloseOnEscape(event)) {
-        setVisible(false);
-        return;
+        // TODO: Close the overlay: set visibility to false using setVisible.
       }
 
-      // 2. Handle Tab key
-      if (isTabKey(event)) {
-        if (shouldApplyFocusTrap(backdrop, placement)) {
-          applyFocusTrap(event, containerRef?.current);
-        } else {
-          setVisible(false);
-        }
-      }
+      // 2. TODO Handle Tab key
+      // INSTRUCTIONS:
+      // - Check if the pressed key is Tab using: isTabKey(event)
+      // - If it's a Tab key:
+      //   a) Check if focus trap should be applied using: shouldApplyFocusTrap(backdrop, placement)
+      //      - backdrop: boolean indicating if backdrop exists
+      //      - placement: string like 'center', 'top', etc.
+      //   b) If focus trap should apply:
+      //      - Call: applyFocusTrap(event, containerRef?.current)
+      //        - event: the keyboard event
+      //        - containerRef?.current: the overlay DOM element
+      //   c) If focus trap should NOT apply (non-modal overlays):
+      //      - Close the overlay: set visibility to false using setVisible
     },
     [setVisible, containerRef, backdrop, placement],
   );

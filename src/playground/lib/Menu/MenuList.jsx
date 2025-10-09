@@ -1,4 +1,4 @@
-import Collection from "@lib//Collections/Collection";
+import Collection from "@lib/Collections/Collection";
 import { useMenuState } from "./hooks/useMenuState";
 import MenuTitle from "./MenuTitle";
 import MenuOption from "./MenuOption";

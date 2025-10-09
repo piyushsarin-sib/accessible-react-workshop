@@ -1,5 +1,5 @@
 import React from "react";
-import { Overlay } from "@solved/lib/Overlay";
+import { Overlay } from "@playground/lib/Overlay";
 import MenuList from "./MenuList";
 import MenuTitle from "./MenuTitle";
 import MenuOption from "./MenuOption";
@@ -42,32 +42,20 @@ const Menu = ({
   ...props
 }) => {
   return (
-    <Overlay
-      trigger={trigger}
-      body={body}
-      open={open}
+    //  TODO: Wrap Overlay around MenuList
+    <MenuList
+      selectedKeys={selectedKeys}
+      defaultSelectedKeys={defaultSelectedKeys}
+      selectionMode={selectionMode}
+      onChange={onChange}
+      ariaLabel={ariaLabel}
       close={close}
+      open={open}
       toggle={toggle}
-      setVisible={setVisible}
-      pattern="menu"
-      // eslint-disable-next-line jsx-a11y/no-autofocus
-      autoFocus={autoFocus}
-      closeOnOutsideClick={closeOnOutsideClick}
+      {...props}
     >
-      <MenuList
-        selectedKeys={selectedKeys}
-        defaultSelectedKeys={defaultSelectedKeys}
-        selectionMode={selectionMode}
-        onChange={onChange}
-        ariaLabel={ariaLabel}
-        close={close}
-        open={open}
-        toggle={toggle}
-        {...props}
-      >
-        {children}
-      </MenuList>
-    </Overlay>
+      {children}
+    </MenuList>
   );
 };
 

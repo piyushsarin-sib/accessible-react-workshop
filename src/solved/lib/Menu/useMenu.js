@@ -1,5 +1,5 @@
 import { useId } from "react";
-import useOverlay from "@lib/Overlay/hooks/useOverlay";
+import useOverlay from "@solved/lib/Overlay/hooks/useOverlay";
 
 /**
  * Hook for integrating menu with overlay
