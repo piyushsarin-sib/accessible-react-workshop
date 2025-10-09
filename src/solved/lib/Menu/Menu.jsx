@@ -64,6 +64,9 @@ const Menu = ({
       toggle={toggle}
       setVisible={setVisible}
       pattern="menu"
+      // eslint-disable-next-line jsx-a11y/no-autofocus
+      autoFocus={autoFocus}
+      closeOnOutsideClick={closeOnOutsideClick}
     >
       <MenuList
         selectedKeys={selectedKeys}
