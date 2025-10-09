@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { PLACEMENTS } from "@solved/lib/Overlay";
+import { PLACEMENTS } from "@playground/lib/Overlay";
 import Button from "@common/Button";
-import Menu, { useMenu } from "@solved/lib/Menu";
+import Menu, { useMenu } from "@playground/lib/Menu";
 
 const categories = [
   { id: "hearing", name: "Hearing Assistance" },
