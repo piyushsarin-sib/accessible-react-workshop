@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -14,17 +13,17 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         id={id}
         className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus:ring-2 focus:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
       >
-        {/* ❌ ISSUE 2: img alt text is non-descriptive ("image") */}
+        {/* ✅ Fixed: descriptive alt text for image add meaningful description */}
         <img
           src={imageSrc}
-          alt="image"
+          alt={`${title}`}
           className="w-full h-20 md:h-28 lg:h-32 object-cover mb-3 rounded"
         />
 
         {/* ✅ Fixed 1: using semantic heading <h3> */}
         <h3 className="text-lg font-semibold line-clamp-1">{title}</h3>
 
-        {/* ✅ Fixed 1: using <p> for description */}
+       {/* ✅ Fixed 1: using <p> for description */}
         <p className="mb-2 text-sm line-clamp-2 h-12 overflow-hidden">
           {description}
         </p>
@@ -32,7 +31,7 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         {/* ✅ Fixed 1: using <p> for price */}
         <p className="block font-bold mb-2 text-blue-700">{price}</p>
 
-       {/* ✅ Fixed 1: using <button> and removing the alt */}
+        {/* ✅ Fixed 1: using <button> and removing the alt */}
         <button
           onClick={handleAddToCart}
           className="outline-none bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 text-sm w-full transition-colors rounded"
