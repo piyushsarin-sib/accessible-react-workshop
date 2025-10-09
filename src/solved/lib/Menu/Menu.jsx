@@ -42,7 +42,6 @@ const Menu = ({
   ...props
 }) => {
   return (
-    // TODO: Wrap Overlay around MenuList
     <Overlay
       trigger={trigger}
       body={body}
