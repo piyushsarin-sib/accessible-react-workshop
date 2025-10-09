@@ -43,7 +43,7 @@ const Menu = ({
 }) => {
   return (
     // TODO: Wrap Overlay around MenuList
-    <Overlay>
+    <Overlay trigger={trigger} body={body} open={open} close={close}>
       <MenuList
         selectedKeys={selectedKeys}
         defaultSelectedKeys={defaultSelectedKeys}
