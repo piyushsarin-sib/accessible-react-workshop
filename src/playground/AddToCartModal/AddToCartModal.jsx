@@ -1,0 +1,85 @@
+import React from "react";
+import Modal from "@playground/lib/Modal";
+import { useOverlay, PLACEMENTS } from "@playground/lib/Overlay";
+import Button from "@common/Button";
+import QuantitySelector from "@common/QuantitySelector";
+
+const product = {
+  id: 2,
+  name: "Braille Keyboard",
+  description: "Keyboard with Braille for visually impaired users.",
+  image: "/brailkeyboard.jpeg",
+  alt: "Braille keyboard with raised dots on keys",
+  price: "Rs 45000",
+  category: "vision",
+  priceValue: 45000,
+};
+
+const AddToCartModal = () => {
+  const addToCartModalState = useOverlay({
+    bodyId: "add-to-cart-modal",
+    triggerId: "add-to-cart-button",
+    pattern: "modal",
+    placement: PLACEMENTS.CENTER,
+    style: { width: "100%", maxWidth: "48rem" },
+  });
+
+  const openModal = () => {
+    addToCartModalState.open();
+  };
+
+  const closeModal = () => {
+    addToCartModalState.close();
+  };
+
+  return (
+    <>
+      <Button
+        {...addToCartModalState.trigger}
+        onClick={() => openModal()}
+        className="px-3 py-1.5 text-sm"
+        style={{ width: "48rem", display: "block", margin: "50px auto" }}
+        ariaLabel={`Add ${product.name} to cart`}
+        variant="primary"
+      >
+        Add to Cart
+      </Button>
+
+      <Modal {...addToCartModalState} close={closeModal} title={product.name}>
+        <div className="mb-4">
+          <p className="mb-4">{product.description}</p>
+          <div className="flex items-center justify-between mb-6">
+            <span className="text-xl font-bold">{product.price}</span>
+
+            {/* Quantity Selector */}
+            <QuantitySelector
+              quantity={4}
+              onIncrease={() => {}}
+              onDecrease={() => {}}
+              minQuantity={0}
+              ariaLabel={`Quantity selector for ${product.name}`}
+            />
+          </div>
+
+          <div className="flex justify-between items-center mb-4"></div>
+          <div className="flex justify-end mb-4">
+            <Button onClick={() => {}} variant={"primary"}>
+              Update Cart
+            </Button>
+          </div>
+          <div className="text-center mt-4 border-t pt-3">
+            <Button
+              onClick={() => {}}
+              variant="ghost"
+              className="text-lg text-blue-600 hover:text-blue-800 underline"
+            >
+              Go to Cart
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
+};
+
+export default AddToCartModal;
