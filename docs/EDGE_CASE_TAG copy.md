@@ -27,7 +27,7 @@
 
 ---
 
-### **3. `edge-case-1-skip-link`**
+### **3. `edge-case-2-skip-link`**
 
 **Purpose:** Add skip link to allow keyboard users to jump directly to main content.
 **Includes:**
@@ -40,7 +40,7 @@
 
 ---
 
-### **4. `edge-case-2-live-region`**
+### **4. `edge-case-3-live-region`**
 
 **Purpose:** Announce dynamic updates (like cart changes) for screen reader users.
 **Includes:**
