@@ -11,8 +11,10 @@ import {
   FilterMenu,
   EdgeCases,
   ECommIssues,
-  Overlay,
+  AddToCartModal,
 } from "./playground";
+
+import FilterCombo from "./solved/FilterCombo";
 
 // Demo imports
 import {
@@ -49,7 +51,6 @@ function App() {
             </Layout>
           }
         />
-
         <Route
           path="/demo"
           element={
@@ -58,20 +59,60 @@ function App() {
             </Layout>
           }
         />
-       {/* E-Commerce Example */}
-        <Route
-          path="/e-commerce"
-          element={<ECommercePage />}
-        />
-
+        {/* E-Commerce Example */}
+        <Route path="/e-commerce" element={<ECommercePage />} />
         {/* Playground Routes */}
         <Route path="/playground/e-commerce-issues" element={<ECommIssues />} />
-        <Route path="/playground/card-wrapper" element={<Layout><CardWrapper /></Layout>} />
-        <Route path="/playground/product-grid" element={<Layout><ProductsGrid /></Layout>} />
-        <Route path="/playground/filter-menu" element={<Layout><FilterMenu /></Layout>} />
-        <Route path="/playground/overlay" element={<Layout><Overlay /></Layout>} />
-        <Route path="/playground/edge-cases" element={<Layout><EdgeCases /></Layout>} />
+        <Route
+          path="/playground/card-wrapper"
+          element={
+            <Layout>
+              <CardWrapper />
+            </Layout>
+          }
+        />
+        <Route
+          path="/playground/product-grid"
+          element={
+            <Layout>
+              <ProductsGrid />
+            </Layout>
+          }
+        />
+        <Route
+          path="/playground/filter-menu"
+          element={
+            <Layout>
+              <FilterMenu />
+            </Layout>
+          }
+        />
+        <Route
+          path="/playground/cart-modal"
+          element={
+            <Layout>
+              <AddToCartModal />
+            </Layout>
+          }
+        />
 
+        <Route
+          path="/playground/filter-combo"
+          element={
+            <Layout>
+              <FilterCombo />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/playground/edge-cases"
+          element={
+            <Layout>
+              <EdgeCases />
+            </Layout>
+          }
+        />
         {/* Demo Routes */}
         <Route path="/demos/vertical-lists" element={<ListExample />} />
         <Route path="/demos/horizontal-lists" element={<HorizontalListExample />} />
