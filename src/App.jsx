@@ -65,7 +65,7 @@ function App() {
         />
 
         {/* Playground Routes */}
-        <Route path="/playground/e-commerce-issues" element={<Layout><ECommIssues /></Layout>} />
+        <Route path="/playground/e-commerce-issues" element={<ECommIssues />} />
         <Route path="/playground/card-wrapper" element={<Layout><CardWrapper /></Layout>} />
         <Route path="/playground/product-grid" element={<Layout><ProductsGrid /></Layout>} />
         <Route path="/playground/filter-menu" element={<Layout><FilterMenu /></Layout>} />

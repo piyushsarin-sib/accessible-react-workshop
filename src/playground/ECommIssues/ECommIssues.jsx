@@ -1,227 +1,910 @@
-import { useState, useRef, useEffect } from "react";
-import Button from "@components/common/Button";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import AccessibilityCarousel from '@components/features/AccessibilityCarousel';
+import Layout from './Layout';
+import Button from '@common/Button';
+import QuantitySelector from '@common/QuantitySelector';
 
-export default function ECommIssues() {
-  const [cartCount, setCartCount] = useState(0);
-  const [cartOpen, setCartOpen] = useState(false);
-  const cartRef = useRef(null);
-  const cartButtonRef = useRef(null); // to return focus after closing
-  const firstAddToCartRef = useRef(null); // for skip link
-  const liveRegionRef = useRef(null); // live region for screen readers
+// Add category property to each product
+const products = [
+  {
+    id: 1,
+    name: 'Wireless Headphones',
+    description: 'Comfortable over-ear headphones with noise cancellation.',
+    image: '/headphone.jpeg',
+    alt: 'Black wireless over-ear headphones',
+    price: 'Rs 500',
+    category: 'hearing',
+    priceValue: 500,
+  },
+  {
+    id: 2,
+    name: 'Braille Keyboard',
+    description: 'Keyboard with Braille for visually impaired users.',
+    image: '/brailkeyboard.jpeg',
+    alt: 'Braille keyboard with raised dots on keys',
+    price: 'Rs 45000',
+    category: 'vision',
+    priceValue: 45000,
+  },
+  {
+    id: 3,
+    name: 'Wheelchair',
+    description: 'Lightweight, foldable wheelchair for easy mobility.',
+    image: '/wheelchair.jpeg',
+    alt: 'Lightweight foldable wheelchair',
+    price: 'Rs 2500',
+    category: 'mobility',
+    priceValue: 2500,
+  },
+  {
+    id: 4,
+    name: 'Smart Cane (Obstacle Detector)',
+    description: 'Uses sensors to detect obstacles and provides alerts via vibrations.',
+    image: '/ObstacleDetector.jpeg',
+    alt: 'Smart cane with obstacle detection sensors',
+    price: 'Rs 3000',
+    category: 'vision',
+    priceValue: 3000,
+  },
+  {
+    id: 5,
+    name: 'Behind-The-Ear (BTE) Digital Hearing Aid',
+    description: 'An entry-level hearing aid that is powerful and durable.',
+    image: '/behind_the_ear.jpeg',
+    alt: 'Behind-the-ear digital hearing aid',
+    price: 'Rs 8000–25000',
+    category: 'hearing',
+    priceValue: 8000,
+  },
+  {
+    id: 6,
+    name: 'Sensory Toy Kit for Autism/ADHD',
+    description: 'A kit of sensory toys designed for children with Autism or ADHD.',
+    image: '/SensoryToyKitforAutism.jpeg',
+    alt: 'Sensory toy kit for Autism and ADHD',
+    price: 'Rs 1500',
+    category: 'sensory',
+    priceValue: 1500,
+  },
+  {
+    id: 7,
+    name: 'Vibrating Alarm Clock',
+    description: 'An alarm clock designed for deaf or hard-of-hearing individuals that uses vibrations to wake them up.',
+    image: '/alarmClock.jpeg',
+    alt: 'Vibrating alarm clock for deaf or hard-of-hearing',
+    price: 'Rs 2000',
+    category: 'hearing',
+    priceValue: 2000,
+  },
+  {
+    id: 8,
+    name: 'Orthopedic Shoes (Diabetic-friendly)',
+    description: 'Footwear designed to protect and comfort sensitive feet, with non-binding, soft soles.',
+    image: '/shoes.jpeg',
+    alt: 'Pair of orthopedic diabetic-friendly shoes',
+    price: 'Rs 1000–3000 per pair',
+    category: 'mobility',
+    priceValue: 1000,
+  },
+];
 
-  const products = [
-    { id: 1, name: "Braille Keyboard", price: "Rs 45000" },
-    { id: 2, name: "Wheelchair", price: "Rs 2500" },
+// Custom SearchAndFilter component
+const SearchAndFilter = ({ onSearchChange, onFilterChange }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedPrice, setSelectedPrice] = useState('all');
+
+  const categories = [
+    { id: 'all', name: 'All Categories' },
+    { id: 'hearing', name: 'Hearing Assistance' },
+    { id: 'vision', name: 'Visual Assistance' },
+    { id: 'mobility', name: 'Mobility Aids' },
+    { id: 'sensory', name: 'Sensory Tools' },
   ];
 
-  // Handle skip to main content
-  const handleSkipToContent = (e) => {
-    e.preventDefault();
-    firstAddToCartRef.current?.focus();
+  const priceRanges = [
+    { id: 'all', name: 'All Prices' },
+    { id: 'under1000', name: 'Under ₹1,000' },
+    { id: '1000-5000', name: '₹1,000 - ₹5,000' },
+    { id: 'above5000', name: 'Above ₹5,000' },
+  ];
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    onSearchChange(value);
   };
 
-  // Update live region on cart changes
-  useEffect(() => {
-    if (liveRegionRef.current) {
-      liveRegionRef.current.textContent = `Cart updated: ${cartCount} item${cartCount !== 1 ? 's' : ''}`;
-    }
-  }, [cartCount]);
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setSelectedCategory(value);
+    onFilterChange({ category: value, price: selectedPrice });
+  };
 
-  // Focus trap inside modal
-  useEffect(() => {
-    if (!cartOpen || !cartRef.current) return;
+  const handlePriceChange = (e) => {
+    const value = e.target.value;
+    setSelectedPrice(value);
+    onFilterChange({ category: selectedCategory, price: value });
+  };
 
-    const modalNode = cartRef.current;
-
-    // All focusable elements inside modal
-    const focusableEls = modalNode.querySelectorAll(
-      "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
-    );
-
-    const firstEl = focusableEls[0];
-    const lastEl = focusableEls[focusableEls.length - 1];
-
-    const handleKeyDown = (e) => {
-      if (e.key === "Tab") {
-        // Loop focus inside modal
-        if (e.shiftKey && document.activeElement === firstEl) {
-          e.preventDefault();
-          lastEl.focus();
-        } else if (!e.shiftKey && document.activeElement === lastEl) {
-          e.preventDefault();
-          firstEl.focus();
-        }
-      }
-      if (e.key === "Escape") {
-        setCartOpen(false);
-        cartButtonRef.current?.focus();
-      }
-    };
-
-    modalNode.addEventListener("keydown", handleKeyDown);
-
-    // Focus first element when modal opens
-    firstEl?.focus();
-
-    return () => {
-      modalNode.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [cartOpen]);
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setSelectedPrice('all');
+    onSearchChange('');
+    onFilterChange({ category: 'all', price: 'all' });
+  };
 
   return (
-    <div>
-      {/* Header Navigation */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        {/* Skip Link */}
-        <a
-          href="#mainContent"
-          onClick={handleSkipToContent}
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-2 py-1 rounded z-50"
-        >
-          Skip to main content
-        </a>
+    <div className="mb-8">
+      <h2 id="search-filter-heading" className="sr-only">
+        Search and Filter Options
+      </h2>
 
-        <nav
-          className="container mx-auto px-4 py-4 flex justify-between items-center"
-          aria-label="Main Navigation"
-        >
-          <a className="text-2xl font-bold" href="/">
-            Accessible eCommerce
-          </a>
-
-          <div className="flex items-center space-x-4">
-            <a
-              href="/products"
-              className="focus:outline-none focus:ring-2 focus:ring-blue-500 px-2 py-1 rounded"
+      <div className="flex flex-col md:flex-row gap-4">
+        {/* Search Input */}
+        <div className="relative flex-grow">
+          <label htmlFor="product-search" className="sr-only">
+            Search products
+          </label>
+          <div className="relative">
+            <span
+              className="absolute inset-y-0 left-3 flex items-center pointer-events-none z-10"
+              aria-hidden="true"
             >
-              Products
-            </a>
-            <a
-              href="/about"
-              className="focus:outline-none focus:ring-2 focus:ring-blue-500 px-2 py-1 rounded"
-            >
-              About
-            </a>
-            <a
-              href="/contact"
-              className="focus:outline-none focus:ring-2 focus:ring-blue-500 px-2 py-1 rounded"
-            >
-              Contact
-            </a>
-
-            {/* Cart Button */}
-            <Button
-              ref={cartButtonRef}
-              className="relative rounded-full"
-              ariaLabel={`Open cart with ${cartCount} items`}
-              onClick={() => setCartOpen(true)}
-            >
-              Cart ({cartCount})
-            </Button>
-          </div>
-        </nav>
-      </header>
-
-      {/* Main Content */}
-      <main id="mainContent" className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
-
-        {/* Live Region */}
-        <div
-          ref={liveRegionRef}
-          className="sr-only"
-          aria-live="polite"
-          aria-atomic="true"
-        />
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {products.map((product, index) => (
-            <section
-              key={product.id}
-              className="border p-4 rounded-md"
-              aria-labelledby={`product-${product.id}-name`}
-            >
-              <h3 id={`product-${product.id}-name`} className="font-semibold">
-                {product.name}
-              </h3>
-              <p>{product.price}</p>
-
-              <Button
-                ref={index === 0 ? firstAddToCartRef : null} // first button for skip link
-                className="mt-2"
-                size="small"
-                onClick={() => setCartCount(cartCount + 1)}
-                aria-label={`Add ${product.name} to cart`}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                Add to Cart
-              </Button>
-            </section>
-          ))}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </span>
+            <input
+              type="search"
+              id="product-search"
+              name="product-search"
+              className="block w-full pl-12 pr-10 py-3 border border-gray-200 rounded-md shadow-sm bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+              placeholder="Search for products"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              aria-describedby="search-description"
+            />
+          </div>
+          <div id="search-description" className="sr-only">
+            Type to search for products by name or description
+          </div>
         </div>
-      </main>
 
-      {/* Overlay */}
-      {cartOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          aria-hidden="true"
-          onClick={() => {
-            setCartOpen(false);
-            cartButtonRef.current?.focus();
-          }}
-        />
-      )}
+        {/* Category Filter */}
+        <div className="w-full md:w-48">
+          <label htmlFor="category-filter" className="sr-only">
+            Filter by category
+          </label>
+          <select
+            id="category-filter"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="block w-full px-3 py-3 border border-gray-200 rounded-md shadow-sm bg-white text-gray-900 focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+          >
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* Cart Modal with Focus Trap */}
-      {cartOpen && (
-        <dialog
-          ref={cartRef}
-          open
-          aria-modal="true"
-          aria-label="Shopping Cart"
-          style={{
-            position: "fixed",
-            top: "20%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            background: "#fff",
-            border: "1px solid #333",
-            padding: "1rem",
-            zIndex: 50,
-            width: "90%",
-            maxWidth: "400px",
-          }}
-        >
-          <div className="flex flex-col gap-4">
-            <h2>Cart</h2>
-            <p>Items in your cart: {cartCount}</p>
-            <div className="flex justify-between">
-              <Button
-                disabled={cartCount === 0}
-                onClick={() => {
-                  alert("Proceed to checkout");
-                  setCartCount(0);
-                  setCartOpen(false);
-                  cartButtonRef.current?.focus();
-                }}
-              >
-                Checkout
-              </Button>
+        {/* Price Filter */}
+        <div className="w-full md:w-48">
+          <label htmlFor="price-filter" className="sr-only">
+            Filter by price
+          </label>
+          <select
+            id="price-filter"
+            value={selectedPrice}
+            onChange={handlePriceChange}
+            className="block w-full px-3 py-3 border border-gray-200 rounded-md shadow-sm bg-white text-gray-900 focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+          >
+            {priceRanges.map((range) => (
+              <option key={range.id} value={range.id}>
+                {range.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setCartOpen(false);
-                  cartButtonRef.current?.focus();
-                }}
-              >
-                Close Cart
-              </Button>
-            </div>
-          </div>
-        </dialog>
+        {/* Clear Filters Button */}
+        {(searchQuery || selectedCategory !== 'all' || selectedPrice !== 'all') && (
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="px-4 py-3 bg-gray-50 text-gray-700 rounded-md text-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 font-medium border border-gray-200"
+            aria-label="Clear all filters"
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
+      {/* Active filters display */}
+      {(selectedCategory !== 'all' || selectedPrice !== 'all' || searchQuery) && (
+        <div className="mt-4 flex flex-wrap items-center gap-2" aria-live="polite">
+          <span className="text-sm text-gray-500">Active filters:</span>
+
+          {searchQuery && (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+              Search: {searchQuery}
+            </span>
+          )}
+
+          {selectedCategory !== 'all' && (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+              Category: {categories.find((c) => c.id === selectedCategory)?.name}
+            </span>
+          )}
+
+          {selectedPrice !== 'all' && (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+              Price: {priceRanges.find((p) => p.id === selectedPrice)?.name}
+            </span>
+          )}
+        </div>
       )}
     </div>
   );
+};
+
+SearchAndFilter.propTypes = {
+  onSearchChange: PropTypes.func.isRequired,
+  onFilterChange: PropTypes.func.isRequired,
+};
+
+// Custom Modal component
+const Modal = ({ isOpen, onClose, title, children, style = {} }) => {
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        {/* Backdrop */}
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+        
+        {/* Modal */}
+        <dialog 
+          className="relative bg-white rounded-lg shadow-xl max-w-lg w-full mx-auto border-0"
+          style={style}
+          aria-labelledby={title ? "modal-title" : undefined}
+          open
+        >
+          {/* Header */}
+          {title && (
+            <div className="flex items-center justify-between p-6 border-b">
+              <h2 id="modal-title" className="text-xl font-semibold text-gray-900">
+                {title}
+              </h2>
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
+                aria-label="Close modal"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          )}
+          
+          {/* Content */}
+          <div className="p-6">
+            {children}
+          </div>
+        </dialog>
+      </div>
+    </div>
+  );
+};
+
+Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object,
+};
+
+// Custom CheckoutModal component
+const CheckoutModal = ({ isOpen, onClose, cart, orderPlaced, onCheckout, isProcessing }) => {
+  const totalPrice = cart.reduce((sum, item) => {
+    const priceText = typeof item.price === "string" ? item.price.replace(/[^\d.-]/g, "") : item.price;
+    const priceValue = parseFloat(priceText);
+    return sum + priceValue * item.quantity;
+  }, 0);
+
+  if (!isOpen) return null;
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Checkout"
+      style={{ width: '90%', maxWidth: '600px' }}
+    >
+      {isProcessing && (
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Processing Your Order...</h3>
+          <p className="text-gray-600">Please wait while we process your order.</p>
+        </div>
+      )}
+      {orderPlaced && !isProcessing && (
+        <div className="text-center py-8">
+          <div className="text-green-500 text-6xl mb-4">✓</div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Order Confirmed!</h3>
+          <p className="text-gray-600 mb-4">Thank you for your purchase. Your order has been processed.</p>
+          
+          {/* Dummy Order Banner */}
+          <div className="mb-6 p-4 bg-gradient-to-r from-orange-100 to-red-100 border-2 border-orange-300 rounded-lg shadow-md">
+            <div className="flex items-center justify-center mb-2">
+              <span className="text-2xl mr-2">🎭</span>
+              <h4 className="text-lg font-bold text-orange-800">Workshop Demo Notice</h4>
+            </div>
+            <p className="text-orange-700 font-medium">
+              Just kidding! This is a dummy order. Your items won't actually be shipped because this is just a workshop demo.
+            </p>
+          </div>
+          
+          <div className="mt-6">
+            <Button
+              onClick={onClose}
+              variant="primary"
+              ariaLabel="Close order confirmation"
+            >
+              Close Modal
+            </Button>
+          </div>
+        </div>
+      )}
+      {!isProcessing && !orderPlaced && (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+            <div className="space-y-3">
+              {cart.map((item) => (
+                <div key={item.id} className="flex justify-between items-center py-2 border-b">
+                  <div>
+                    <h4 className="font-medium">{item.name}</h4>
+                    <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                  </div>
+                  <span className="font-medium">{item.price}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 pt-4 border-t">
+              <div className="flex justify-between text-lg font-bold">
+                <span>Total:</span>
+                <span>Rs {totalPrice.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex justify-end space-x-3">
+            <Button
+              onClick={onClose}
+              variant="secondary"
+              ariaLabel="Cancel checkout"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={onCheckout}
+              variant="primary"
+              ariaLabel="Confirm order"
+            >
+              Confirm Order
+            </Button>
+          </div>
+        </div>
+      )}
+    </Modal>
+  );
+};
+
+CheckoutModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  cart: PropTypes.array.isRequired,
+  orderPlaced: PropTypes.bool.isRequired,
+  onCheckout: PropTypes.func.isRequired,
+  isProcessing: PropTypes.bool.isRequired,
+};
+
+// Custom AddToCartModal component
+const AddToCartModal = ({ product, onAddToCart, onClose, isOpen, onClearCart, cart }) => {
+  const [quantity, setQuantity] = useState(1);
+
+  // Set quantity based on cart status when modal opens
+  useEffect(() => {
+    if (isOpen && product) {
+      const existingItem = cart.find(item => item.id === product.id);
+      if (existingItem) {
+        setQuantity(existingItem.quantity);
+      } else {
+        setQuantity(0); // Start with zero for new items
+      }
+    }
+  }, [isOpen, product, cart]);
+
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleAddToCart = () => {
+    onAddToCart(product, quantity);
+    onClose(); // Close modal after adding to cart
+  };
+
+  const handleClearCart = () => {
+    onClearCart();
+    onClose();
+  };
+
+  if (!isOpen || !product) {
+    return null;
+  }
+
+  // Check if item is already in cart
+  const existingItem = cart.find(item => item.id === product.id);
+  const isInCart = !!existingItem;
+  const currentCartQuantity = existingItem ? existingItem.quantity : 0;
+  
+  // Button text and aria label logic
+  const getButtonText = () => {
+    if (quantity === 0) return "Select Quantity";
+    if (isInCart) return `Update Cart (${currentCartQuantity} in cart)`;
+    return "Add to Cart";
+  };
+  
+  const getAriaLabel = () => {
+    if (quantity === 0) return "Select quantity to add to cart";
+    if (isInCart) return "Update cart quantity";
+    return "Add to Cart";
+  };
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={product.name}
+      style={{ width: '90%', maxWidth: '500px' }}
+    >
+      <div className="mb-4">
+        <p className="mb-4">{product.description}</p>
+        <div className="flex items-center justify-between mb-6">
+          <span className="text-xl font-bold">{product.price}</span>
+          
+          <QuantitySelector
+            quantity={quantity}
+            onIncrease={handleIncrease}
+            onDecrease={handleDecrease}
+            minQuantity={0}
+            ariaLabel={`Quantity selector for ${product.name}`}
+          />
+        </div>
+        
+        {/* Cart Status */}
+        {isInCart && (
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+            <p className="text-sm text-blue-800">
+              <strong>Current in cart:</strong> {currentCartQuantity} {currentCartQuantity === 1 ? 'item' : 'items'}
+            </p>
+            <p className="text-xs text-blue-600 mt-1">
+              {quantity === 0 ? "Set quantity to 0 to remove from cart" : "Adjust quantity above to update your cart"}
+            </p>
+          </div>
+        )}
+        
+        {/* Zero Quantity Warning */}
+        {quantity === 0 && !isInCart && (
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+            <p className="text-sm text-yellow-800">
+              <strong>No quantity selected</strong>
+            </p>
+            <p className="text-xs text-yellow-600 mt-1">
+              Use the quantity selector above to add items to your cart
+            </p>
+          </div>
+        )}
+        
+        <div className="flex justify-between mb-4">
+          <Button
+            onClick={handleClearCart}
+            variant="secondary"
+            ariaLabel="Remove all items from cart"
+            className="bg-red-600 hover:bg-red-700 text-white border-red-600 hover:border-red-700"
+          >
+            Remove from Cart
+          </Button>
+          <Button
+            onClick={handleAddToCart}
+            variant="primary"
+            disabled={quantity === 0}
+            ariaLabel={getAriaLabel()}
+            className={quantity === 0 ? "opacity-50 cursor-not-allowed" : ""}
+          >
+            {getButtonText()}
+          </Button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+AddToCartModal.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+  }),
+  onAddToCart: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClearCart: PropTypes.func.isRequired,
+  cart: PropTypes.array.isRequired,
+};
+
+// Custom CartModal component
+const CartModal = ({ cart, isOpen, onClose, removeFromCart, updateCartItemQuantity, onCheckout }) => {
+  const totalPrice = cart.reduce((sum, item) => {
+    const priceText = typeof item.price === "string" ? item.price.replace(/[^\d.-]/g, "") : item.price;
+    const priceValue = parseFloat(priceText);
+    return sum + priceValue * item.quantity;
+  }, 0);
+
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Your Cart"
+      style={{ width: '100%', maxWidth: '48rem' }}
+    >
+      {cart.length === 0 ? (
+        <div className="text-center py-8">
+          <p className="text-gray-500 mb-4">Your cart is empty</p>
+          <Button onClick={onClose} variant="primary">
+            Continue Shopping
+          </Button>
+        </div>
+      ) : (
+        <>
+          <div className="divide-y">
+            {cart.map((item) => (
+              <div key={item.id} className="py-4 flex items-center">
+                <div className="h-20 w-20 flex-shrink-0">
+                  <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                </div>
+                <div className="ml-4 flex-grow">
+                  <h3 className="font-medium">{item.name}</h3>
+                  <div className="flex justify-between mt-1">
+                    <p className="text-gray-600">{item.price}</p>
+                    <QuantitySelector
+                      quantity={item.quantity}
+                      onIncrease={() => updateCartItemQuantity(item.id, item.quantity + 1)}
+                      onDecrease={() =>
+                        updateCartItemQuantity(item.id, Math.max(1, item.quantity - 1))
+                      }
+                      minQuantity={1}
+                      size="small"
+                      ariaLabel={`Quantity selector for ${item.name}`}
+                    />
+                  </div>
+                </div>
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="ml-4 text-red-500 p-1"
+                  aria-label={`Remove ${item.name} from cart`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="border-t pt-4 mt-4">
+            <div className="flex justify-between mb-4">
+              <span className="font-medium">Total:</span>
+              <span className="font-bold">Rs {totalPrice.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between">
+              <Button
+                onClick={() => cart.forEach((item) => removeFromCart(item.id))}
+                variant="secondary"
+                ariaLabel="Clear cart"
+              >
+                Clear Cart
+              </Button>
+              <Button onClick={onCheckout} variant="primary" ariaLabel="Proceed to checkout">
+                Checkout
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </Modal>
+  );
+};
+
+CartModal.propTypes = {
+  cart: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+  })).isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  removeFromCart: PropTypes.func.isRequired,
+  updateCartItemQuantity: PropTypes.func.isRequired,
+  onCheckout: PropTypes.func.isRequired,
+};
+
+const ECommContainer = ({ cartContext }) => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({ category: 'all', price: 'all' });
+  const [isAddToCartModalOpen, setIsAddToCartModalOpen] = useState(false);
+  
+  // Extract cart context values
+  const {
+    cart = [],
+    addToCart,
+    removeFromCart,
+    updateCartItemQuantity,
+    isCartModalOpen = false,
+    closeCartModal,
+    isCheckoutModalOpen = false,
+    openCheckoutModal,
+    closeCheckoutModal,
+    handleCheckout,
+    orderPlaced = false,
+    isProcessing = false,
+    clearCart
+  } = cartContext || {};
+
+  // Debug logging
+  console.log('ECommContainer cartContext:', cartContext);
+  console.log('ECommContainer cart:', cart);
+  console.log('ECommContainer addToCart:', addToCart);
+
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setIsAddToCartModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProduct(null);
+    setIsAddToCartModalOpen(false);
+  };
+
+  const handleAddToCart = (product, quantity) => {
+    addToCart(product, quantity);
+  };
+
+  // Handle search input changes
+  const handleSearchChange = (query) => {
+    setSearchQuery(query);
+  };
+
+  // Handle filter changes
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
+  // Filter products based on search and filters
+  const filteredProducts = React.useMemo(() => {
+    return products.filter(product => {
+      // Search filter
+      const matchesSearch = searchQuery === '' || 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      // Category filter
+      const matchesCategory = filters.category === 'all' || product.category === filters.category;
+      
+      // Price filter
+      let matchesPrice = true;
+      if (filters.price !== 'all') {
+        switch(filters.price) {
+          case 'under1000':
+            matchesPrice = product.priceValue < 1000;
+            break;
+          case '1000-5000':
+            matchesPrice = product.priceValue >= 1000 && product.priceValue <= 5000;
+            break;
+          case 'above5000':
+            matchesPrice = product.priceValue > 5000;
+            break;
+          // No default needed as matchesPrice is already true
+        }
+      }
+      
+      return matchesSearch && matchesCategory && matchesPrice;
+    });
+  }, [searchQuery, filters]);
+
+  return (
+    <>
+      <main className="container mx-auto px-4" aria-labelledby="products-heading">
+        <h1 id="products-heading" className="text-3xl font-bold my-8">
+          Building Accessible Experiences
+        </h1>
+        
+        {/* Accessibility Carousel */}
+        <AccessibilityCarousel />
+        
+        <h2 className="text-2xl font-bold mb-4">
+          Accessible Products
+        </h2>
+        <p className="mb-6">
+          Explore our accessible products designed for everyone, including people with disabilities.
+        </p>
+        
+        {/* Search and Filter Component */}
+        <SearchAndFilter 
+          onSearchChange={handleSearchChange}
+          onFilterChange={handleFilterChange}
+        />
+        
+        {/* No results message */}
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-8" aria-live="polite">
+            <p className="text-lg text-gray-600">No products match your search criteria.</p>
+            <p className="mt-2">Try adjusting your filters or search terms.</p>
+          </div>
+        )}
+        
+        {/* Results count for screen readers */}
+        {filteredProducts.length > 0 && (
+          <div className="sr-only" aria-live="polite">
+            {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
+          </div>
+        )}
+        
+        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {filteredProducts.map((product) => (
+            <li
+              key={product.id}
+              className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
+            >
+              <img
+                src={product.image}
+                alt={product.alt}
+                className="w-full h-32 object-cover mb-3 rounded"
+              />
+              <h3 className="text-lg font-semibold line-clamp-1">
+                {product.name}
+              </h3>
+              <p className="mb-2 text-sm line-clamp-2 h-10 overflow-hidden">{product.description}</p>
+              <span className="block font-bold mb-2 text-blue-700">{product.price}</span>
+              <button
+                onClick={() => handleOpenModal(product)}
+                className="bg-blue-600 text-white w-full px-3 py-1.5 rounded text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-label={`Add ${product.name} to cart`}
+              >
+                Add to Cart
+              </button>
+            </li>
+          ))}
+        </ul>
+      </main>
+        <AddToCartModal
+          product={selectedProduct}
+          onAddToCart={handleAddToCart}
+          onClose={handleCloseModal}
+        isOpen={isAddToCartModalOpen}
+        onClearCart={clearCart}
+        cart={cart}
+      />
+      <CartModal
+        cart={cart}
+        isOpen={isCartModalOpen}
+        onClose={closeCartModal}
+        removeFromCart={removeFromCart}
+        updateCartItemQuantity={updateCartItemQuantity}
+        onCheckout={openCheckoutModal}
+      />
+      <CheckoutModal
+        cart={cart}
+        isOpen={isCheckoutModalOpen}
+        onClose={closeCheckoutModal}
+        orderPlaced={orderPlaced}
+        onCheckout={handleCheckout}
+        isProcessing={isProcessing}
+      />
+    </>
+  );
+};
+
+ECommContainer.propTypes = {
+  cartContext: PropTypes.shape({
+    cart: PropTypes.array.isRequired,
+    addToCart: PropTypes.func.isRequired,
+    removeFromCart: PropTypes.func.isRequired,
+    updateCartItemQuantity: PropTypes.func.isRequired,
+    totalItems: PropTypes.number.isRequired,
+    isCartModalOpen: PropTypes.bool.isRequired,
+    openCartModal: PropTypes.func.isRequired,
+    closeCartModal: PropTypes.func.isRequired,
+    isCheckoutModalOpen: PropTypes.bool.isRequired,
+    openCheckoutModal: PropTypes.func.isRequired,
+    closeCheckoutModal: PropTypes.func.isRequired,
+    handleCheckout: PropTypes.func.isRequired,
+    orderPlaced: PropTypes.bool.isRequired,
+    isProcessing: PropTypes.bool.isRequired,
+    clearCart: PropTypes.func.isRequired,
+  }),
+};
+
+const ECommIssues = () => {
+  return (
+    <Layout>
+      <ECommContainer />
+    </Layout>
+  );
 }
+
+
+export default ECommIssues;
