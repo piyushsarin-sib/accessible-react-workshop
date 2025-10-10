@@ -236,14 +236,12 @@ accessible-react-workshop/
 ## 🎓 Workshop Structure
 
 ### **Phase 1: Identify Issues**
-
 - Navigate the e-commerce page with mouse (seems fine)
 - Try keyboard-only navigation (exposes problems)
 - Use screen reader to understand the experience
 - Document accessibility barriers
 
 ### **Phase 2: Progressive Fixes**
-
 1. **Skip Links** - Quick navigation to main content
 2. **Button Semantics** - Proper interactive element markup
 3. **Form Labels** - Clear input descriptions
@@ -253,7 +251,6 @@ accessible-react-workshop/
 7. **Modal Accessibility** - Screen reader and keyboard support
 
 ### **Phase 3: Testing & Validation**
-
 - **Keyboard testing** - Tab navigation, Enter/Space activation
 - **Screen reader testing** - NVDA, VoiceOver, JAWS
 - **Focus testing** - Visible indicators and logical order
@@ -282,7 +279,6 @@ npm run prepare    # Setup Husky git hooks
 ## 🎨 Key Components
 
 ### **Common Components** (`src/components/common/`)
-
 Reusable UI components with built-in accessibility features:
 
 - **Button** - Accessible button with loading states and variants
@@ -293,7 +289,6 @@ Reusable UI components with built-in accessibility features:
 - **Checkbox/Radio** - Accessible form controls
 
 ### **Feature Components** (`src/components/features/`)
-
 Business logic components for the e-commerce workshop:
 
 - **Product** - Product display and interaction
@@ -302,7 +297,6 @@ Business logic components for the e-commerce workshop:
 - **OrderConfirmation** - Checkout completion flow
 
 ### **Demo Components** (`src/demos/`)
-
 Interactive examples demonstrating accessibility patterns:
 
 - **Keyboard Navigation** - Roving tabindex, arrow key navigation
@@ -313,7 +307,6 @@ Interactive examples demonstrating accessibility patterns:
 ## 🔧 Development Guidelines
 
 ### **Accessibility Standards**
-
 - **WCAG 2.1 AA** compliance
 - **ARIA 1.1** implementation
 - **Keyboard navigation** support
@@ -321,7 +314,6 @@ Interactive examples demonstrating accessibility patterns:
 - **Color contrast** requirements
 
 ### **Code Quality**
-
 - **ESLint** with jsx-a11y plugin
 - **PropTypes** for type checking
 - **Consistent naming** conventions
@@ -329,7 +321,6 @@ Interactive examples demonstrating accessibility patterns:
 - **Error boundaries** for resilience
 
 ### **Testing Approach**
-
 - **Keyboard-only** navigation testing
 - **Screen reader** testing (NVDA, VoiceOver)
 - **Color contrast** validation
@@ -339,14 +330,12 @@ Interactive examples demonstrating accessibility patterns:
 ## 📚 Learning Resources
 
 ### **Accessibility Guidelines**
-
 - [WCAG 2.1 Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/)
 - [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
 - [WebAIM Keyboard Accessibility](https://webaim.org/techniques/keyboard/)
 - [Focus Management Best Practices](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
 
 ### **React Accessibility**
-
 - [React Accessibility Documentation](https://reactjs.org/docs/accessibility.html)
 - [Inclusive Components](https://inclusive-components.design/)
 - [A11y Project](https://www.a11yproject.com/)
@@ -362,7 +351,6 @@ We welcome contributions! Please see our contributing guidelines:
 5. **Submit** a pull request
 
 ### **Development Setup**
-
 ```bash
 # Install dependencies
 npm install
@@ -389,4 +377,4 @@ Visit the live workshop at: [https://accessible-react-workshop-99af.vercel.app](
 
 **Happy accessibility learning! 🎯♿**
 
-_Remember: Accessibility isn't just about compliance - it's about creating inclusive experiences for all users._
+*Remember: Accessibility isn't just about compliance - it's about creating inclusive experiences for all users.*
