@@ -6,17 +6,26 @@ export default function AccessibilityWorkshopDemo() {
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef(null);
   const cartButtonRef = useRef(null); // to return focus after closing
+  const liveRegionRef = useRef(null); // global live region
+  const firstAddToCartRef = useRef(null); // first product's button
 
   const products = [
     { id: 1, name: "Braille Keyboard", price: "Rs 45000" },
     { id: 2, name: "Wheelchair", price: "Rs 2500" },
   ];
 
-  // Focus trap inside modal
+  // Skip to main content focusing first product
+  const handleSkipToContent = (e) => {
+    e.preventDefault();
+    firstAddToCartRef.current?.focus();
+  };
+
+  // Focus trap for modal
   useEffect(() => {
     if (!cartOpen || !cartRef.current) return;
 
     const modalNode = cartRef.current;
+
     const focusableEls = modalNode.querySelectorAll(
       "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
     );
@@ -40,16 +49,34 @@ export default function AccessibilityWorkshopDemo() {
     };
 
     modalNode.addEventListener("keydown", handleKeyDown);
-    firstEl?.focus();
+    firstEl?.focus(); // focus first element when modal opens
 
-    return () => modalNode.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      modalNode.removeEventListener("keydown", handleKeyDown);
+    };
   }, [cartOpen]);
+
+  // Update live region on cart changes
+  useEffect(() => {
+    if (liveRegionRef.current && cartCount > 0) {
+      liveRegionRef.current.textContent = `Cart updated: ${cartCount} item${cartCount > 1 ? "s" : ""}`;
+    }
+  }, [cartCount]);
 
   return (
     <div>
       {/* Header Navigation */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
-       <nav
+        {/* Skip link */}
+        <a
+          href="#mainContent"
+          onClick={handleSkipToContent}
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-2 py-1 rounded z-50"
+        >
+          Skip to main content
+        </a>
+
+        <nav
           className="container mx-auto px-4 py-4 flex justify-between items-center"
           aria-label="Main Navigation"
         >
@@ -91,26 +118,32 @@ export default function AccessibilityWorkshopDemo() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <h3 className="text-3xl font-bold mb-4">Shop Products</h3>
+      <main id="mainContent" className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
+
+        {/* Global live region */}
+        <div
+          ref={liveRegionRef}
+          className="sr-only"
+          aria-live="polite"
+          aria-atomic="true"
+        />
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {products.map((product) => (
-            <section              
+          {products.map((product, index) => (
+            <section
               key={product.id}
               className="border p-4 rounded-md"
               aria-labelledby={`product-${product.id}-name`}
             >
-              <h3
-                id={`product-${product.id}-name`}
-                className="font-semibold"
-              >
+              <h3 id={`product-${product.id}-name`} className="font-semibold">
                 {product.name}
               </h3>
               <p>{product.price}</p>
 
               <Button
+                ref={index === 0 ? firstAddToCartRef : null} // first button
                 className="mt-2"
                 size="small"
                 onClick={() => setCartCount(cartCount + 1)}
@@ -123,10 +156,11 @@ export default function AccessibilityWorkshopDemo() {
         </div>
       </main>
 
-      {/* Overlay */}
+      {/* Overlay (purely visual, hidden from screen readers) */}
       {cartOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          style={{ pointerEvents: "auto" }}
           aria-hidden="true"
           onClick={() => {
             setCartOpen(false);
@@ -135,7 +169,7 @@ export default function AccessibilityWorkshopDemo() {
         />
       )}
 
-      {/* Cart Modal with Focus Trap */}
+      {/* Cart Modal with focus trap */}
       {cartOpen && (
         <dialog
           ref={cartRef}
@@ -187,10 +221,3 @@ export default function AccessibilityWorkshopDemo() {
     </div>
   );
 }
-
-/*
-  EDGE CASE Issues Demo
-  1. ❌ Improper heading hierarchy
-  2. ❌ No skip link for keyboard users
-  3. ❌ No live region for screen readers
-*/
