@@ -5,7 +5,6 @@
   padding: 8px;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 250px;
 }
 
 /* Base menu item styles (visual only) */
@@ -20,6 +19,12 @@
   box-sizing: border-box;
   min-height: 40px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Active descendant styling - for combobox pattern */
+.menu-item[data-active-descendant="true"] {
+  background-color: #e3f2fd;
+  box-shadow: 0 0 0 2px #2196f3;
 }
 
 /* Interactive menu item styles */
@@ -84,7 +89,6 @@
   background: white;
   max-height: 300px;
   overflow-y: auto;
-  max-width: 350px;
 }
 
 .listbox-option {
