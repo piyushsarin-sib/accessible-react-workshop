@@ -66,16 +66,31 @@ const products = [
 ];
 
 const ProductsGrid = () => {
+  const gridNav = useRovingIndex({
+    items: products,
+    orientation: "both",
+    // columnsCount: 4,
+    defaultActiveKey: products.length > 0 ? products[0].id : null,
+  });
+
   if (products.length === 0) {
     return null;
   }
 
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <Collection
+      as="ul"
+      itemAs="li"
+      pattern="grid"
+      ariaLabel="Product cards"
+      className="grid grid-cols-2 md:grid-cols-4 gap-4"
+      {...gridNav.getCollectionProps()}
+    >
       {products.map((product) => (
-        <li
+        <Collection.Item
           key={product.id}
           className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
+          {...gridNav.getItemProps(product.id)}
         >
           <img
             src={product.image}
@@ -93,9 +108,9 @@ const ProductsGrid = () => {
           >
             Add to Cart
           </Button>
-        </li>
+        </Collection.Item>
       ))}
-    </ul>
+    </Collection>
   );
 };
 
