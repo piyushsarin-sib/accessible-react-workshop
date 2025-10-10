@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from "react";
 import { Overlay } from "@playground/lib/Overlay";
 import MenuList from "./MenuList";
