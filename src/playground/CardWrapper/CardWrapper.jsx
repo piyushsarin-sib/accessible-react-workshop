@@ -6,11 +6,18 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
     alert(`${title} added to cart`);
   };
 
+  // IDs for ARIA associations
+  const titleId = `card-title-${id}`;
+  const descriptionId = `card-desc-${id}`;
+  const priceId = `card-price-${id}`;
+
   return (
     <li className="flex-shrink-0">
       {/* ✅ Fixed 1: using semantic <article> for card */}
       <article
         id={id}
+        aria-labelledby={titleId}
+        aria-describedby={`${descriptionId} ${priceId}`}
         className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus:ring-2 focus:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
       >
         {/* ✅ Fixed: descriptive alt text for image add meaningful description */}
@@ -21,24 +28,25 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         />
 
         {/* ✅ Fixed 1: using semantic heading <h3> */}
-        <h3 className="text-lg font-semibold line-clamp-1">{title}</h3>
+        <h3 id={titleId} className="text-lg font-semibold line-clamp-1">{title}</h3>
 
        {/* ✅ Fixed 1: using <p> for description */}
-        <p className="mb-2 text-sm line-clamp-2 h-12 overflow-hidden">
+        <p id={descriptionId} className="mb-2 text-sm line-clamp-2 h-12 overflow-hidden">
           {description}
         </p>
 
         {/* ✅ Fixed 1: using <p> for price */}
-        <p className="block font-bold mb-2 text-blue-700">{price}</p>
+        <p id={priceId} className="block font-bold mb-2 text-blue-700">{price}</p>
 
         {/* ✅ Fixed 1: using <button> and removing the alt */}
         <button
           onClick={handleAddToCart}
           className="outline-none bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 text-sm w-full transition-colors rounded"
+          aria-label={`Add ${title} to cart`}
         >
           Add to Cart
         </button>
-        {/* ❌ ISSUE 3: No ARIA associations (aria-labelledby/aria-describedby) */}
+        {/* ✅ Fixed 3: added ARIA associations (aria-labelledby/aria-describedby) */}
         {/* ❌ ISSUE 4: Focus-visible not used, outline-none hides focus */}
         {/* ❌ ISSUE 5: Motion-reduce preference ignored in transitions */}
       </article>
