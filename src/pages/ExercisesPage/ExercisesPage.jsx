@@ -29,6 +29,11 @@ export default function ExercisesPage() {
       desc: "Improved Overlay modal usecase with focus trap",
     },
     {
+      to: "/playground/filter-combo",
+      title: "Filter Combo Menu variant with active descandant keybaord navigation",
+      desc: "Improved Combo Menu variant with accessibility in mind",
+    },
+    {
       to: "/playground/edge-cases",
       title: "Edge Cases Accessibility",
       desc: "Improved handling of edge cases with accessibility in mind",

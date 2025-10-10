@@ -14,6 +14,8 @@ import {
   AddToCartModal,
 } from "./playground";
 
+import FilterCombo from "./solved/FilterCombo";
+
 // Demo imports
 import {
   ListExample,
@@ -90,6 +92,15 @@ function App() {
           element={
             <Layout>
               <AddToCartModal />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/playground/filter-combo"
+          element={
+            <Layout>
+              <FilterCombo />
             </Layout>
           }
         />
