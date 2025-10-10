@@ -14,13 +14,13 @@ export default function AccessibilityWorkshopDemo() {
     { id: 2, name: "Wheelchair", price: "Rs 2500" },
   ];
 
-  // Handle skip to main content
+  // Skip link handler
   const handleSkipToContent = (e) => {
     e.preventDefault();
     firstAddToCartRef.current?.focus();
   };
 
-  // Update live region on cart changes
+  // Update live region when cart changes
   useEffect(() => {
     if (liveRegionRef.current) {
       liveRegionRef.current.textContent = `Cart updated: ${cartCount} item${cartCount !== 1 ? 's' : ''}`;
@@ -32,18 +32,14 @@ export default function AccessibilityWorkshopDemo() {
     if (!cartOpen || !cartRef.current) return;
 
     const modalNode = cartRef.current;
-
-    // All focusable elements inside modal
     const focusableEls = modalNode.querySelectorAll(
       "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
     );
-
     const firstEl = focusableEls[0];
     const lastEl = focusableEls[focusableEls.length - 1];
 
     const handleKeyDown = (e) => {
       if (e.key === "Tab") {
-        // Loop focus inside modal
         if (e.shiftKey && document.activeElement === firstEl) {
           e.preventDefault();
           lastEl.focus();
@@ -59,13 +55,9 @@ export default function AccessibilityWorkshopDemo() {
     };
 
     modalNode.addEventListener("keydown", handleKeyDown);
-
-    // Focus first element when modal opens
     firstEl?.focus();
 
-    return () => {
-      modalNode.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => modalNode.removeEventListener("keydown", handleKeyDown);
   }, [cartOpen]);
 
   return (
@@ -142,9 +134,12 @@ export default function AccessibilityWorkshopDemo() {
               className="border p-4 rounded-md"
               aria-labelledby={`product-${product.id}-name`}
             >
-              <h3 id={`product-${product.id}-name`} className="font-semibold">
+              <h2
+                id={`product-${product.id}-name`}
+                className="font-semibold"
+              >
                 {product.name}
-              </h3>
+              </h2>
               <p>{product.price}</p>
 
               <Button
@@ -194,7 +189,7 @@ export default function AccessibilityWorkshopDemo() {
           }}
         >
           <div className="flex flex-col gap-4">
-            <h2>Cart</h2>
+            <h3>Cart</h3>
             <p>Items in your cart: {cartCount}</p>
             <div className="flex justify-between">
               <Button
@@ -228,7 +223,7 @@ export default function AccessibilityWorkshopDemo() {
 
 /* 
   FIXES APPLIED:
-  ✅ Skip link for keyboard users
-  ✅ Live region for cart updates
-  ✅ Focus trap inside modal with Escape key support
+  1. ✅ Proper heading hierarchy: <h1> → <h2> for product sections → <h3> for modal
+  2. ✅ Skip link added to jump to main content
+  3. ✅ Live region added to announce cart updates for screen readers
 */
