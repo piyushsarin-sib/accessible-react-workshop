@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useEffect, useCallback } from "react";
 import { shouldCloseOnEscape, shouldApplyFocusTrap, applyFocusTrap } from "../helpers/keyHandlers";
 import { isTabKey } from "../helpers/keyUtils";

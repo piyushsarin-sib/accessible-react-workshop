@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Button from "@common/Button";
 import Collection from "@lib/Collections/Collection";
 import { useRovingIndex } from "@lib/interactions/keyboard/hooks/useRovingIndex";

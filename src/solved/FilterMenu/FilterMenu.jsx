@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { PLACEMENTS } from "@solved/lib/Overlay";
 import Button from "@common/Button";
 import Menu, { useMenu } from "@solved/lib/Menu";

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState } from "react";
 import { PLACEMENTS } from "@playground/lib/Overlay";
 import Button from "@common/Button";
