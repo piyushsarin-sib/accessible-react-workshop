@@ -49,7 +49,7 @@ export default function AccessibilityWorkshopDemo() {
     <div>
       {/* Header Navigation */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
-       <nav
+        <nav
           className="container mx-auto px-4 py-4 flex justify-between items-center"
           aria-label="Main Navigation"
         >
@@ -92,22 +92,23 @@ export default function AccessibilityWorkshopDemo() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <h3 className="text-3xl font-bold mb-4">Shop Products</h3>
+        {/* Correct Heading Hierarchy */}
+        <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
           {products.map((product) => (
-            <section              
+            <section
               key={product.id}
               className="border p-4 rounded-md"
               aria-labelledby={`product-${product.id}-name`}
             >
-              <h3
+              <h2
                 id={`product-${product.id}-name`}
                 className="font-semibold"
               >
                 {product.name}
-              </h3>
+              </h2>
               <p>{product.price}</p>
 
               <Button
@@ -156,7 +157,7 @@ export default function AccessibilityWorkshopDemo() {
           }}
         >
           <div className="flex flex-col gap-4">
-            <h2>Cart</h2>
+            <h3>Cart</h3>
             <p>Items in your cart: {cartCount}</p>
             <div className="flex justify-between">
               <Button
@@ -190,7 +191,10 @@ export default function AccessibilityWorkshopDemo() {
 
 /*
   EDGE CASE Issues Demo
-  1. ❌ Improper heading hierarchy
+  1. ✅ Heading Hierarchy Fix
+    -  <h1> for main page title
+    - <h2> for product sections
+    - <h3> for modal/cart heading
   2. ❌ No skip link for keyboard users
   3. ❌ No live region for screen readers
 */
