@@ -92,7 +92,7 @@ export default function AccessibilityWorkshopDemo() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold mb-4">Shop Products</h2>
+        <h3 className="text-3xl font-bold mb-4">Shop Products</h3>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -102,12 +102,12 @@ export default function AccessibilityWorkshopDemo() {
               className="border p-4 rounded-md"
               aria-labelledby={`product-${product.id}-name`}
             >
-              <h4
+              <h3
                 id={`product-${product.id}-name`}
                 className="font-semibold"
               >
                 {product.name}
-              </h4>
+              </h3>
               <p>{product.price}</p>
 
               <Button
@@ -156,7 +156,7 @@ export default function AccessibilityWorkshopDemo() {
           }}
         >
           <div className="flex flex-col gap-4">
-            <h4>Cart</h4>
+            <h2>Cart</h2>
             <p>Items in your cart: {cartCount}</p>
             <div className="flex justify-between">
               <Button
