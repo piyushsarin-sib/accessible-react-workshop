@@ -27,47 +27,6 @@ export default function AccessibilityWorkshopDemo() {
     }
   }, [cartCount]);
 
-  // Focus trap inside modal
-  useEffect(() => {
-    if (!cartOpen || !cartRef.current) return;
-
-    const modalNode = cartRef.current;
-
-    // All focusable elements inside modal
-    const focusableEls = modalNode.querySelectorAll(
-      "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
-    );
-
-    const firstEl = focusableEls[0];
-    const lastEl = focusableEls[focusableEls.length - 1];
-
-    const handleKeyDown = (e) => {
-      if (e.key === "Tab") {
-        // Loop focus inside modal
-        if (e.shiftKey && document.activeElement === firstEl) {
-          e.preventDefault();
-          lastEl.focus();
-        } else if (!e.shiftKey && document.activeElement === lastEl) {
-          e.preventDefault();
-          firstEl.focus();
-        }
-      }
-      if (e.key === "Escape") {
-        setCartOpen(false);
-        cartButtonRef.current?.focus();
-      }
-    };
-
-    modalNode.addEventListener("keydown", handleKeyDown);
-
-    // Focus first element when modal opens
-    firstEl?.focus();
-
-    return () => {
-      modalNode.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [cartOpen]);
-
   return (
     <div>
       {/* Header Navigation */}
@@ -166,19 +125,15 @@ export default function AccessibilityWorkshopDemo() {
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           aria-hidden="true"
-          onClick={() => {
-            setCartOpen(false);
-            cartButtonRef.current?.focus();
-          }}
+          onClick={() => setCartOpen(false)}
         />
       )}
 
-      {/* Cart Modal with Focus Trap */}
+      {/* Cart Modal */}
       {cartOpen && (
         <dialog
           ref={cartRef}
           open
-          aria-modal="true"
           aria-label="Shopping Cart"
           style={{
             position: "fixed",
@@ -203,7 +158,6 @@ export default function AccessibilityWorkshopDemo() {
                   alert("Proceed to checkout");
                   setCartCount(0);
                   setCartOpen(false);
-                  cartButtonRef.current?.focus();
                 }}
               >
                 Checkout
@@ -213,7 +167,6 @@ export default function AccessibilityWorkshopDemo() {
                 variant="secondary"
                 onClick={() => {
                   setCartOpen(false);
-                  cartButtonRef.current?.focus();
                 }}
               >
                 Close Cart
@@ -227,8 +180,8 @@ export default function AccessibilityWorkshopDemo() {
 }
 
 /* 
-  FIXES APPLIED:
-  ✅ Skip link for keyboard users
-  ✅ Live region for cart updates
-  ✅ Focus trap inside modal with Escape key support
+  FIX APPLIED:
+  ✅ Skip link for keyboard users.
+  ✅ Live region added to announce cart updates.
+  3. No focus trap in modal — keyboard can move outside modal when open.
 */
