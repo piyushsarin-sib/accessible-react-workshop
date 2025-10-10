@@ -18,7 +18,10 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         id={id}
         aria-labelledby={titleId}
         aria-describedby={`${descriptionId} ${priceId}`}
-        className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
+        className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]
+          motion-reduce:transform-none
+          motion-reduce:hover:scale-100
+          motion-reduce:transition-none"
       >
         {/* ✅ Fixed: descriptive alt text for image add meaningful description */}
         <img
@@ -48,7 +51,7 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         </button>
         {/* ✅ Fixed 3: added ARIA associations (aria-labelledby/aria-describedby) */}
         {/* ✅ Fixed 4: Focus-visible used, outline-none hides focus */}
-        {/* ❌ ISSUE 5: Motion-reduce preference ignored in transitions */}
+        {/* ✅ ISSUE 5: Motion-reduce preference respected in transitions */}
       </article>
     </li>
   );
