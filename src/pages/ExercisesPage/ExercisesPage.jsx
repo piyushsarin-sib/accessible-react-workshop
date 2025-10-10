@@ -20,13 +20,13 @@ export default function ExercisesPage() {
     },
     {
       to: "/playground/filter-menu",
-      title: "Filter Menu Accessibility",
-      desc: "Improved filter menu layout with accessibility in mind",
+      title: "Filter Menu Accessibility (popup/overlay + trigger connectivity with accessibility)",
+      desc: "Improved filter menu with accessibility in mind",
     },
     {
-      to: "/playground/overlay",
-      title: "Overlay Accessibility",
-      desc: "Improved overlay components with accessibility in mind",
+      to: "/playground/cart-modal",
+      title: "Modal (powered by Overlay) with focus trap",
+      desc: "Improved Overlay modal usecase with focus trap",
     },
     {
       to: "/playground/edge-cases",
@@ -42,7 +42,10 @@ export default function ExercisesPage() {
   ];
 
   return (
-    <div className="bg-gray-50 flex flex-col items-center justify-center p-6" style={{ width: "100%", minHeight: "60vh" }}>
+    <div
+      className="bg-gray-50 flex flex-col items-center justify-center p-6"
+      style={{ width: "100%", minHeight: "60vh" }}
+    >
       <h1 className="text-4xl font-bold mb-8 text-gray-800">
         Let's do some hands-on Accessibility:
       </h1>
