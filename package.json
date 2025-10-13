@@ -1,8 +1,16 @@
 {
-  "name": "accessible-react-workshop",
+  "name": "a11y-react-workshop",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": "Piyush Sarin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piyushsarin/a11y-react-workshop.git"
+  },
+  "homepage": "https://accessible-react-workshop-99af.vercel.app",
+  "description": "React India 2025 workshop on accessibility",
   "scripts": {
     "start": "vite --port 3009",
     "prebuild": "eslint . --max-warnings=0",
@@ -42,5 +50,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --max-warnings=0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
