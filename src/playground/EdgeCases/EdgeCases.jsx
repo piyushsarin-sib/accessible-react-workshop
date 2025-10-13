@@ -1,4 +1,4 @@
-// STEP: 1 - Fix heading hierarchy accessibility issues
+// STEP: 2 - Fix skip link accessibility issues
 import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 
@@ -7,11 +7,18 @@ export default function AccessibilityWorkshopDemo() {
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef(null);
   const cartButtonRef = useRef(null);
+  const firstAddToCartRef = useRef(null); // for skip link
 
   const products = [
     { id: 1, name: "Braille Keyboard", price: "Rs 45000" },
     { id: 2, name: "Wheelchair", price: "Rs 2500" },
   ];
+
+  // Skip link handler
+  const handleSkipToContent = (e) => {
+    e.preventDefault();
+    firstAddToCartRef.current?.focus();
+  };
 
   // Focus trap inside modal
   useEffect(() => {
@@ -50,7 +57,16 @@ export default function AccessibilityWorkshopDemo() {
     <div>
       {/* Header Navigation */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
-       <nav
+        {/* Skip Link */}
+        <a
+          href="#mainContent"
+          onClick={handleSkipToContent}
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-2 py-1 rounded z-50"
+        >
+          Skip to main content
+        </a>
+
+        <nav
           className="container mx-auto px-4 py-4 flex justify-between items-center"
           aria-label="Main Navigation"
         >
@@ -92,13 +108,13 @@ export default function AccessibilityWorkshopDemo() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main id="mainContent" className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {products.map((product) => (
-            <section              
+          {products.map((product, index) => (
+            <section
               key={product.id}
               className="border p-4 rounded-md"
               aria-labelledby={`product-${product.id}-name`}
@@ -112,6 +128,7 @@ export default function AccessibilityWorkshopDemo() {
               <p>{product.price}</p>
 
               <Button
+                ref={index === 0 ? firstAddToCartRef : null} // first button for skip link
                 className="mt-2"
                 size="small"
                 onClick={() => setCartCount(cartCount + 1)}
@@ -189,9 +206,9 @@ export default function AccessibilityWorkshopDemo() {
   );
 }
 
-/*
-  EDGE CASE Issues Demo
+/* 
+  FIXES APPLIED:
   1. ✅ Proper heading hierarchy: <h1> → <h2> for product sections → <h3> for modal
-  2. ❌ No skip link for keyboard users
+  2. ✅ Skip link added to jump to main content
   3. ❌ No live region for screen readers
 */
