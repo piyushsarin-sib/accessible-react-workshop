@@ -1,3 +1,4 @@
+// STEP: 0 - EdgeCases component with accessibility issues
 import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 
@@ -5,7 +6,7 @@ export default function AccessibilityWorkshopDemo() {
   const [cartCount, setCartCount] = useState(0);
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef(null);
-  const cartButtonRef = useRef(null); // to return focus after closing
+  const cartButtonRef = useRef(null);
 
   const products = [
     { id: 1, name: "Braille Keyboard", price: "Rs 45000" },
