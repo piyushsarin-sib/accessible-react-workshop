@@ -1,4 +1,4 @@
-// STEP: 0 - EdgeCases component with accessibility issues
+// STEP: 1 - Fix heading hierarchy accessibility issues
 import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 
@@ -93,7 +93,7 @@ export default function AccessibilityWorkshopDemo() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <h3 className="text-3xl font-bold mb-4">Shop Products</h3>
+        <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -103,12 +103,12 @@ export default function AccessibilityWorkshopDemo() {
               className="border p-4 rounded-md"
               aria-labelledby={`product-${product.id}-name`}
             >
-              <h3
+              <h2
                 id={`product-${product.id}-name`}
                 className="font-semibold"
               >
                 {product.name}
-              </h3>
+              </h2>
               <p>{product.price}</p>
 
               <Button
@@ -191,7 +191,7 @@ export default function AccessibilityWorkshopDemo() {
 
 /*
   EDGE CASE Issues Demo
-  1. ❌ Improper heading hierarchy
+  1. ✅ Proper heading hierarchy: <h1> → <h2> for product sections → <h3> for modal
   2. ❌ No skip link for keyboard users
   3. ❌ No live region for screen readers
 */
