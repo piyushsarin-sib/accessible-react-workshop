@@ -1,4 +1,4 @@
-// STEP: 4 - fix focus-visible issues
+// STEP: 5 - fix motion-reduce issues
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -15,7 +15,10 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
   return (
     <li className="flex-shrink-0" id={`card-${id}`}>
       <article
-          className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
+        className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]
+          motion-reduce:transform-none
+          motion-reduce:hover:scale-100
+          motion-reduce:transition-none"
         aria-labelledby={titleId}
         aria-describedby={`${descriptionId} ${priceId}`}
       >
@@ -40,7 +43,6 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         >
           Add to Cart
         </button>
-         {/* ❌ ISSUE 5: Motion-reduce preference ignored in transitions */}
       </article>
     </li>
   );
