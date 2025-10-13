@@ -1,5 +1,4 @@
-// STEP: 1 - fix syntactic accessibility issues (semantic HTML elements)
-/* eslint-disable jsx-a11y/img-redundant-alt */
+// STEP: 2 - fix image and alt accessibility issues
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -13,10 +12,9 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
       <article
         className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus:ring-2 focus:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
       >
-        {/* ❌ ISSUE 2: img alt text is non-descriptive ("image") */}
         <img
           src={imageSrc}
-          alt="image"
+          alt={title}
           className="w-full h-20 md:h-28 lg:h-32 object-cover mb-3 rounded"
         />
 
