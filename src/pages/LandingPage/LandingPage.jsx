@@ -9,7 +9,7 @@ export default function LandingPage() {
         aria-label="Workshop Introduction"
       >
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-4xl font-extrabold mb-4 drop-shadow-md">
+          <h1 className="text-3xl md:text-3xl font-extrabold mb-4 drop-shadow-md">
             Build for Everyone. Build with Accessibility.
           </h1>
           <span
@@ -73,7 +73,7 @@ export default function LandingPage() {
           <ul className="space-y-4 text-lg md:text-xl font-medium">
             <li className="bg-white/10 rounded-lg py-2 px-4 flex items-center gap-2">
               <a
-                href="https://www.linkedin.com/in/piyush-sarin/"
+                href="https://www.linkedin.com/in/piyush-sarin-516b106b"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:underline hover:text-blue-300 transition-colors"
@@ -86,7 +86,7 @@ export default function LandingPage() {
 
             <li className="bg-white/10 rounded-lg py-2 px-4 flex items-center gap-2">
               <a
-                href="https://www.linkedin.com/in/shambhavi-sivan/"
+                href="https://www.linkedin.com/in/shambhavi-sivan-31a275119/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:underline hover:text-blue-300 transition-colors"
