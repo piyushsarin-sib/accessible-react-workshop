@@ -1,24 +1,42 @@
 #!/bin/bash
-set -e
 
-branches=("card-tags-0" "card-tags-1" "card-tags-2" "card-tags-3" "card-tags-4" "card-tags-5")
-tags=("card-0-list-issues" "card-1-semantics" "card-2-images-desc" "card-3-associations-labels" "card-4-focus-visible" "card-5-motion-reduce")
+# -------------------------------
+# CONFIGURATION
+# -------------------------------
 
-git fetch --all
+# List of tags
+tags=("card-step-0" "card-step-1" "card-step-2" "card-step-3" "card-step-4" "card-step-5")
+# Corresponding commit SHAs
+shas=("fabb118" "eb4d09f" "e009953" "bad2220" "afcdf7e" "2356cd9")
 
-for i in "${!branches[@]}"; do
-  branch="${branches[$i]}"
-  tag="${tags[$i]}"
-  echo "Processing branch: $branch → tag: $tag"
+# -------------------------------
+# Create or update tags
+# -------------------------------
+echo "Processing tags..."
 
-  if git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
-    git checkout "$branch" >/dev/null 2>&1
-    git tag -f "$tag"
-    git push origin "$tag" --force
-    echo "✅ Tag '$tag' created and pushed from branch '$branch'."
-  else
-    echo "⚠️ Branch '$branch' not found on origin — skipping."
-  fi
+for i in "${!tags[@]}"; do
+    tag="${tags[$i]}"
+    commit="${shas[$i]}"
+
+    # Delete existing local tag if it exists
+    if git show-ref --tags | grep -q "refs/tags/$tag"; then
+        git tag -d "$tag"
+        echo "Deleted existing local tag: $tag"
+    fi
+
+    # Delete tag from remote if it exists
+    if git ls-remote --tags origin | grep -q "refs/tags/$tag"; then
+        git push --delete origin "$tag"
+        echo "Deleted existing remote tag: $tag"
+    fi
+
+    # Create new tag on specified commit
+    git tag "$tag" "$commit"
+    echo "Created tag: $tag -> $commit"
+
+    # # Push tag to remote
+    # git push origin "$tag"
+    # echo "Pushed tag to remote: $tag"
 done
 
-git checkout main
+echo "✅ All tags processed and pushed successfully!"
