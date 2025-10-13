@@ -1,3 +1,4 @@
+// STEP: 4 - fix focus-visible issues
 import React from "react";
 import PropTypes from "prop-types";
 

@@ -1,3 +1,4 @@
+// STEP: 3 - Fix live region accessibility issues
 import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 

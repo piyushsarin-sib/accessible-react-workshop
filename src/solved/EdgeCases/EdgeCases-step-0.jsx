@@ -1,3 +1,4 @@
+// STEP: 0 - EdgeCases component with accessibility issues
 import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 

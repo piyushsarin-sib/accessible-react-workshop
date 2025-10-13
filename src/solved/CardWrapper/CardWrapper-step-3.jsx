@@ -1,3 +1,4 @@
+// STEP: 3 - fix ARIA and interaction accessibility issues
 import React from "react";
 import PropTypes from "prop-types";
 

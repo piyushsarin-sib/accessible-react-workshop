@@ -1,3 +1,4 @@
+// STEP: 1 - fix syntactic accessibility issues (semantic HTML elements)
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import PropTypes from "prop-types";

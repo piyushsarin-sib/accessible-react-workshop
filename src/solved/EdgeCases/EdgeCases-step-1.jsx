@@ -1,3 +1,4 @@
+// STEP: 1 - Fix heading hierarchy accessibility issues
 import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 

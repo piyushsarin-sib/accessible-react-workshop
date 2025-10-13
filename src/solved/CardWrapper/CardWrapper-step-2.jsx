@@ -1,3 +1,4 @@
+// STEP: 2 - fix image and alt accessibility issues
 import React from "react";
 import PropTypes from "prop-types";
 

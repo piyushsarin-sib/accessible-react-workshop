@@ -1,3 +1,4 @@
+// STEP: 2 - Fix skip link accessibility issues
 import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 

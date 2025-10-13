@@ -1,3 +1,4 @@
+// STEP: 0 - CardWrapper component with accessibility issues
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";

@@ -1,3 +1,4 @@
+// STEP: 5 - fix motion-reduce issues
 import React from "react";
 import PropTypes from "prop-types";
 
