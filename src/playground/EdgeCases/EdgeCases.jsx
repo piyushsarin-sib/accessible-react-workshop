@@ -1,4 +1,4 @@
-// STEP: 2 - Fix skip link accessibility issues
+// STEP: 3 - Fix live region accessibility issues
 import { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 
@@ -8,6 +8,7 @@ export default function AccessibilityWorkshopDemo() {
   const cartRef = useRef(null);
   const cartButtonRef = useRef(null);
   const firstAddToCartRef = useRef(null); // for skip link
+  const liveRegionRef = useRef(null); // live region for screen readers
 
   const products = [
     { id: 1, name: "Braille Keyboard", price: "Rs 45000" },
@@ -19,6 +20,13 @@ export default function AccessibilityWorkshopDemo() {
     e.preventDefault();
     firstAddToCartRef.current?.focus();
   };
+
+  // Update live region when cart changes
+  useEffect(() => {
+    if (liveRegionRef.current) {
+      liveRegionRef.current.textContent = `Cart updated: ${cartCount} item${cartCount !== 1 ? 's' : ''}`;
+    }
+  }, [cartCount]);
 
   // Focus trap inside modal
   useEffect(() => {
@@ -110,6 +118,14 @@ export default function AccessibilityWorkshopDemo() {
       {/* Main Content */}
       <main id="mainContent" className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Shop Products</h1>
+
+        {/* Live Region */}
+        <div
+          ref={liveRegionRef}
+          className="sr-only"
+          aria-live="polite"
+          aria-atomic="true"
+        />
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -210,5 +226,5 @@ export default function AccessibilityWorkshopDemo() {
   FIXES APPLIED:
   1. ✅ Proper heading hierarchy: <h1> → <h2> for product sections → <h3> for modal
   2. ✅ Skip link added to jump to main content
-  3. ❌ No live region for screen readers
+  3. ✅ Live region added to announce cart updates for screen readers
 */
