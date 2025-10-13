@@ -4,9 +4,11 @@
 # CONFIGURATION
 # -------------------------------
 
-# List of tags
-tags=("ex1-card-step-0" "ex1-card-step-1" "ex1-card-step-2" "ex1-card-step-3" "ex1-card-step-4" "ex1-card-step-5")
-shas=("fabb118" "eb4d09f" "e009953" "bad2220" "afcdf7e" "2356cd9")
+# List of commits
+tags=("ex1-card-step-0" "ex1-card-step-1" "ex1-card-step-2" "ex1-card-step-3" "ex1-card-step-4" "ex1-card-step-5" )
+# Corresponding commit SHAs
+shas=("4bbd870" "2398295" "f6213ae" "e33495a" "0e8e58f" "58df5d1" )
+
 
 # -------------------------------
 # Create or update tags

@@ -21,5 +21,15 @@ scripts/list-commits.sh
 
 
 # Create old tags and create new tags from the list of tags and SHA
-chmod +x scripts/create-all-card-tags.sh
-scripts/create-all-card-tags.sh
+chmod +x scripts/create-branch-tags.sh.sh
+scripts/create-branch-tags.sh
+
+
+
+
+
+# List of commits
+tags=("ex1-card-step-0" "ex1-card-step-1" "ex1-card-step-2" "ex1-card-step-3" "ex1-card-step-4" "ex1-card-step-5" )
+# Corresponding commit SHAs
+shas=("4bbd870" "2398295" "f6213ae" "e33495a" "0e8e58f" "58df5d1" )
+
