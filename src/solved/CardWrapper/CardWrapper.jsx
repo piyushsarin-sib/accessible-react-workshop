@@ -12,26 +12,25 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
   const priceId = `card-price-${id}`;
 
   return (
-    <li className="flex-shrink-0">
+    <li className="flex-shrink-0" id={`card-${id}`}>
       {/* ✅ Fixed 1: using semantic <article> for card */}
       <article
-        id={id}
-        aria-labelledby={titleId}
-        aria-describedby={`${descriptionId} ${priceId}`}
         className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]
           motion-reduce:transform-none
           motion-reduce:hover:scale-100
           motion-reduce:transition-none"
+        aria-labelledby={titleId}
+        aria-describedby={`${descriptionId} ${priceId}`}
       >
         {/* ✅ Fixed: descriptive alt text for image add meaningful description */}
         <img
           src={imageSrc}
-          alt={`${title}`}
+          alt={title}
           className="w-full h-20 md:h-28 lg:h-32 object-cover mb-3 rounded"
         />
 
-        {/* ✅ Fixed 1: using semantic heading <h3> */}
-        <h3 id={titleId} className="text-lg font-semibold line-clamp-1">{title}</h3>
+        {/* ✅ Fixed 1: using semantic heading <h2> */}
+        <h2 id={titleId} className="text-lg font-semibold line-clamp-1">{title}</h2>
 
        {/* ✅ Fixed 1: using <p> for description */}
         <p id={descriptionId} className="mb-2 text-sm line-clamp-2 h-12 overflow-hidden">
@@ -44,8 +43,8 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
         {/* ✅ Fixed 1: using <button> and removing the alt */}
         <button
           onClick={handleAddToCart}
-          className="focus-visible:outline focus-visible:ring-2 focus-visible:ring-blue-500 bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 text-sm w-full transition-colors rounded"
           aria-label={`Add ${title} to cart`}
+          className="focus-visible:outline focus-visible:ring-2 focus-visible:ring-blue-500 bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 text-sm w-full transition-colors rounded"
         >
           Add to Cart
         </button>
