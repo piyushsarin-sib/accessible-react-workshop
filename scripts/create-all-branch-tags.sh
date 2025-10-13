@@ -4,10 +4,10 @@
 # CONFIGURATION
 # -------------------------------
 
-# List of commits
-tags=("ex1-card-step-0" "ex1-card-step-1" "ex1-card-step-2" "ex1-card-step-3" "ex1-card-step-4" "ex1-card-step-5" )
+# List of tags
+tags=("ex5-edgecase-step-0" "ex5-edgecase-step-1" "ex5-edgecase-step-2" "ex5-edgecase-step-3" )
 # Corresponding commit SHAs
-shas=("4bbd870" "2398295" "f6213ae" "e33495a" "0e8e58f" "58df5d1" )
+shas=("5457c50" "d1e53ca" "a6e9aea" "adeecb0" )
 
 
 # -------------------------------
