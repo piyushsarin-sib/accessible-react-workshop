@@ -5,8 +5,7 @@
 # -------------------------------
 
 # List of tags
-tags=("card-step-0" "card-step-1" "card-step-2" "card-step-3" "card-step-4" "card-step-5")
-# Corresponding commit SHAs
+tags=("ex1-card-step-0" "ex1-card-step-1" "ex1-card-step-2" "ex1-card-step-3" "ex1-card-step-4" "ex1-card-step-5")
 shas=("fabb118" "eb4d09f" "e009953" "bad2220" "afcdf7e" "2356cd9")
 
 # -------------------------------
@@ -34,9 +33,9 @@ for i in "${!tags[@]}"; do
     git tag "$tag" "$commit"
     echo "Created tag: $tag -> $commit"
 
-    # # Push tag to remote
-    # git push origin "$tag"
-    # echo "Pushed tag to remote: $tag"
+    # Push tag to remote
+    git push origin "$tag"
+    echo "Pushed tag to remote: $tag"
 done
 
 echo "✅ All tags processed and pushed successfully!"
