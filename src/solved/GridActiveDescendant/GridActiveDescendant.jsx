@@ -40,7 +40,7 @@ const GridActiveDescendant = () => {
       pattern="grid"
       ariaLabel="Editable items grid"
       className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6"
-      {...gridNav.collection}
+      {...gridNav.getCollectionProps()}
       ref={gridRef}
       onKeyDown={gridNav.handleKeyDown}
     >

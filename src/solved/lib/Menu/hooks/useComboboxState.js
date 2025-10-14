@@ -50,7 +50,7 @@ export const useComboboxState = ({
     // Props for the listbox container
     getCollectionProps: () => ({
       ...selection.getCollectionAriaProps(),
-      ...(navigation ? navigation.collection : { id: listboxId }),
+      ...(navigation ? navigation.getCollectionProps() : { id: listboxId }),
     }),
     // Props for individual items
     getItemProps: (key) => {

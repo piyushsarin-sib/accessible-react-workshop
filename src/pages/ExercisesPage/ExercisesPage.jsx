@@ -19,7 +19,7 @@ export default function ExercisesPage() {
       desc: "Improved product grid layout with accessibility in mind",
     },
     {
-      to: "/playground/product-grid",
+      to: "/playground/grid-active-descendant",
       title: "Grid keyboard navigation with active descendant",
       desc: "Simple grid layout with active descendant demo",
     },

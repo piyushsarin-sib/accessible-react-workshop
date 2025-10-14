@@ -37,7 +37,6 @@ const FilterCombo = () => {
     selectionMode: "single",
     selectedKeys: selectedKeys,
     onChange: (event, { selectedKeys: newSelectedKeys }) => {
-      console.log("ComboBox selection changed:", newSelectedKeys);
       setSelectedKeys(Array.from(newSelectedKeys));
       // Close overlay after selection
       comboboxState.close();

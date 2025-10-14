@@ -312,19 +312,22 @@ export const useActiveDescendant = ({
     }
   }, [disabled, activeKey, itemKeys, navigateTo, isEditMode]);
 
-  // Collection props - for listbox container
+  // Collection props getter - for listbox container
   // Note: role and labels should come from useCollectionAria, not here
   // This provides ID, focus handling, and edit mode support
-  const collection = disabled
-    ? {}
-    : {
-        id: listboxId,
-        onFocus: handleFocus,
-        // In edit mode, container is not in tab order
-        ...(enableEditMode && { tabIndex: isEditMode ? -1 : 0 }),
-        // In edit mode, aria-activedescendant is removed
-        ...(!isEditMode && activeKey && { "aria-activedescendant": activeDescendantId }),
-      };
+  const getCollectionProps = useCallback((userProps = {}) => {
+    if (disabled) return userProps;
+
+    return {
+      id: listboxId,
+      onFocus: handleFocus,
+      // In edit mode, container is not in tab order
+      ...(enableEditMode && { tabIndex: isEditMode ? -1 : 0 }),
+      // In edit mode, aria-activedescendant is removed
+      ...(!isEditMode && activeKey && { "aria-activedescendant": activeDescendantId }),
+      ...userProps, // Allow user to override props
+    };
+  }, [disabled, listboxId, handleFocus, enableEditMode, isEditMode, activeKey, activeDescendantId]);
 
   // Helper to enable/disable focusable descendants for specific items
   // Useful for edit mode patterns where you want to allow focus into the active item
@@ -362,9 +365,9 @@ export const useActiveDescendant = ({
     activeDescendantId,
     listboxId,
 
-    // Props objects
-    collection, // For listbox container (includes edit mode support)
-    getItemProps, // Function needed for dynamic keys
+    // Props getters
+    getCollectionProps, // For listbox container (includes edit mode support)
+    getItemProps, // For individual items
 
     // Configuration
     orientation,
