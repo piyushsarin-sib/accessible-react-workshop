@@ -1,6 +1,6 @@
 import SimpleMenuExample from "./SimpleMenuExample";
 import SectionedMenuExample from "./SectionedMenuExample";
-import "./SelectionExample.css";
+import "@lib/css/SelectionExample.css";
 
 const SingleSelectionExample = () => {
   return (

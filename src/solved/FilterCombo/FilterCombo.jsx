@@ -19,22 +19,32 @@ const priceRanges = [
 ];
 
 const FilterCombo = () => {
+  // Hooks must be called first
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
+  // Combine categories and priceRanges into a single items array
+  const allItems = [...categories, ...priceRanges];
+
+  // Event handlers
+  const handleMenuChange = (event, { selectedKeys: newSelectedKeys }) => {
+    console.log("ComboBox selection changed:", newSelectedKeys);
+    setSelectedKeys(Array.from(newSelectedKeys));
+  };
+
+  // useComboBox hook
   const comboboxState = useComboBox({
+    items: allItems,
     overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
     style: { width: "400px" },
     overlayId: "combobox-overlay",
     triggerId: "combobox-overlay-trigger",
     listboxId: "filter-combobox-listbox",
+    selectionMode: "single",
+    selectedKeys: selectedKeys,
+    onChange: handleMenuChange,
+    ariaLabel: "Product filters combobox",
   });
-
-  const handleMenuChange = (event, { selectedKeys: newSelectedKeys }) => {
-    console.log("ComboBox selection changed:", newSelectedKeys);
-    setSelectedKeys(Array.from(newSelectedKeys));
-    // comboboxState.close();
-  };
 
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
@@ -66,7 +76,6 @@ const FilterCombo = () => {
           onClick={comboboxState.toggle}
           placeholder="Search filters..."
           {...comboboxState.trigger}
-          {...comboboxState.getTriggerProps()}
           style={{
             width: "400px",
             padding: "8px 12px",
@@ -80,13 +89,7 @@ const FilterCombo = () => {
         />
       </div>
 
-      <ComboBox
-        {...comboboxState}
-        onChange={handleMenuChange}
-        selectedKeys={selectedKeys}
-        selectionMode="multiple"
-        ariaLabel="Product filters combobox"
-      >
+      <ComboBox {...comboboxState}>
         <ComboBox.Title>📦 Categories</ComboBox.Title>
         {categories.map((category) => (
           <ComboBox.Option key={category.id} value={category.id}>

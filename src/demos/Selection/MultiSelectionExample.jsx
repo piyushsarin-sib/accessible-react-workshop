@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Collection from "@lib/Collections/Collection";
 import { useSelection } from "@lib/interactions/selection/useSelection";
-import "./SelectionExample.css";
+import "@lib/css/SelectionExample.css";
 
 const options = [
   { key: "javascript", label: "JavaScript", category: "Language" },
