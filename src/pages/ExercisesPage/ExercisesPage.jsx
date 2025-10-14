@@ -19,6 +19,11 @@ export default function ExercisesPage() {
       desc: "Improved product grid layout with accessibility in mind",
     },
     {
+      to: "/playground/product-grid",
+      title: "Grid keyboard navigation with active descendant",
+      desc: "Simple grid layout with active descendant demo",
+    },
+    {
       to: "/playground/filter-menu",
       title: "Filter Menu Accessibility (popup/overlay + trigger connectivity with accessibility)",
       desc: "Improved filter menu with accessibility in mind",

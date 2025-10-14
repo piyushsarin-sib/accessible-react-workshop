@@ -26,12 +26,6 @@ const FilterCombo = () => {
   // Combine categories and priceRanges into a single items array
   const allItems = [...categories, ...priceRanges];
 
-  // Event handlers
-  const handleMenuChange = (event, { selectedKeys: newSelectedKeys }) => {
-    console.log("ComboBox selection changed:", newSelectedKeys);
-    setSelectedKeys(Array.from(newSelectedKeys));
-  };
-
   // useComboBox hook
   const comboboxState = useComboBox({
     items: allItems,
@@ -42,7 +36,12 @@ const FilterCombo = () => {
     listboxId: "filter-combobox-listbox",
     selectionMode: "single",
     selectedKeys: selectedKeys,
-    onChange: handleMenuChange,
+    onChange: (event, { selectedKeys: newSelectedKeys }) => {
+      console.log("ComboBox selection changed:", newSelectedKeys);
+      setSelectedKeys(Array.from(newSelectedKeys));
+      // Close overlay after selection
+      comboboxState.close();
+    },
     ariaLabel: "Product filters combobox",
   });
 

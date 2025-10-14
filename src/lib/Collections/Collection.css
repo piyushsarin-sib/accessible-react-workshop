@@ -74,3 +74,8 @@
 .collection-title:focus {
   outline: none;
 }
+
+/* Active descendant pattern: apply focus-within ring only when NOT keyboard-active */
+.collection-item:not([data-active-descendant]):focus-within {
+  box-shadow: 0 0 0 2px rgb(59 130 246);
+}

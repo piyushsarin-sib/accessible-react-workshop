@@ -18,6 +18,7 @@ import {
   CardWrapper as CardWrapperSolved,
   EdgeCases as EdgeCasesSolved,
   ProductsGrid as ProductsGridSolved,
+  GridActiveDescendant,
   FilterMenu as FilterMenuSolved,
   AddToCartModal as AddToCartModalSolved,
   FilterCombo,
@@ -71,6 +72,7 @@ function App() {
         <Route path="/playground/e-commerce" element={<ECommIssues />} />
         <Route path="/playground/card-wrapper" element={<CardWrapper />} />
         <Route path="/playground/product-grid" element={<ProductsGrid />} />
+        <Route path="/playground/grid-active-descendant" element={<GridActiveDescendant />} />
         <Route path="/playground/filter-menu" element={<FilterMenu />} />
         <Route path="/playground/cart-modal" element={<AddToCartModal />} />
         <Route path="/playground/filter-combo" element={<FilterCombo />} />

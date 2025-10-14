@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { createNavigationDelegate } from "../delegates/index.js";
 import { createKeyboardDelegate } from "../utils/keyboardPrimitives.js";
+import { manageFocusableDescendants } from "@lib/Collections/utils/activeDescendantUtils";
 
 /**
  * Hook for managing aria-activedescendant keyboard navigation
@@ -22,6 +23,8 @@ import { createKeyboardDelegate } from "../utils/keyboardPrimitives.js";
  * @param {boolean} [options.loop=true] - Whether to loop at collection boundaries
  * @param {boolean} [options.disabled=false] - Whether navigation is disabled
  * @param {string} [options.listboxId] - ID for the listbox container (required for aria-activedescendant)
+ * @param {boolean} [options.enableEditMode=false] - Enable Enter/Escape edit mode pattern
+ * @param {Ref} [options.containerRef] - Ref to container element (required if enableEditMode is true)
  *
  * @returns {Object} Navigation state and methods
  */
@@ -34,8 +37,11 @@ export const useActiveDescendant = ({
   loop = true,
   disabled = false,
   listboxId,
+  enableEditMode = false,
+  containerRef,
 } = {}) => {
   const [activeKey, setActiveKey] = useState(defaultActiveKey);
+  const [isEditMode, setIsEditMode] = useState(false);
   const itemRefs = useRef(new Map()); // Map to store element refs: key -> element
 
   // Convert items to array of keys/indices if needed
@@ -121,14 +127,88 @@ export const useActiveDescendant = ({
     return orientation === "horizontal" || orientation === "both";
   }, [orientation]);
 
+  // Check if an item has interactive elements
+  const hasInteractiveElements = useCallback((key) => {
+    const element = itemRefs.current.get(key);
+    if (!element) return false;
+
+    const focusableSelectors =
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])';
+    const focusable = element.querySelector(focusableSelectors);
+    return !!focusable;
+  }, []);
+
+  // Enter edit mode - move focus to first interactive element in active item
+  const enterEditMode = useCallback(() => {
+    if (!enableEditMode || !activeKey || isEditMode || disabled) return;
+
+    // Check if active item has interactive elements
+    if (!hasInteractiveElements(activeKey)) return;
+
+    setIsEditMode(true);
+
+    // Enable focusables for active item
+    const activeElement = itemRefs.current.get(activeKey);
+    if (activeElement) {
+      manageFocusableDescendants(activeElement, true);
+
+      // Focus first interactive element
+      const focusable = activeElement.querySelector(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])'
+      );
+      if (focusable) {
+        focusable.focus();
+      }
+    }
+  }, [enableEditMode, activeKey, isEditMode, disabled, hasInteractiveElements]);
+
+  // Exit edit mode - return focus to container and restore aria-activedescendant
+  const exitEditMode = useCallback(() => {
+    if (!enableEditMode || !isEditMode) return;
+
+    setIsEditMode(false);
+
+    // Disable focusables for all items
+    if (activeKey) {
+      const activeElement = itemRefs.current.get(activeKey);
+      if (activeElement) {
+        manageFocusableDescendants(activeElement, false);
+      }
+    }
+
+    // Return focus to container
+    if (containerRef?.current) {
+      containerRef.current.focus();
+    }
+  }, [enableEditMode, isEditMode, activeKey, containerRef]);
+
   // Keyboard event handler
   const handleKeyDown = useCallback(
     (event) => {
       if (disabled) return;
 
+      // In edit mode, only handle Escape
+      if (isEditMode) {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          exitEditMode();
+          return true;
+        }
+        // Let other keys bubble to interactive elements
+        return false;
+      }
+
+      // In navigation mode
       let handled = false;
 
       switch (event.key) {
+        case "Enter":
+          if (enableEditMode && activeKey) {
+            event.preventDefault();
+            enterEditMode();
+            handled = true;
+          }
+          break;
         case "ArrowRight":
           navigate(isHorizontalNavigation ? "right" : "next");
           handled = true;
@@ -166,7 +246,7 @@ export const useActiveDescendant = ({
 
       return handled;
     },
-    [disabled, navigate, isHorizontalNavigation],
+    [disabled, isEditMode, enableEditMode, activeKey, navigate, isHorizontalNavigation, enterEditMode, exitEditMode],
   );
 
   // Memoize active index calculation
@@ -185,10 +265,13 @@ export const useActiveDescendant = ({
 
       return {
         id: `${listboxId}-${key}`,
-        "data-active-descendant": isActive,
+        ...(isActive && { "data-active-descendant": true }),
         ref: (element) => {
           if (element) {
             itemRefs.current.set(key, element);
+            // Automatically manage focusable descendants for active descendant pattern
+            // Remove all focusables from tab order by default (in navigation mode)
+            manageFocusableDescendants(element, false);
           } else {
             itemRefs.current.delete(key);
           }
@@ -216,38 +299,71 @@ export const useActiveDescendant = ({
 
   // Compute aria-activedescendant ID for trigger element
   // This should be used by the parent (e.g., useComboBox) to set on the trigger
-  const activeDescendantId = activeKey ? `${listboxId}-${activeKey}` : undefined;
+  // In edit mode, aria-activedescendant is removed since focus moves into the item
+  const activeDescendantId = !isEditMode && activeKey ? `${listboxId}-${activeKey}` : undefined;
+
+  // Handle focus on container - activate first item if none is active
+  const handleFocus = useCallback(() => {
+    if (disabled || activeKey !== null || isEditMode) return;
+
+    // Activate first item when container receives focus
+    if (itemKeys.length > 0) {
+      navigateTo(itemKeys[0]);
+    }
+  }, [disabled, activeKey, itemKeys, navigateTo, isEditMode]);
 
   // Collection props - for listbox container
   // Note: role and labels should come from useCollectionAria, not here
-  // This only provides the ID for aria-activedescendant linkage
+  // This provides ID, focus handling, and edit mode support
   const collection = disabled
     ? {}
     : {
         id: listboxId,
+        onFocus: handleFocus,
+        // In edit mode, container is not in tab order
+        ...(enableEditMode && { tabIndex: isEditMode ? -1 : 0 }),
+        // In edit mode, aria-activedescendant is removed
+        ...(!isEditMode && activeKey && { "aria-activedescendant": activeDescendantId }),
       };
+
+  // Helper to enable/disable focusable descendants for specific items
+  // Useful for edit mode patterns where you want to allow focus into the active item
+  const setItemFocusable = useCallback(
+    (key, isFocusable) => {
+      const element = itemRefs.current.get(key);
+      if (element) {
+        manageFocusableDescendants(element, isFocusable);
+      }
+    },
+    [],
+  );
 
   return {
     // State
     activeKey,
     activeIndex,
     totalItems,
+    isEditMode, // Edit mode state (if enabled)
 
     // Navigation methods
     navigateTo,
     navigate,
     handleKeyDown, // Export for parent to use in trigger
 
+    // Edit mode methods (if enabled)
+    ...(enableEditMode && { enterEditMode, exitEditMode }),
+
     // Utilities
     isActive: (key) => key === activeKey,
     getCurrentPosition,
+    setItemFocusable, // Helper for manual edit mode control
 
     // For aria-activedescendant attribute on trigger
     activeDescendantId,
     listboxId,
 
     // Props objects
-    collection, // For listbox container (just id)
+    collection, // For listbox container (includes edit mode support)
     getItemProps, // Function needed for dynamic keys
 
     // Configuration
