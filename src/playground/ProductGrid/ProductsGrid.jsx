@@ -73,6 +73,7 @@ const ProductsGrid = () => {
   }
 
   // ✏️ TODO STEP 1: Invoke Collection Component & pass required props
+
   //  <Collection
   //       as="ul"
   //       itemAs="li"
@@ -80,6 +81,47 @@ const ProductsGrid = () => {
   //       ariaLabel="Product cards"
   //       className="grid grid-cols-2 md:grid-cols-4 gap-4"
   //     ></Collection>
+
+  // ✏️ TODO STEP 2: Invoke Collection.Item as children of Collection & pass required props
+
+  // {products.map((product) => (
+  //   <Collection.Item
+  //     key={product.id}
+  //     className="border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-500 focus-within:border-2"
+  //   ></Collection.Item>
+  // ))}
+
+  // ✏️ TODO STEP 3: Pass all the content of <li> tag as children of Collection.Item
+
+  // <img
+  //   src={product.image}
+  //   alt={product.alt}
+  //   className="w-full h-32 object-cover mb-3 rounded"
+  // />
+  // <h3 className="text-lg font-semibold line-clamp-1">{product.name}</h3>
+  // <p className="mb-2 text-sm line-clamp-2 h-10 overflow-hidden">{product.description}</p>
+  // <span className="block font-bold mb-2 text-blue-700">{product.price}</span>
+  // <Button
+  //   onClick={() => {}}
+  //   className="w-full px-3 py-1.5 text-sm focus:ring-0"
+  //   ariaLabel={`Add ${product.name} to cart`}
+  //   variant="primary"
+  // >
+  //   Add to Cart
+  // </Button>
+
+  // ✏️ TODO STEP 4: Invoke useRovingIndex hook & pass required props to enable keyboard navigation.
+  // Spread the returned prop getters on Collection and Collection.Item
+
+  // const gridNav = useRovingIndex({
+  //   items: products,
+  //   orientation: "both",
+  //   // columnsCount: 4,
+  //   defaultActiveKey: products.length > 0 ? products[0].id : null,
+  // });
+
+  // <Collection  {...gridNav.getCollectionProps()}></<Collection>
+  // <Collection.Item  {...gridNav.getItemProps(product.id)}></Collection.Item>
 
   return (
     <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">

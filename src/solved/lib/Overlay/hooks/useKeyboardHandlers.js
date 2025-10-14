@@ -16,12 +16,13 @@ import { isTabKey } from "../helpers/keyUtils";
 const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, placement }) => {
   const handleKeyDown = useCallback(
     (event) => {
-      // 1. Handle Escape key
+      // ✅ STEP 1a: Handled ESC keyto close the overlay & return.
       if (shouldCloseOnEscape(event)) {
         setVisible(false);
         return;
       }
 
+      // ✅ STEP 1b: Handled TAB key to apply focus trap for modal overlays or close non-modal overlays.
       if (isTabKey(event)) {
         // For modal overlays: apply focus trap
         if (shouldApplyFocusTrap(backdrop, placement)) {

@@ -42,6 +42,7 @@ const Menu = ({
   ...props
 }) => {
   return (
+    // ✅ STEP 1: Overlay component integrated with relevant props
     <Overlay
       trigger={trigger}
       body={body}
