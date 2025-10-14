@@ -17,7 +17,7 @@ const Header = () => {
             alt="Brevo Logo"
             style={{ display: "inline-block", verticalAlign: "middle", marginRight: "1rem" }}
           />
-          Accessibility from Day One: React Development Done Right
+          Home
         </a>
         <div className="flex items-center">
           <ul className="flex space-x-6 mr-6">
@@ -34,7 +34,7 @@ const Header = () => {
                 href="/exercises"
                 className="transition-colors duration-300"
               >
-                Exercises
+                Examples
               </a>
             </li>
           </ul>

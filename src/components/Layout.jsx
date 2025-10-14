@@ -8,7 +8,7 @@ const Layout = ({ children, withLayout, showHeader, showFooter }) => {
       <>
         {showHeader && <Header />}
         <main
-          className={`${withLayout ? "flex flex-col items-center justify-center px-6 py-12 text-center" : ""}`}
+          className={`${withLayout ? "flex flex-col items-center justify-center px-6 py-6 text-center" : ""}`}
         >
           {children}
         </main>
