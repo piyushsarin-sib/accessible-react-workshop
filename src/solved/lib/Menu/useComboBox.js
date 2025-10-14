@@ -90,8 +90,8 @@ export const useComboBox = ({
     "aria-autocomplete": "list",
     "aria-activedescendant": navigation.activeDescendantId,
     onKeyDown: (event) => {
-      // Handle Enter key
-      if (event.key === "Enter") {
+      // Handle Enter and Space keys for selection
+      if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
 
         if (!overlayControls.body.visible) {
@@ -99,7 +99,7 @@ export const useComboBox = ({
           overlayControls.open();
         } else if (navigation.activeKey) {
           // Menu open and has active item - trigger selection
-          // Per ARIA guidelines: Enter accepts the focused option in the listbox
+          // Per ARIA guidelines: Enter and Space accept the focused option in the listbox
           const item = navigationItems.find(
             (i) => (i.key || i.id) === navigation.activeKey
           );

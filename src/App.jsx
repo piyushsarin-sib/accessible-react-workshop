@@ -16,10 +16,12 @@ import {
 
 import {
   CardWrapper as CardWrapperSolved,
-  EdgeCases as EdgeCasesSolved
+  EdgeCases as EdgeCasesSolved,
+  ProductsGrid as ProductsGridSolved,
+  FilterMenu as FilterMenuSolved,
+  AddToCartModal as AddToCartModalSolved,
+  FilterCombo,
 } from "./solved";
-
-import FilterCombo from "./solved/FilterCombo";
 
 // Demo imports
 import {
@@ -65,8 +67,7 @@ function App() {
           }
         />
 
-
-       {/* Playground Routes */}
+        {/* Playground Routes */}
         <Route path="/playground/e-commerce" element={<ECommIssues />} />
         <Route path="/playground/card-wrapper" element={<CardWrapper />} />
         <Route path="/playground/product-grid" element={<ProductsGrid />} />
@@ -75,14 +76,13 @@ function App() {
         <Route path="/playground/filter-combo" element={<FilterCombo />} />
         <Route path="/playground/edge-cases" element={<EdgeCases />} />
 
-
         {/* Solved Routes */}
         <Route path="/solved/card-wrapper" element={<CardWrapperSolved />} />
+        <Route path="/solved/product-grid" element={<ProductsGridSolved />} />
+        <Route path="/solved/filter-menu" element={<FilterMenuSolved />} />
+        <Route path="/solved/cart-modal" element={<AddToCartModalSolved />} />
         <Route path="/solved/edge-cases" element={<EdgeCasesSolved />} />
-        <Route path="/solved/filter-combo" element={<FilterCombo />} />
         <Route path="/solved/e-commerce" element={<ECommercePage />} />
-        
-
 
         {/* Demo Routes */}
         <Route path="/demos/vertical-lists" element={<ListExample />} />

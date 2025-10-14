@@ -30,7 +30,7 @@ export default function ExercisesPage() {
     },
     {
       to: "/playground/filter-combo",
-      title: "Filter Combo Menu variant with active descandant keybaord navigation",
+      title: "A popup multi-select listbox + active aria descendant ???",
       desc: "Improved Combo Menu variant with accessibility in mind",
     },
     {
