@@ -72,6 +72,15 @@ const ProductsGrid = () => {
     return null;
   }
 
+  // ✏️ TODO STEP 1: Invoke Collection Component & pass required props
+  //  <Collection
+  //       as="ul"
+  //       itemAs="li"
+  //       pattern="grid"
+  //       ariaLabel="Product cards"
+  //       className="grid grid-cols-2 md:grid-cols-4 gap-4"
+  //     ></Collection>
+
   return (
     <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {products.map((product) => (

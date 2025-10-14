@@ -3,7 +3,7 @@ import { useMenuState } from './hooks/useMenuState';
 import MenuTitle from './MenuTitle';
 import MenuOption from './MenuOption';
 import { MenuContext } from './MenuContext';
-import '../css/SelectionExample.css';
+import "@lib/css/SelectionExample.css";
 
 /**
  * MenuList - Standalone menu component without overlay
