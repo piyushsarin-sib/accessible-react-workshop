@@ -13,15 +13,15 @@ import MenuOption from "./MenuOption";
  * then spread trigger props on their search input element
  *
  * @example
- * const menuState = useMenu({
+ * const comboboxState = useComboBox({
  *   overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
  *   style: { width: '250px' }
  * });
  *
  * return (
  *   <>
- *     <input {...menuState.trigger} {...comboboxState.getTriggerProps()} />
- *     <ComboBox {...menuState} onChange={handleChange} ariaLabel="My combobox">
+ *     <input {...comboboxState.trigger} />
+ *     <ComboBox {...comboboxState} onChange={handleChange} ariaLabel="My combobox">
  *       <ComboBox.Option>Item 1</ComboBox.Option>
  *     </ComboBox>
  *   </>
@@ -43,9 +43,8 @@ const ComboBox = ({
   onChange,
   ariaLabel,
   listboxId = "combobox-listbox",
-  activeKey,
-  setActiveKey,
-  keyboardHandlerRef,
+  navigation,
+  itemsRef,
   ...props
 }) => {
   return (
@@ -70,9 +69,8 @@ const ComboBox = ({
         open={open}
         toggle={toggle}
         listboxId={listboxId}
-        activeKey={activeKey}
-        setActiveKey={setActiveKey}
-        keyboardHandlerRef={keyboardHandlerRef}
+        navigation={navigation}
+        itemsRef={itemsRef}
         {...props}
       >
         {children}

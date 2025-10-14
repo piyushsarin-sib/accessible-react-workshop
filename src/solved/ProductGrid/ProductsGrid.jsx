@@ -89,7 +89,7 @@ const ProductsGrid = () => {
       {products.map((product) => (
         <Collection.Item
           key={product.id}
-          className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
+          className="border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-500 focus-within:border-2"
           {...gridNav.getItemProps(product.id)}
         >
           <img
@@ -102,7 +102,7 @@ const ProductsGrid = () => {
           <span className="block font-bold mb-2 text-blue-700">{product.price}</span>
           <Button
             onClick={() => {}}
-            className="w-full px-3 py-1.5 text-sm"
+            className="w-full px-3 py-1.5 text-sm focus:ring-0"
             ariaLabel={`Add ${product.name} to cart`}
             variant="primary"
           >

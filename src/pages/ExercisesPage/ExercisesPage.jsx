@@ -19,6 +19,11 @@ export default function ExercisesPage() {
       desc: "Improved product grid layout with accessibility in mind",
     },
     {
+      to: "/playground/grid-active-descendant",
+      title: "Grid keyboard navigation with active descendant",
+      desc: "Simple grid layout with active descendant demo",
+    },
+    {
       to: "/playground/filter-menu",
       title: "Filter Menu Accessibility (popup/overlay + trigger connectivity with accessibility)",
       desc: "Improved filter menu with accessibility in mind",
@@ -30,7 +35,7 @@ export default function ExercisesPage() {
     },
     {
       to: "/playground/filter-combo",
-      title: "Filter Combo Menu variant with active descandant keybaord navigation",
+      title: "A popup multi-select listbox + active aria descendant ???",
       desc: "Improved Combo Menu variant with accessibility in mind",
     },
     {

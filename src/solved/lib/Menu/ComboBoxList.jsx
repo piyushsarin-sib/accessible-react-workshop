@@ -1,59 +1,41 @@
-/* eslint-disable */
-
 import React from "react";
 import Collection from "@lib/Collections/Collection";
 import { useComboboxState } from "./hooks/useComboboxState";
 import MenuTitle from "./MenuTitle";
 import MenuOption from "./MenuOption";
 import { MenuContext } from "./MenuContext";
-import "@demo/Selection/SelectionExample.css";
+import "@lib/css/SelectionExample.css";
 
 /**
  * ComboBoxList - Standalone combobox component using aria-activedescendant
  * Use this when focus should remain on the trigger (e.g., search input)
  */
 const ComboBoxList = ({
-  selectedKeys,
-  onChange,
-  defaultSelectedKeys = [],
-  selectionMode = "single",
   className = "selection-menu",
-  ariaLabel,
   children,
   close,
   open,
   toggle,
   listboxId = "combobox-listbox",
-  activeKey,
-  setActiveKey,
-  keyboardHandlerRef,
+  navigation,
+  itemsRef,
+  selection,
   ...props
 }) => {
-  // Use useComboboxState hook for combobox logic (children processing, keyboard nav)
+  // Use useComboboxState hook for children processing
   const combobox = useComboboxState({
     children,
-    selectedKeys,
-    defaultSelectedKeys,
-    onChange,
-    ariaLabel,
-    selectionMode,
     listboxId,
+    navigation,
+    selection,
   });
 
-  // Sync activeKey changes from keyboard navigation to parent
-  // When combobox navigation changes activeKey, update the parent's activeKey
+  // Set items in ref for useComboBox's useActiveDescendant (for children-based rendering)
   React.useEffect(() => {
-    if (combobox.navigation?.activeKey !== undefined && setActiveKey) {
-      setActiveKey(combobox.navigation.activeKey);
+    if (itemsRef) {
+      itemsRef.current = combobox.menuNodes;
     }
-  }, [combobox.navigation?.activeKey, setActiveKey]);
-
-  // Set the keyboard handler in the ref so the input can use it
-  React.useEffect(() => {
-    if (keyboardHandlerRef && combobox.navigation?.handleKeyDown) {
-      keyboardHandlerRef.current = combobox.navigation.handleKeyDown;
-    }
-  }, [keyboardHandlerRef, combobox.navigation]);
+  }, [itemsRef, combobox.menuNodes]);
 
   return (
     <MenuContext.Provider value={{ menu: combobox, close, open, toggle }}>

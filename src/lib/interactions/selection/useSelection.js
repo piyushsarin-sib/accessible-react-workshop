@@ -9,7 +9,7 @@ import { useCollectionAria } from "@lib/Collections/hooks/useCollectionAria";
  * @param {Function} options.onChange - Selection change handler (called on both controlled and uncontrolled modes)
  * @param {Set} options.defaultSelectedKeys - Default selected items (uncontrolled mode)
  * @param {string} options.role - Collection role for proper ARIA attributes
- * @param {string} options.pattern - Pre-configured pattern ('listbox', 'menu', 'tabs', 'tree', 'radiogroup')
+ * @param {string} options.pattern - Pre-configured pattern ('listbox', 'menu', 'tabs', 'tree', 'radiogroup', 'checkboxgroup')
  * @param {string} options.label - Accessible label for the collection
  * @returns {Object} Selection state and handlers
  */
@@ -188,7 +188,7 @@ export const useSelection = ({
     // Selection state
     hasSelection: selectedKeys.size > 0,
     selectionCount: selectedKeys.size,
-    // Collection ARIA props
+    // Collection ARIA props from useCollectionAria
     getCollectionAriaProps: aria.getCollectionAriaProps,
   };
 };

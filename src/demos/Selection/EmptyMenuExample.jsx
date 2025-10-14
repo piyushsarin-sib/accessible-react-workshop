@@ -1,5 +1,5 @@
 import { MenuList } from "@lib/Menu";
-import "./SelectionExample.css";
+import "@lib/css/SelectionExample.css";
 
 const UncontrolledMenuExample = () => {
   const handleChange = () => {

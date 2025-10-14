@@ -1,4 +1,12 @@
 import { useMemo } from "react";
+import {
+  COLLECTION_PATTERNS,
+  ROLE_INHERITANCE_RULES,
+  ROLE_ORIENTATION_DEFAULTS,
+  ROLES_WITH_MULTISELECTABLE,
+  COLLECTION_ITEM_ROLES,
+  SEMANTIC_ELEMENT_ROLES,
+} from "../constants/aria-config.js";
 
 /**
  * Hook for generating ARIA attributes for collection components
@@ -11,7 +19,6 @@ import { useMemo } from "react";
  * @param {string} options.label - Accessible label for the collection
  * @param {string} options.labelledBy - ID of element that labels the collection
  * @param {string} options.describedBy - ID of element that describes the collection
- * @param {string} options.activeDescendant - ID of the currently active descendant element
  * @param {boolean} options.busy - Whether the collection is loading/busy
  * @returns {Object} ARIA attributes for collection and items
  */
@@ -23,64 +30,13 @@ export const useCollectionAria = ({
   label,
   labelledBy,
   describedBy,
-  activeDescendant,
   busy,
   parentRole,
   pattern,
 } = {}) => {
-  // Helper to determine common collection patterns
+  // Helper to get collection pattern configuration
   const getCollectionPattern = (pattern) => {
-    const patterns = {
-      listbox: {
-        role: "listbox",
-        itemRole: "option",
-        selectionAttribute: "aria-selected",
-      },
-      menu: {
-        role: "menu",
-        itemRole: "menuitem",
-        selectionAttribute: "aria-selected",
-      },
-      tabs: {
-        role: "tablist",
-        itemRole: "tab",
-        selectionAttribute: "aria-selected",
-        // Default orientation is horizontal, only specify if vertical
-      },
-      tree: {
-        role: "tree",
-        itemRole: "treeitem",
-        selectionAttribute: "aria-selected",
-      },
-      radiogroup: {
-        role: "radiogroup",
-        itemRole: "radio",
-        selectionAttribute: "aria-checked",
-        selectionMode: "single",
-      },
-      grid: {
-        role: "grid",
-        itemRole: "gridcell",
-        selectionAttribute: "aria-selected",
-      },
-      toolbar: {
-        role: "toolbar",
-        itemRole: null, // buttons are naturally interactive
-        selectionAttribute: "aria-pressed",
-      },
-      navigation: {
-        role: "navigation",
-        itemRole: null, // links are naturally interactive
-        selectionAttribute: null,
-      },
-      list: {
-        role: "list",
-        itemRole: "listitem",
-        selectionAttribute: null,
-      },
-    };
-
-    return patterns[pattern] || {};
+    return COLLECTION_PATTERNS[pattern] || {};
   };
 
   // Determine effective role based on inheritance
@@ -89,14 +45,9 @@ export const useCollectionAria = ({
     if (explicitRole) return explicitRole;
 
     // Apply inheritance rules based on parent role
-    const inheritanceRules = {
-      tree: "group", // tree -> group -> group -> group...
-      group: "group", // group -> group -> group... (maintains grouping)
-      list: "list", // list -> list -> list... (maintains list structure)
-      menu: "menu", // menu -> menu -> menu... (for nested menus)
-    };
-
-    return parentRole && inheritanceRules[parentRole] ? inheritanceRules[parentRole] : undefined;
+    return parentRole && ROLE_INHERITANCE_RULES[parentRole]
+      ? ROLE_INHERITANCE_RULES[parentRole]
+      : undefined;
   };
 
   // Compute pattern config with all resolved roles (memoized to prevent dependency issues)
@@ -119,26 +70,15 @@ export const useCollectionAria = ({
         props.role = effectiveRole;
       }
 
-      // Selection attributes
-      if (selectionMode !== "none") {
-        props["aria-multiselectable"] = selectionMode === "multiple";
+      // Selection attributes - only for roles that support aria-multiselectable
+      // According to ARIA spec, only listbox, tree, grid, and treegrid support aria-multiselectable
+      if (selectionMode === "multiple" && ROLES_WITH_MULTISELECTABLE.includes(effectiveRole)) {
+        props["aria-multiselectable"] = true;
       }
 
       // Orientation - only add when it differs from the role's default
-      const roleDefaults = {
-        tablist: "horizontal",
-        toolbar: "horizontal",
-        menubar: "horizontal",
-        listbox: "vertical",
-        menu: "vertical",
-        slider: "horizontal",
-        scrollbar: "vertical",
-        tree: null,  // Trees don't use aria-orientation (always hierarchical)
-        grid: null,  // Grids use row/column model, not orientation
-      };
-
       const finalOrientation = orientation ?? config.orientation;
-      const defaultOrientation = roleDefaults[effectiveRole];
+      const defaultOrientation = ROLE_ORIENTATION_DEFAULTS[effectiveRole];
 
       // Only add aria-orientation if:
       // 1. Role supports orientation (default is not null), AND
@@ -159,11 +99,6 @@ export const useCollectionAria = ({
         props["aria-describedby"] = describedBy;
       }
 
-      // Active descendant - for composite widgets with keyboard navigation
-      if (activeDescendant) {
-        props["aria-activedescendant"] = activeDescendant;
-      }
-
       // Busy state - for loading collections
       if (busy !== undefined) {
         props["aria-busy"] = busy;
@@ -171,7 +106,7 @@ export const useCollectionAria = ({
 
       return props;
     };
-  }, [effectiveRole, selectionMode, orientation, label, labelledBy, describedBy, activeDescendant, busy, config]);
+  }, [effectiveRole, selectionMode, orientation, label, labelledBy, describedBy, busy, config]);
 
   const getItemAriaProps = useMemo(() => {
     return (key, options = {}) => {
@@ -188,52 +123,13 @@ export const useCollectionAria = ({
         props.role = resolvedItemRole;
       } else if (effectiveRole) {
         // Auto-determine item role based on effective collection role
-        const itemRoles = {
-          listbox: "option",
-          menu: "menuitem",
-          menubar: "menuitem",
-          tablist: "tab",
-          tree: "treeitem",
-          grid: "gridcell",
-          radiogroup: "radio",
-          list: "listitem",
-          toolbar: null, // buttons are naturally interactive, no role needed
-          navigation: null, // links are naturally interactive, no role needed
-          group: "treeitem", // groups in trees contain tree items
-        };
-
-        // Check if we should avoid overriding semantic HTML roles
-        const semanticElements = {
-          button: "button",
-          a: "link",
-          article: "article",
-          section: "region",
-          nav: "navigation",
-          aside: "complementary",
-          main: "main",
-          header: "banner",
-          footer: "contentinfo",
-          form: "form",
-          input: null, // varies by type
-          textarea: "textbox",
-          select: "combobox",
-          img: "img",
-          figure: "figure",
-          table: "table",
-          thead: "rowgroup",
-          tbody: "rowgroup",
-          tr: "row",
-          th: "columnheader",
-          td: "cell",
-        };
-
         // Only apply collection item role if element doesn't have semantic role
         if (
-          Object.prototype.hasOwnProperty.call(itemRoles, effectiveRole) &&
-          itemRoles[effectiveRole] !== null &&
-          (!elementType || !semanticElements[elementType])
+          Object.prototype.hasOwnProperty.call(COLLECTION_ITEM_ROLES, effectiveRole) &&
+          COLLECTION_ITEM_ROLES[effectiveRole] !== null &&
+          (!elementType || !SEMANTIC_ELEMENT_ROLES[elementType])
         ) {
-          props.role = itemRoles[effectiveRole];
+          props.role = COLLECTION_ITEM_ROLES[effectiveRole];
         }
       }
 

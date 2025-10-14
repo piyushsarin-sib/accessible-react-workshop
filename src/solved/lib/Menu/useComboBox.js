@@ -1,43 +1,53 @@
-/* eslint-disable */
-
-import React, { useId, useState, useCallback } from "react";
+import { useId, useRef } from "react";
 import useOverlay from "@solved/lib/Overlay/hooks/useOverlay";
+import { useActiveDescendant } from "@lib/interactions/keyboard/hooks/useActiveDescendant";
+import { useSelection } from "@lib/interactions/selection/useSelection";
 
 /**
- * Hook for integrating combobox with overlay and active descendant navigation
- * Similar to useMenu but manages activeKey and provides trigger props for aria-activedescendant
- *
- * The key difference from useMenu:
- * - Maintains activeKey state for keyboard navigation
- * - Provides getTriggerProps() that includes aria-activedescendant
- * - Keyboard handler updates activeKey (focus stays on input)
+ * Hook for integrating combobox with overlay, active descendant navigation, and selection
+ * This is a convenience wrapper that combines useOverlay + useActiveDescendant + useSelection
+ * and merges their trigger props for consumers
  *
  * @param {Object} options - Configuration options
+ * @param {Array} options.items - Array of items for navigation (optional - if not provided, itemsRef will be used)
  * @param {Object} options.overlayConfig - Overlay configuration (placement, offset, etc)
  * @param {Object} options.style - Inline styles for overlay
  * @param {string} options.className - CSS class for overlay
  * @param {string} options.triggerId - ID for trigger element (input)
  * @param {string} options.overlayId - ID for overlay element
  * @param {string} options.listboxId - ID for listbox (required for aria-activedescendant)
- * @returns {Object} Overlay controls + getTriggerProps + activeKey + setActiveKey + listboxId
+ * @param {string} options.selectionMode - Selection mode: 'single', 'multiple', or 'none'
+ * @param {Array} options.selectedKeys - Controlled selected keys
+ * @param {Array} options.defaultSelectedKeys - Default selected keys (uncontrolled mode)
+ * @param {Function} options.onChange - Selection change handler
+ * @param {string} options.ariaLabel - Accessible label for the combobox
+ * @returns {Object} Overlay controls + merged trigger props + listboxId + selection state
  */
 export const useComboBox = ({
+  items,
   overlayConfig,
   style,
   className,
   triggerId,
   overlayId,
   listboxId,
+  selectionMode = "single",
+  selectedKeys,
+  defaultSelectedKeys,
+  onChange,
+  ariaLabel,
 } = {}) => {
-  // Generate stable IDs
+  // Generate stable IDs (lazy generation - only if not provided)
   const generatedTriggerId = useId();
   const generatedOverlayId = useId();
   const generatedListboxId = useId();
 
+  const finalTriggerId = triggerId || generatedTriggerId;
+  const finalOverlayId = overlayId || generatedOverlayId;
   const finalListboxId = listboxId || generatedListboxId;
 
-  // Track which item is currently active (for aria-activedescendant)
-  const [activeKey, setActiveKey] = useState(null);
+  // Ref to store items from ComboBoxList
+  const itemsRef = useRef([]);
 
   // Get overlay controls for positioning and visibility
   const overlayControls = useOverlay({
@@ -45,66 +55,103 @@ export const useComboBox = ({
     ...(overlayConfig || {}),
     style,
     className,
-    triggerId: triggerId || generatedTriggerId,
-    bodyId: overlayId || generatedOverlayId,
+    triggerId: finalTriggerId,
+    bodyId: finalOverlayId,
   });
 
-  // Store the keyboard handler from ComboBoxList
-  const keyboardHandlerRef = React.useRef(null);
+  // Use items prop if provided, otherwise fallback to itemsRef.current
+  const navigationItems = items || itemsRef.current;
 
-  // Get props for the input trigger (includes aria-activedescendant)
-  const getTriggerProps = useCallback(() => {
-    // Merge keyboard handlers - call both Overlay's handler and navigation handler
-    const mergedKeyDown = (event) => {
-      // Handle Enter key to open menu
-      if (event.key === "Enter" && !overlayControls.body.visible) {
+  // Use selection for managing selected state
+  const selection = useSelection({
+    selectionMode,
+    selectedKeys: selectedKeys !== undefined ? new Set(selectedKeys) : undefined,
+    defaultSelectedKeys: defaultSelectedKeys ? new Set(defaultSelectedKeys) : new Set(),
+    onChange: (event, { selectedKeys: newSelectedKeys }) => {
+      onChange?.(event, { selectedKeys: newSelectedKeys });
+    },
+    pattern: "menu",
+    label: ariaLabel,
+  });
+
+  // Use active descendant for keyboard navigation
+  const navigation = useActiveDescendant({
+    items: navigationItems,
+    orientation: "vertical",
+    loop: true,
+    defaultActiveKey: navigationItems.length > 0 ? navigationItems[0].key || navigationItems[0].id : null,
+    listboxId: finalListboxId,
+  });
+
+  // Merge trigger props from overlay and combobox
+  const trigger = {
+    ...overlayControls.trigger,      // aria-expanded, aria-controls, aria-haspopup, onKeyDown (Escape)
+    role: "combobox",
+    "aria-autocomplete": "list",
+    "aria-activedescendant": navigation.activeDescendantId,
+    onKeyDown: (event) => {
+      // Handle Enter and Space keys for selection
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+
+        if (!overlayControls.body.visible) {
+          // Menu closed - open it
+          overlayControls.open();
+        } else if (navigation.activeKey) {
+          // Menu open and has active item - trigger selection
+          // Per ARIA guidelines: Enter and Space accept the focused option in the listbox
+          const item = navigationItems.find(
+            (i) => (i.key || i.id) === navigation.activeKey
+          );
+          selection.toggleSelection(event, { key: navigation.activeKey, item });
+
+          // Close menu after selection (standard combobox behavior)
+          overlayControls.close();
+        }
+        return;
+      }
+
+      // Handle Down Arrow - open menu if closed (per ARIA guidelines)
+      if (event.key === "ArrowDown" && !overlayControls.body.visible) {
         event.preventDefault();
         overlayControls.open();
         return;
       }
 
-      // Call the trigger's original onKeyDown (from Overlay) first
+      // Call overlay's onKeyDown first (handles Escape)
       if (overlayControls.trigger.onKeyDown) {
         overlayControls.trigger.onKeyDown(event);
       }
-      // Then call navigation handler if not already handled
-      if (!event.defaultPrevented && keyboardHandlerRef.current) {
-        keyboardHandlerRef.current(event);
-      }
-    };
 
-    return {
-      role: "combobox",
-      "aria-controls": finalListboxId,
-      "aria-expanded": overlayControls.body.visible,
-      "aria-autocomplete": "list",
-      "aria-activedescendant": activeKey ? `${finalListboxId}-option-${activeKey}` : undefined,
-      onKeyDown: mergedKeyDown,
-    };
-  }, [
-    finalListboxId,
-    overlayControls.body.visible,
-    activeKey,
-    overlayControls.trigger,
-    overlayControls.open,
-    keyboardHandlerRef,
-  ]);
+      // Then call navigation handler if not already handled (handles arrow keys)
+      if (!event.defaultPrevented) {
+        navigation.handleKeyDown(event);
+      }
+    },
+  };
 
   return {
-    // Overlay controls (same as useMenu)
-    ...overlayControls,
+    // Overlay methods
+    open: overlayControls.open,
+    close: overlayControls.close,
+    toggle: overlayControls.toggle,
+    setVisible: overlayControls.setVisible,
+    body: overlayControls.body,
 
-    // Trigger props for the input (includes aria-activedescendant)
-    getTriggerProps,
+    // Merged trigger props object
+    trigger,
 
-    // Active key management (for keyboard navigation)
-    activeKey,
-    setActiveKey,
+    // Navigation state
+    navigation,
 
-    // Keyboard handler ref (to be set by ComboBoxList)
-    keyboardHandlerRef,
+    // Selection state
+    selection,
+    selectedKeys: selection.selectedKeys,
 
-    // ListboxId for aria-activedescendant linkage
+    // Ref for ComboBoxList to populate with items (for children-based rendering)
+    itemsRef,
+
+    // ListboxId for ComboBoxList
     listboxId: finalListboxId,
   };
 };
