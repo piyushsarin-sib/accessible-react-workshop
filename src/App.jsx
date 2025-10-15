@@ -4,6 +4,8 @@ import LandingPage from "./pages/LandingPage";
 import ECommercePage from "./pages/ECommercePage";
 import ExercisesPage from "./pages/ExercisesPage";
 import DemoPage from "./pages/DemoPage";
+import BestPracticesPage from "./pages/BestPracticesPage";
+import ReferencesPage from "./pages/ReferencesPage";
 // Playground imports
 import {
   CardWrapper,
@@ -64,6 +66,22 @@ function App() {
           element={
             <Layout showHeader showFooter withLayout>
               <DemoPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/best-practices"
+          element={
+            <Layout showHeader showFooter withLayout>
+              <BestPracticesPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/references"
+          element={
+            <Layout showHeader showFooter withLayout>
+              <ReferencesPage />
             </Layout>
           }
         />

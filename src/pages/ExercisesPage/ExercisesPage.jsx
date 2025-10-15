@@ -52,11 +52,11 @@ export default function ExercisesPage() {
   ];
 
   return (
-    <div
+    <main
       className="bg-gray-50 flex flex-col items-center justify-center p-6"
       style={{ width: "100%", minHeight: "60vh" }}
     >
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">
+      <h1 className="text-4xl font-bold mb-8" style={{ color: "rgb(35, 162, 120)" }}>
         Let's do some hands-on Accessibility:
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
@@ -65,12 +65,15 @@ export default function ExercisesPage() {
             key={demo.to}
             to={demo.to}
             className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full"
+            aria-label={`${demo.title}: ${demo.desc}`}
           >
-            <h2 className="text-2xl font-semibold text-gray-700">{demo.title}</h2>
-            <p className="text-gray-600 mt-2">{demo.desc}</p>
+            <h2 className="text-2xl font-semibold" style={{ color: "rgb(35, 162, 120)" }}>
+              {demo.title}
+            </h2>
+            <p className="mt-2 text-gray-600">{demo.desc}</p>
           </Link>
         ))}
       </div>
-    </div>
+    </main>
   );
 }

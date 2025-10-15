@@ -2,7 +2,7 @@
 
 
 SCRIPT_DIR=".github"
-SCRIPTS=("git-next.sh" "git-prev.sh" "git-nextdiff.sh")
+SCRIPTS=("git-next.sh" "git-prev.sh" "git-nextdiff.sh" "git-exdiff.sh")
 
 for filename in "${SCRIPTS[@]}"; do
   file="$SCRIPT_DIR/$filename"

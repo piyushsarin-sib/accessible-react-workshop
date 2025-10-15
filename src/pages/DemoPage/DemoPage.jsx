@@ -57,21 +57,36 @@ export default function ExercisesPage() {
 
   return (
     <div className="bg-gray-50 flex flex-col items-center justify-center p-6" style={{ width: "100%", minHeight: "60vh" }}>
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">
+      <h1 
+        className="text-4xl font-bold mb-8" 
+        style={{ color: "#23A278" }}
+        id="page-heading"
+      >
         Let's share some theories on Accessibility:
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-        {demoLinks.map((demo) => (
-          <Link
-            key={demo.to}
-            to={demo.to}
-            className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full"
-          >
-            <h2 className="text-2xl font-semibold text-gray-700">{demo.title}</h2>
-            <p className="text-gray-600 mt-2">{demo.desc}</p>
-          </Link>
-        ))}
-      </div>
+      <nav aria-labelledby="page-heading" style={{ width: "100%" }}>
+        <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 list-none p-0 w-full">
+          {demoLinks.map((demo) => (
+            <li key={demo.to} className="w-full">
+              <Link
+                to={demo.to}
+                className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow block w-full"
+                style={{ color: "#23A278", textDecoration: "none" }}
+                aria-describedby={`desc-${demo.to.replace(/\//g, "-")}`}
+              >
+                <h2 className="text-2xl font-semibold">{demo.title}</h2>
+                <p 
+                  className="mt-2" 
+                  style={{ color: "#23A278" }}
+                  id={`desc-${demo.to.replace(/\//g, "-")}`}
+                >
+                  {demo.desc}
+                </p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 }
