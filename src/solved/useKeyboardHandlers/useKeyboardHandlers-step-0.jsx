@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useEffect, useCallback } from "react";
 import { shouldCloseOnEscape, shouldApplyFocusTrap, applyFocusTrap } from "../helpers/keyHandlers";
 import { isTabKey } from "../helpers/keyUtils";
@@ -18,18 +20,18 @@ const useKeyboardHandlers = ({ visible, setVisible, containerRef, backdrop, plac
     (event) => {
       // 1. Handle Escape key
       if (shouldCloseOnEscape(event)) {
-        setVisible(false);
-        return;
+        //  setVisible(false);
+        //  return;
       }
 
-      if (isTabKey(event)) {
-        // For modal overlays: apply focus trap
-        if (shouldApplyFocusTrap(backdrop, placement)) {
-          applyFocusTrap(event, containerRef?.current);
-        } else {
-          setVisible(false);
-        }
-      }
+      // if (isTabKey(event)) {
+      //   // For modal overlays: apply focus trap
+      //   if (shouldApplyFocusTrap(backdrop, placement)) {
+      //     applyFocusTrap(event, containerRef?.current);
+      //   } else {
+      //     setVisible(false);
+      //   }
+      // }
     },
     [setVisible, containerRef, backdrop, placement],
   );

@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
-import { useCollectionAria } from "../../../Collections/hooks/useCollectionAria";
 import { createNavigationDelegate } from "../delegates/index.js";
 import { createKeyboardDelegate } from "../utils/keyboardPrimitives.js";
 
@@ -18,11 +17,6 @@ import { createKeyboardDelegate } from "../utils/keyboardPrimitives.js";
  * @param {Function} [options.onActiveChange] - Callback when active item changes: (newKey, oldKey) => void
  * @param {boolean} [options.loop=true] - Whether to loop at collection boundaries
  * @param {boolean} [options.disabled=false] - Whether navigation is disabled
- * @param {string} [options.role] - ARIA role for collection (passed to useCollectionAria)
- * @param {string} [options.pattern] - Collection pattern for ARIA (passed to useCollectionAria)
- * @param {string} [options.label] - Accessible label (passed to useCollectionAria)
- * @param {string} [options.labelledBy] - ID of element that labels collection (passed to useCollectionAria)
- * @param {string} [options.describedBy] - ID of element that describes collection (passed to useCollectionAria)
  *
  * @returns {Object} Navigation state and methods
  * @returns {number|string} return.activeKey - Currently active item key
@@ -43,26 +37,10 @@ export const useRovingIndex = ({
   onActiveChange,
   loop = true,
   disabled = false,
-  // ARIA configuration (passed through to useCollectionAria)
-  role,
-  pattern,
-  label,
-  labelledBy,
-  describedBy,
 } = {}) => {
   const [activeKey, setActiveKey] = useState(defaultActiveKey);
   const itemRefs = useRef(new Map()); // Map to store element refs: key -> element
   const containerRef = useRef(null); // Reference to the grid container
-
-  // Use existing ARIA hook for proper collection attributes
-  const aria = useCollectionAria({
-    role,
-    pattern,
-    orientation: orientation === "both" ? "vertical" : orientation,
-    label,
-    labelledBy,
-    describedBy,
-  });
 
   // Convert items to array of keys/indices if needed
   const itemKeys = useMemo(() => {
@@ -265,16 +243,15 @@ export const useRovingIndex = ({
     return handled;
   }, [disabled, navigate, orientation, getCurrentPosition, activeKey, totalItems, itemKeys, navigateTo]);
 
-  // Get props for collection container (compose with ARIA props)
+  // Get props for collection container (navigation only - ARIA handled by Collection component)
   const getCollectionProps = useCallback(() => {
     if (disabled) return {};
 
     return {
-      ...aria.getCollectionAriaProps(),
       onKeyDown: handleKeyDown,
       ref: containerRef,
     };
-  }, [disabled, aria, handleKeyDown]);
+  }, [disabled, handleKeyDown]);
 
   // Get props for individual items
   const getItemProps = useCallback((key, options = {}) => {

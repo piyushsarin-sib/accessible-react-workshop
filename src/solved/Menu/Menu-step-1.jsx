@@ -1,33 +1,30 @@
-/* eslint-disable */
-
 import React from "react";
 import { Overlay } from "@solved/lib/Overlay";
-import ComboBoxList from "./ComboBoxList";
+import MenuList from "./MenuList";
 import MenuTitle from "./MenuTitle";
 import MenuOption from "./MenuOption";
 
 /**
- * ComboBox - ComboBox with overlay using aria-activedescendant pattern
- * Focus remains on the trigger (input) while navigating options
+ * Menu - Menu with overlay by default
  * Consumers should use useMenu hook to get overlay controls,
- * then spread trigger props on their search input element
+ * then spread trigger props on their chosen trigger element
  *
  * @example
- * const comboboxState = useComboBox({
+ * const menuState = useMenu({
  *   overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
  *   style: { width: '250px' }
  * });
  *
  * return (
  *   <>
- *     <input {...comboboxState.trigger} />
- *     <ComboBox {...comboboxState} onChange={handleChange} ariaLabel="My combobox">
- *       <ComboBox.Option>Item 1</ComboBox.Option>
- *     </ComboBox>
+ *     <Button {...menuState.trigger} onClick={menuState.toggle}>Open Menu</Button>
+ *     <Menu {...menuState} onChange={handleChange} ariaLabel="My menu">
+ *       <Menu.Option>Item 1</Menu.Option>
+ *     </Menu>
  *   </>
  * );
  */
-const ComboBox = ({
+const Menu = ({
   trigger,
   body,
   open,
@@ -42,12 +39,10 @@ const ComboBox = ({
   selectionMode = "single",
   onChange,
   ariaLabel,
-  listboxId = "combobox-listbox",
-  navigation,
-  itemsRef,
   ...props
 }) => {
   return (
+    // ✅ STEP 1: Overlay component integrated with relevant props
     <Overlay
       trigger={trigger}
       body={body}
@@ -56,10 +51,11 @@ const ComboBox = ({
       toggle={toggle}
       setVisible={setVisible}
       pattern="menu"
+      // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus={autoFocus}
       closeOnOutsideClick={closeOnOutsideClick}
     >
-      <ComboBoxList
+      <MenuList
         selectedKeys={selectedKeys}
         defaultSelectedKeys={defaultSelectedKeys}
         selectionMode={selectionMode}
@@ -68,20 +64,17 @@ const ComboBox = ({
         close={close}
         open={open}
         toggle={toggle}
-        listboxId={listboxId}
-        navigation={navigation}
-        itemsRef={itemsRef}
         {...props}
       >
         {children}
-      </ComboBoxList>
+      </MenuList>
     </Overlay>
   );
 };
 
 // Attach child components for compound component pattern
-ComboBox.Title = MenuTitle;
-ComboBox.Option = MenuOption;
-ComboBox.List = ComboBoxList; // Export ComboBoxList for standalone usage
+Menu.Title = MenuTitle;
+Menu.Option = MenuOption;
+Menu.List = MenuList; // Export MenuList for standalone usage
 
-export default ComboBox;
+export default Menu;

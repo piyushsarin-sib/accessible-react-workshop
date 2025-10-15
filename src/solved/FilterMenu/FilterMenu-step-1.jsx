@@ -1,9 +1,9 @@
 /* eslint-disable */
 
 import React, { useState } from "react";
-import { PLACEMENTS } from "@playground/lib/Overlay";
+import { PLACEMENTS } from "@lib/Overlay";
 import Button from "@common/Button";
-import Menu, { useMenu } from "@playground/lib/Menu";
+import Menu, { useMenu } from "@lib/Menu";
 
 const categories = [
   { id: "hearing", name: "Hearing Assistance" },
@@ -22,31 +22,13 @@ const priceRanges = [
 const MenuWithOverlay = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
 
-  /**
-   * ✏️ TODO STEP 1: Uncomment the call too useMenu hook with relevant config.
- 
-   * Config object fields description:
-   *
-   * Important fields:
-   * - overlayConfig: Configuration for overlay positioning
-   *   - placement: Where menu appears relative to trigger (use PLACEMENTS constants)
-   *     eg: PLACEMENTS.BOTTOM_START - positions menu below trigger, aligned to left
-   * - overlayId: Unique ID for the menu element (accessibility)
-   *     eg: "menu-overlay"
-   * - triggerId: Unique ID for the trigger button (accessibility)
-   *     eg: "menu-overlay-trigger"
-   *
-   * Optional fields:
-   * - style: Custom styles for the menu
-   *     eg: { width: "200px" }
-   */
-
-  // const menuState = useMenu({
-  //   overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
-  //   style: { width: "200px" },
-  //   overlayId: "menu-overlay",
-  //   triggerId: "menu-overlay-trigger",
-  // });
+  // ✅ STEP 1: Call useMenu hook and pass config object.
+  const menuState = useMenu({
+    overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
+    style: { width: "200px" },
+    overlayId: "menu-overlay",
+    triggerId: "menu-overlay-trigger",
+  });
 
   const handleMenuChange = (event, { selectedKeys: newSelectedKeys }) => {
     console.log("Menu selection changed:", newSelectedKeys);
@@ -71,7 +53,6 @@ const MenuWithOverlay = () => {
 
       <button
         type="button"
-        // ✏️ TODO STEP 2a: Connect menuState to the trigger button. Spread menuState.trigger and use menuState.toggle for onClick.
         // {...menuState.trigger}
         // onClick={menuState.toggle}
         style={{ width: "400px" }}
@@ -110,10 +91,6 @@ const MenuWithOverlay = () => {
         </span>
       </button>
 
-      {/*
-         // ✏️ TODO STEP 2b: Connect menuState to the Menu component. Spread menuState on the Menu component to pass overlay props and positioning.
-         //  After completing Step 2, please go to src/playground/lib/Overlay/hooks/useKeyboardHandlers.js. to complete keyboard handling.
-      */}
       <Menu
         // {...menuState}
         onChange={handleMenuChange}

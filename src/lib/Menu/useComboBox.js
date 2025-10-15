@@ -1,5 +1,5 @@
 import { useId, useRef } from "react";
-import useOverlay from "@solved/lib/Overlay/hooks/useOverlay";
+import useOverlay from "@lib/Overlay/hooks/useOverlay";
 import { useActiveDescendant } from "@lib/interactions/keyboard/hooks/useActiveDescendant";
 import { useSelection } from "@lib/interactions/selection/useSelection";
 

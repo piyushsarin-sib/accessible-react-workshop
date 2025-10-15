@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React from "react";
-import { Overlay } from "@playground/lib/Overlay";
+import { Overlay } from "@solved/lib/Overlay";
 import MenuList from "./MenuList";
 import MenuTitle from "./MenuTitle";
 import MenuOption from "./MenuOption";
@@ -44,23 +44,6 @@ const Menu = ({
   ...props
 }) => {
   return (
-    /*
-      ✏️ TODO STEP 1: Uncomment the Overlay component that wraps MenuList
-     * Props passed to Overlay:
-      - trigger: Trigger element ref and id
-      - body: Overlay ref, visibility, placement, styles
-      - setVisible: Control overlay visibility
-      - close: Close overlay function
-      - open: Open overlay function
-      - toggle: Toggle overlay function
-      - pattern: "menu" (overlay type)
-      - autoFocus: false (for menus). you might require eslint-disable-next-line jsx-a11y/no-autofocus
-      - closeOnOutsideClick: true (close on outside click)
-
-      * After completing step 1, please go to src/playground/FilterMenu/FilterMenu.jsx to complete Menu integration.
-
-    */
-
     // <Overlay
     //   trigger={trigger}
     //   body={body}

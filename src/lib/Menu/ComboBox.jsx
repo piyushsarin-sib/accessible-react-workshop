@@ -1,30 +1,33 @@
+/* eslint-disable */
+
 import React from "react";
-import { Overlay } from "@solved/lib/Overlay";
-import MenuList from "./MenuList";
+import { Overlay } from "@lib/Overlay";
+import ComboBoxList from "./ComboBoxList";
 import MenuTitle from "./MenuTitle";
 import MenuOption from "./MenuOption";
 
 /**
- * Menu - Menu with overlay by default
+ * ComboBox - ComboBox with overlay using aria-activedescendant pattern
+ * Focus remains on the trigger (input) while navigating options
  * Consumers should use useMenu hook to get overlay controls,
- * then spread trigger props on their chosen trigger element
+ * then spread trigger props on their search input element
  *
  * @example
- * const menuState = useMenu({
+ * const comboboxState = useComboBox({
  *   overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
  *   style: { width: '250px' }
  * });
  *
  * return (
  *   <>
- *     <Button {...menuState.trigger} onClick={menuState.toggle}>Open Menu</Button>
- *     <Menu {...menuState} onChange={handleChange} ariaLabel="My menu">
- *       <Menu.Option>Item 1</Menu.Option>
- *     </Menu>
+ *     <input {...comboboxState.trigger} />
+ *     <ComboBox {...comboboxState} onChange={handleChange} ariaLabel="My combobox">
+ *       <ComboBox.Option>Item 1</ComboBox.Option>
+ *     </ComboBox>
  *   </>
  * );
  */
-const Menu = ({
+const ComboBox = ({
   trigger,
   body,
   open,
@@ -39,6 +42,9 @@ const Menu = ({
   selectionMode = "single",
   onChange,
   ariaLabel,
+  listboxId = "combobox-listbox",
+  navigation,
+  itemsRef,
   ...props
 }) => {
   return (
@@ -50,11 +56,10 @@ const Menu = ({
       toggle={toggle}
       setVisible={setVisible}
       pattern="menu"
-      // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus={autoFocus}
       closeOnOutsideClick={closeOnOutsideClick}
     >
-      <MenuList
+      <ComboBoxList
         selectedKeys={selectedKeys}
         defaultSelectedKeys={defaultSelectedKeys}
         selectionMode={selectionMode}
@@ -63,17 +68,20 @@ const Menu = ({
         close={close}
         open={open}
         toggle={toggle}
+        listboxId={listboxId}
+        navigation={navigation}
+        itemsRef={itemsRef}
         {...props}
       >
         {children}
-      </MenuList>
+      </ComboBoxList>
     </Overlay>
   );
 };
 
 // Attach child components for compound component pattern
-Menu.Title = MenuTitle;
-Menu.Option = MenuOption;
-Menu.List = MenuList; // Export MenuList for standalone usage
+ComboBox.Title = MenuTitle;
+ComboBox.Option = MenuOption;
+ComboBox.List = ComboBoxList; // Export ComboBoxList for standalone usage
 
-export default Menu;
+export default ComboBox;

@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import Button from "@common/Button";
 import Collection from "@lib/Collections/Collection";
 import { useRovingIndex } from "@lib/interactions/keyboard/hooks/useRovingIndex";
@@ -68,83 +66,31 @@ const products = [
 ];
 
 const ProductsGrid = () => {
+  const gridNav = useRovingIndex({
+    items: products,
+    orientation: "both",
+    // columnsCount: 2,
+    defaultActiveKey: products.length > 0 ? products[0].id : null,
+  });
+
   if (products.length === 0) {
     return null;
   }
 
-  /* ✏️ TODO STEP 1: Invoke Collection Component & pass required props
-
-   <Collection
-        as="ul"
-        itemAs="li"
-        pattern="grid"
-        ariaLabel="Product cards"
-        className="grid grid-cols-2 md:grid-cols-4 gap-4"
-      ></Collection>
-
-   */
-
-  /* ✏️ TODO STEP 2: Invoke Collection.Item as children of Collection & pass required props
-
-  {products.map((product) => (
-    <Collection.Item
-      key={product.id}
-      className="border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-500 focus-within:border-2"
-    ></Collection.Item>
-  ))}
-
-   */
-
-  /* ✏️ TODO STEP 3: Pass all the content of <li> tag as children of Collection.Item
-
-  <Collection.Item
-    key={product.id}
-    className="border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-500 focus-within:border-2"
-  >
-    <img
-      src={product.image}
-      alt={product.alt}
-      className="w-full h-32 object-cover mb-3 rounded"
-    />
-    <h3 className="text-lg font-semibold line-clamp-1">{product.name}</h3>
-    <p className="mb-2 text-sm line-clamp-2 h-10 overflow-hidden">{product.description}</p>
-    <span className="block font-bold mb-2 text-blue-700">{product.price}</span>
-    <Button
-      onClick={() => {}}
-      className="w-full px-3 py-1.5 text-sm focus:ring-0"
-      ariaLabel={`Add ${product.name} to cart`}
-      variant="primary"
-    >
-      Add to Cart
-    </Button>
-  </Collection.Item>
-   */
-
-  /* ✏️ TODO STEP 4a: Invoke useRovingIndex hook & pass required props to enable keyboard navigation.
-
-    const gridNav = useRovingIndex({
-     items: products,
-     orientation: "both",
-     // columnsCount: 4,
-    defaultActiveKey: products.length > 0 ? products[0].id : null,
-  });
-
-  
-   * ✏️ TODO STEP 4b: Spread the returned prop getters on Collection
-
-     <Collection  {...gridNav.getCollectionProps()}></<Collection>
-
-   * ✏️ TODO STEP 4c: Spread the returned prop getters on Collection.Item
-
-     <Collection.Item  {...gridNav.getItemProps(product.id)}></Collection.Item>
-   */
-
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <Collection
+      as="ul"
+      itemAs="li"
+      pattern="grid"
+      ariaLabel="Product cards"
+      className="grid grid-cols-2 md:grid-cols-4 gap-4"
+      {...gridNav.getCollectionProps()}
+    >
       {products.map((product) => (
-        <li
+        <Collection.Item
           key={product.id}
-          className="border rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
+          className="border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-500 focus-within:border-2"
+          {...gridNav.getItemProps(product.id)}
         >
           <img
             src={product.image}
@@ -156,15 +102,15 @@ const ProductsGrid = () => {
           <span className="block font-bold mb-2 text-blue-700">{product.price}</span>
           <Button
             onClick={() => {}}
-            className="w-full px-3 py-1.5 text-sm"
+            className="w-full px-3 py-1.5 text-sm focus:ring-0"
             ariaLabel={`Add ${product.name} to cart`}
             variant="primary"
           >
             Add to Cart
           </Button>
-        </li>
+        </Collection.Item>
       ))}
-    </ul>
+    </Collection>
   );
 };
 

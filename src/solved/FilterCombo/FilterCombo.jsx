@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { PLACEMENTS } from "@solved/lib/Overlay";
+import { PLACEMENTS } from "@lib/Overlay";
 import Button from "@common/Button";
-import ComboBox from "@solved/lib/Menu/ComboBox";
-import { useComboBox } from "@solved/lib/Menu/useComboBox";
+import ComboBox from "@lib/Menu/ComboBox";
+import { useComboBox } from "@lib/Menu/useComboBox";
 
 const categories = [
   { id: "hearing", name: "Hearing Assistance" },
