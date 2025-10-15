@@ -30,13 +30,13 @@ export default function ExercisesPage() {
     },
     {
       to: "/playground/cart-modal",
-      title: "Modal (powered by Overlay) with focus trap",
+      title: "Modal (powered by Overlay) with accessibility (focus trap)",
       desc: "Improved Overlay modal usecase with focus trap",
     },
     {
       to: "/playground/filter-combo",
       title: "A popup multi-select listbox + active aria descendant ???",
-      desc: "Improved Combo Menu variant with accessibility in mind",
+      desc: "Combobox variant & accessibility considerations.",
     },
     {
       to: "/playground/edge-cases",
