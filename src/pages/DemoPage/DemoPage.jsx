@@ -65,7 +65,7 @@ export default function ExercisesPage() {
         Let's share some theories on Accessibility:
       </h1>
       <nav aria-labelledby="page-heading" style={{ width: "100%" }}>
-        <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 list-none p-0 w-full">
+        <ul className="grid grid-cols-1 md:grid-cols-1 gap-8 list-none p-0 w-full">
           {demoLinks.map((demo) => (
             <li key={demo.to} className="w-full">
               <Link
