@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 export const Card = ({ id, title, description, price, imageSrc }) => {
   const handleAddToCart = () => {
-    alert(`${title} added to cart`);
+    alert("Success");
   };
 
   // IDs for ARIA associations
