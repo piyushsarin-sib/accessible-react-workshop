@@ -1,9 +1,9 @@
 /* eslint-disable */
 
 import React, { useState } from "react";
-import { PLACEMENTS } from "@solved/lib/Overlay";
+import { PLACEMENTS } from "@lib/Overlay";
 import Button from "@common/Button";
-import Menu, { useMenu } from "@solved/lib/Menu";
+import Menu, { useMenu } from "@lib/Menu";
 
 const categories = [
   { id: "hearing", name: "Hearing Assistance" },
@@ -53,6 +53,8 @@ const MenuWithOverlay = () => {
 
       <button
         type="button"
+        // {...menuState.trigger}
+        // onClick={menuState.toggle}
         style={{ width: "400px" }}
         className="md:w-auto px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 accessible-focus"
       >
@@ -90,6 +92,7 @@ const MenuWithOverlay = () => {
       </button>
 
       <Menu
+        // {...menuState}
         onChange={handleMenuChange}
         selectedKeys={selectedKeys}
         selectionMode="multiple"

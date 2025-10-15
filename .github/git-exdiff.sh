@@ -23,8 +23,12 @@ fi
 # ==========================
 typeset -A base_files
 base_files=(
-  ex4 "EdgeCases"
   ex1 "CardWrapper"
+  ex2 "ProductsGrid"
+  ex3a "Menu"
+  ex3b "FilterMenu"
+  ex3c "useKeyboardHandlers"
+  ex4 "EdgeCases"
   # Add more exercises here
 )
 

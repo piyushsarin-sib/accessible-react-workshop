@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState } from "react";
 import { PLACEMENTS } from "@lib/Overlay";
 import Button from "@common/Button";
@@ -20,13 +22,12 @@ const priceRanges = [
 const MenuWithOverlay = () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
 
-  // ✅ STEP 1: Call useMenu hook and pass config object.
-  const menuState = useMenu({
-    overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
-    style: { width: "200px" },
-    overlayId: "menu-overlay",
-    triggerId: "menu-overlay-trigger",
-  });
+  // const menuState = useMenu({
+  //   overlayConfig: { placement: PLACEMENTS.BOTTOM_START },
+  //   style: { width: "200px" },
+  //   overlayId: "menu-overlay",
+  //   triggerId: "menu-overlay-trigger",
+  // });
 
   const handleMenuChange = (event, { selectedKeys: newSelectedKeys }) => {
     console.log("Menu selection changed:", newSelectedKeys);
@@ -51,9 +52,8 @@ const MenuWithOverlay = () => {
 
       <button
         type="button"
-        // ✅ STEP 2a: Connected menuState to the trigger button.
-        {...menuState.trigger}
-        onClick={menuState.toggle}
+        // {...menuState.trigger}
+        // onClick={menuState.toggle}
         style={{ width: "400px" }}
         className="md:w-auto px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 accessible-focus"
       >
@@ -91,8 +91,7 @@ const MenuWithOverlay = () => {
       </button>
 
       <Menu
-        // ✅ STEP 2b: Connected menuState to the Menu component for overlay management and positioning.
-        {...menuState}
+        // {...menuState}
         onChange={handleMenuChange}
         selectedKeys={selectedKeys}
         selectionMode="multiple"

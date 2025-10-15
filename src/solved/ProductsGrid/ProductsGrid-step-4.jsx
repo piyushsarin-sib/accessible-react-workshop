@@ -66,7 +66,7 @@ const products = [
 ];
 
 const ProductsGrid = () => {
-  // ✏️ TODO STEP 4: Invoke useRovingIndex hook & pass required props to enable keyboard navigation.
+  // ✅ STEP 4a: Invoke useRovingIndex hook & pass required props to enable keyboard navigation.
 
   const gridNav = useRovingIndex({
     items: products,
@@ -86,12 +86,11 @@ const ProductsGrid = () => {
       pattern="grid"
       ariaLabel="Product cards"
       className="grid grid-cols-2 md:grid-cols-4 gap-4"
-      //  ✅ STEP 4:  Spread the returned prop getters on Collection and Collection.Item
+      //  ✅ STEP 4b:  Spread the returned prop getters on Collection
       {...gridNav.getCollectionProps()}
     >
       {products.map((product) => (
-        //  ✅ STEP 4:  Spread the returned prop getters on Collection and Collection.Item
-
+        //  ✅ STEP 4c:  Spread the returned prop getters on Collection.Item
         <Collection.Item
           key={product.id}
           className="border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow focus-within:border-blue-500 focus-within:border-2"

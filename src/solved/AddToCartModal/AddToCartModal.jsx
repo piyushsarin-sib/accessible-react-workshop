@@ -1,6 +1,6 @@
 import React from "react";
-import Modal from "@solved/lib/Modal";
-import { useOverlay, PLACEMENTS } from "@solved/lib/Overlay";
+import Modal from "@lib/Modal";
+import { useOverlay, PLACEMENTS } from "@lib/Overlay";
 import Button from "@common/Button";
 import QuantitySelector from "@common/QuantitySelector";
 
