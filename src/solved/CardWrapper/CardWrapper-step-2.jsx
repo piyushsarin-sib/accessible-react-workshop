@@ -1,4 +1,4 @@
-// STEP: 2 - fix image and alt accessibility issues
+// STEP: 2 - use focus-within to add outline while keyboard navigation
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -10,7 +10,7 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
   return (
     <li className="flex-shrink-0" id={`card-${id}`}>
       <article
-        className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus:ring-2 focus:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
+        className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow transform hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 w-[480px] md:w-[600px] lg:w-[620px]"
       >
         <img
           src={imageSrc}
@@ -28,13 +28,11 @@ export const Card = ({ id, title, description, price, imageSrc }) => {
 
         <button
           onClick={handleAddToCart}
-          aria-label="add"
-          className="outline-none bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 text-sm w-full transition-colors rounded"
+          className="focus-visible:outline focus-visible:ring-2 focus-visible:ring-blue-500 bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 text-sm w-full transition-colors rounded"
         >
           Add to Cart
         </button>
-        {/* ❌ ISSUE 3: No ARIA associations (aria-labelledby/aria-describedby) */}
-        {/* ❌ ISSUE 4: Focus-visible not used, outline-none hides focus */}
+        {/* ❌ ISSUE 4: No ARIA associations (aria-labelledby/aria-describedby) */}
         {/* ❌ ISSUE 5: Motion-reduce preference ignored in transitions */}
       </article>
     </li>
