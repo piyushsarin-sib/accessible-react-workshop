@@ -26,14 +26,14 @@ const workshopCards = [
     playground: "/playground/grid-active-descendant",
   },
   {
-    title: "Ex 3: Filter Menu Accessibility",
+    title: "Ex 3a, 3b, 3c: Filter Menu Accessibility",
     description:
       "Filter Menu Accessibility (popup/overlay + trigger connectivity with accessibility)",
     playground: "/playground/filter-menu",
     solved: "/solved/filter-menu",
   },
   {
-    title: "Ex 3: Cart Modal Accessibility",
+    title: "Ex 3c: Cart Modal Accessibility",
     description: "Improved Overlay modal usecase with focus trap and better accessibility.",
     playground: "/playground/cart-modal",
     solved: "/solved/cart-modal",
@@ -46,7 +46,8 @@ const workshopCards = [
   {
     title: "Ex 4: Edge Cases Accessibility",
     description: "Improved handling of edge cases with accessibility in mind.",
-    playground: "/playground/filter-combo",
+    playground: "/playground/edge-cases",
+    solved: "/solved/edge-cases",
   },
 ];
 
@@ -142,11 +143,11 @@ export default function LandingPage() {
                 <p className="text-base font-light">{description}</p>
                 <div className="flex gap-3 justify-center">
                   <a href={playground} className={buttonClass}>
-                    Practice
+                    {solved ? "Practice" : "Demo"}
                   </a>
-                  <a href={solved} className={buttonClass}>
+                 {solved && <a href={solved} className={buttonClass}>
                     Solved
-                  </a>
+                  </a>}
                 </div>
               </div>
             ))}
