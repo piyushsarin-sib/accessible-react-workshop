@@ -8,7 +8,7 @@ const ProductList = ({ products, onAddToCart }) => {
   const gridNav = useRovingIndex({
     items: products,
     orientation: "both",
-    columnsCount: 4, // Based on md:grid-cols-4 class
+    columnsCount: 4, // Based on  class
     defaultActiveKey: products.length > 0 ? products[0].id : null,
   });
 
@@ -31,7 +31,7 @@ const ProductList = ({ products, onAddToCart }) => {
       <Collection
         as="ul"
         itemAs="li"
-        className="grid grid-cols-2 md:grid-cols-4 gap-4"
+        className="grid grid-cols-2  gap-4"
         pattern="grid"
         ariaLabel="Product cards"
         {...gridNav.getCollectionProps()}

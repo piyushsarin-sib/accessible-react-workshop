@@ -136,11 +136,11 @@ export default function LandingPage() {
           <h2 id="exercises-heading" className="text-2xl font-bold mb-6 text-[#23A278]">
             Workshop Playground & Solved
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
             {workshopCards.map(({ title, description, playground, solved }) => (
-              <div key={title} className="bg-white/40 rounded-lg p-4 shadow space-y-4">
+              <div key={title} className="bg-white/40 rounded-lg p-4 shadow flex flex-col gap-4 h-full">
                 <h3 className="text-lg font-bold text-[#23A278]">{title}</h3>
-                <p className="text-base font-light">{description}</p>
+                <p className="text-base font-light flex-grow">{description}</p>
                 <div className="flex gap-3 justify-center">
                   <a href={playground} className={buttonClass}>
                     {solved ? "Practice" : "Demo"}

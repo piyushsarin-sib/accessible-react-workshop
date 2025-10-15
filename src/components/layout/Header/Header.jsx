@@ -14,7 +14,7 @@ const Header = () => {
       </a>
 
       <nav
-        className="container mx-auto px-4 py-4 flex justify-between items-center"
+        className="container mx-auto px-10 py-4 flex justify-between items-center"
         aria-label="Main navigation"
       >
         <div className="flex items-center space-x-3">

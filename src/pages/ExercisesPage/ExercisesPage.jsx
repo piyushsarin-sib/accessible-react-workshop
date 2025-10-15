@@ -59,7 +59,7 @@ export default function ExercisesPage() {
       <h1 className="text-4xl font-bold mb-8" style={{ color: "rgb(35, 162, 120)" }}>
         Let's do some hands-on Accessibility:
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-8 w-full">
         {demoLinks.map((demo) => (
           <Link
             key={demo.to}
