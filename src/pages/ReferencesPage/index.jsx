@@ -83,6 +83,82 @@ const ReferencesPage = () => {
           </div>
         </section>
 
+        {/* Reusable Package References - NEW SECTION */}
+        <section className="mb-12" aria-labelledby="packages-heading">
+          <h2 id="packages-heading" className="text-3xl font-bold text-gray-900 mb-6">Reusable Package References</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <article className="reference-card">
+              <h3 className="text-xl font-semibold mb-3">React Aria Collections & Interactions</h3>
+              <p className="text-gray-600 mb-4">
+                Adobe's React Aria documentation for building accessible collection components and handling interactions.
+              </p>
+              <div className="space-y-2">
+                <a 
+                  href="https://react-spectrum.adobe.com/react-aria/collections.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 font-medium block"
+                  aria-label="View React Aria Collections documentation (opens in new tab)"
+                >
+                  Collections Documentation →
+                </a>
+                <a 
+                  href="https://react-spectrum.adobe.com/react-aria/interactions.html" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 font-medium block"
+                  aria-label="View React Aria Interactions documentation (opens in new tab)"
+                >
+                  Interactions Documentation →
+                </a>
+              </div>
+            </article>
+
+            <article className="reference-card">
+              <h3 className="text-xl font-semibold mb-3">React Aria GitHub Repositories</h3>
+              <p className="text-gray-600 mb-4">
+                Source code and implementation details for React Aria packages.
+              </p>
+              <div className="space-y-2">
+                <a 
+                  href="https://github.com/adobe/react-spectrum/tree/main/packages/%40react-aria" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 font-medium block"
+                  aria-label="View React Aria main repository (opens in new tab)"
+                >
+                  React Aria Repository →
+                </a>
+                <a 
+                  href="https://github.com/adobe/react-spectrum/tree/main/packages/%40react-aria/collections" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 font-medium block"
+                  aria-label="View React Aria Collections repository (opens in new tab)"
+                >
+                  Collections Package Repository →
+                </a>
+              </div>
+            </article>
+
+            <article className="reference-card">
+              <h3 className="text-xl font-semibold mb-3">ActiveDescendant Keyboard Navigation</h3>
+              <p className="text-gray-600 mb-4">
+                Detailed guide on implementing aria-activedescendant for keyboard navigation in complex widgets.
+              </p>
+              <a 
+                href="https://sarahmhigley.com/writing/activedescendant/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:text-blue-800 font-medium"
+                aria-label="Read ActiveDescendant guide by Sarah Higley (opens in new tab)"
+              >
+                Read ActiveDescendant Guide →
+              </a>
+            </article>
+          </div>
+        </section>
+
         {/* Testing Tools */}
         <section className="mb-12" aria-labelledby="tools-heading">
           <h2 id="tools-heading" className="text-3xl font-bold text-gray-900 mb-6">Testing Tools</h2>
