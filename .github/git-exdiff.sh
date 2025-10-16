@@ -23,12 +23,12 @@ fi
 # ==========================
 typeset -A base_files
 base_files=(
-  ex1 "CardWrapper"
+  ex1 "EX1-CardWrapper"
   ex2 "ProductsGrid"
   ex3a "Menu"
   ex3b "FilterMenu"
   ex3c "useKeyboardHandlers"
-  ex4 "EdgeCases"
+  ex4 "EX4-EdgeCases"
   # Add more exercises here
 )
 
@@ -48,8 +48,8 @@ current_step_number=${step//step/}
 prev_step_number=$((current_step_number - 1))
 
 # File paths
-file_prev="${base_dir}/${base_file}-step-${prev_step_number}.jsx"
-file_curr="${base_dir}/${base_file}-step-${current_step_number}.jsx"
+file_prev="${base_dir}/${base_file}-Step-${prev_step_number}.jsx"
+file_curr="${base_dir}/${base_file}-Step-${current_step_number}.jsx"
 
 # Handle step0 case (no previous file)
 if [[ "$current_step_number" -eq 0 ]]; then
