@@ -23,12 +23,12 @@ fi
 # ==========================
 typeset -A base_files
 base_files=(
-  ex1 "EX1-CardWrapper"
+  ex1 "CardWrapper"
   ex2 "ProductsGrid"
   ex3a "Menu"
   ex3b "FilterMenu"
   ex3c "useKeyboardHandlers"
-  ex4 "EX4-EdgeCases"
+  ex4 "EdgeCases"
   # Add more exercises here
 )
 
@@ -40,16 +40,23 @@ if [[ -z "$base_file" ]]; then
   exit 1
 fi
 
-# Folder path
-base_dir="src/solved/${base_file}"
 
 # Extract numeric step
 current_step_number=${step//step/}
 prev_step_number=$((current_step_number - 1))
 
+# Extract numeric ex
+current_ex_number=${exercise//ex/}
+
+
+# Folder path
+base_dir="src/playground/Ex${current_ex_number}-${base_file}"
+
+
+
 # File paths
-file_prev="${base_dir}/${base_file}-Step-${prev_step_number}.jsx"
-file_curr="${base_dir}/${base_file}-Step-${current_step_number}.jsx"
+file_prev="${base_dir}/Step-${prev_step_number}.jsx"
+file_curr="${base_dir}/Step-${current_step_number}.jsx"
 
 # Handle step0 case (no previous file)
 if [[ "$current_step_number" -eq 0 ]]; then
