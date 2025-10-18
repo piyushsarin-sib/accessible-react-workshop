@@ -9,7 +9,7 @@ const BestPracticesPage = () => {
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Accessibility Best Practices
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-800 max-w-3xl mx-auto">
             A comprehensive guide to web accessibility best practices, tools, and guidelines 
             to help you build inclusive applications that work for everyone.
           </p>
@@ -143,15 +143,15 @@ const BestPracticesPage = () => {
               <ul className="space-y-3" aria-labelledby="development-tools">
                 <li className="tool-item">
                   <strong>eslint-plugin-jsx-a11y</strong>
-                  <p className="text-gray-600">Catch accessibility issues in JSX during development</p>
+                  <p className="text-gray-700">Catch accessibility issues in JSX during development</p>
                 </li>
                 <li className="tool-item">
                   <strong>Lighthouse</strong>
-                  <p className="text-gray-600">Built-in Chrome DevTools accessibility audit</p>
+                  <p className="text-gray-700">Built-in Chrome DevTools accessibility audit</p>
                 </li>
                 <li className="tool-item">
                   <strong>Axe DevTools</strong>
-                  <p className="text-gray-600">Browser extension for comprehensive accessibility testing</p>
+                  <p className="text-gray-700">Browser extension for comprehensive accessibility testing</p>
                 </li>
               </ul>
             </div>
@@ -161,15 +161,15 @@ const BestPracticesPage = () => {
               <ul className="space-y-3" aria-labelledby="testing-extensions">
                 <li className="tool-item">
                   <strong>WAVE</strong>
-                  <p className="text-gray-600">Web Accessibility Evaluation Tool</p>
+                  <p className="text-gray-700">Web Accessibility Evaluation Tool</p>
                 </li>
                 <li className="tool-item">
                   <strong>No Mouse Days</strong>
-                  <p className="text-gray-600">Hide cursor to test keyboard navigation</p>
+                  <p className="text-gray-700">Hide cursor to test keyboard navigation</p>
                 </li>
                 <li className="tool-item">
                   <strong>Color Oracle</strong>
-                  <p className="text-gray-600">Color blindness simulator</p>
+                  <p className="text-gray-700">Color blindness simulator</p>
                 </li>
               </ul>
             </div>

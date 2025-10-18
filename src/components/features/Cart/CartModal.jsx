@@ -34,7 +34,7 @@ const CartModal = () => {
     >
       {cart.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-gray-500 mb-4">Your cart is empty</p>
+          <p className="text-gray-700 mb-4">Your cart is empty</p>
           <Button onClick={cartModalState.close} variant="primary">
             Continue Shopping
           </Button>
@@ -50,7 +50,7 @@ const CartModal = () => {
                 <div className="ml-4 flex-grow">
                   <h3 className="font-medium">{item.name}</h3>
                   <div className="flex justify-between mt-1">
-                    <p className="text-gray-600">{item.price}</p>
+                    <p className="text-gray-700">{item.price}</p>
                     <QuantitySelector
                       quantity={item.quantity}
                       onIncrease={() => updateCartItemQuantity(item.id, item.quantity + 1)}

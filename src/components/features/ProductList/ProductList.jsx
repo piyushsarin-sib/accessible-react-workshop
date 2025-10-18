@@ -15,7 +15,7 @@ const ProductList = ({ products, onAddToCart }) => {
   if (products.length === 0) {
     return (
       <div className="text-center py-8" aria-live="polite">
-        <p className="text-lg text-gray-600">No products match your search criteria.</p>
+        <p className="text-lg text-gray-700">No products match your search criteria.</p>
         <p className="mt-2">Try adjusting your filters or search terms.</p>
       </div>
     );
