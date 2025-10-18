@@ -17,13 +17,13 @@ const BestPracticesPage = () => {
 
         {/* Overview Section */}
         <section className="mb-12" aria-labelledby="overview-section">
-          <h2 id="overview-section" className="sr-only">Overview</h2>
+          <h2 id="overview-section" className="text-3xl font-bold text-gray-900 mb-6 text-center">Key Pillars of Accessibility</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <article className="best-practice-card">
-              <div className="icon-container best-practices">
-                <span className="text-2xl" aria-hidden="true">✅</span>
+            <article className="best-practice-card" aria-labelledby="best-practices-heading">
+              <div className="icon-container best-practices" aria-hidden="true">
+                <span className="text-2xl">✅</span>
               </div>
-              <h3>Follow Best Practices</h3>
+              <h3 id="best-practices-heading" className="text-xl font-semibold mb-3">Follow Best Practices</h3>
               <p>
                 Use semantic HTML, proper focus management, alt text for images, controlled motion, 
                 and reusable components. Incorporate accessibility from day 1 to the page level 
@@ -31,22 +31,22 @@ const BestPracticesPage = () => {
               </p>
             </article>
 
-            <article className="best-practice-card">
-              <div className="icon-container tools">
-                <span className="text-2xl" aria-hidden="true">🛠️</span>
+            <article className="best-practice-card" aria-labelledby="tools-heading">
+              <div className="icon-container tools" aria-hidden="true">
+                <span className="text-2xl">🛠️</span>
               </div>
-              <h3>Use Proper Tools</h3>
+              <h3 id="tools-heading" className="text-xl font-semibold mb-3">Use Proper Tools</h3>
               <p>
                 eslint-plugin-jsx-a11y, Lighthouse, Axe DevTools, browser extensions to catch 
                 accessibility issues early in your development workflow.
               </p>
             </article>
 
-            <article className="best-practice-card">
-              <div className="icon-container guidelines">
-                <span className="text-2xl" aria-hidden="true">📚</span>
+            <article className="best-practice-card" aria-labelledby="guidelines-heading">
+              <div className="icon-container guidelines" aria-hidden="true">
+                <span className="text-2xl">📚</span>
               </div>
-              <h3>Follow Guidelines</h3>
+              <h3 id="guidelines-heading" className="text-xl font-semibold mb-3">Follow Guidelines</h3>
               <p>
                 Adhere to WCAG, ARIA patterns (Don't use ARIA everywhere), and enterprise 
                 accessibility standards for consistent, accessible experiences.
