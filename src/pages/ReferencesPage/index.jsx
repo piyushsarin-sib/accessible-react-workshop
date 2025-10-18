@@ -27,7 +27,7 @@ const ReferencesPage = () => {
                 href="https://www.w3.org/WAI/WCAG21/quickref/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 font-medium"
+                className="text-blue-600 hover:text-blue-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                 aria-label="View WCAG Quick Reference (opens in new tab)"
               >
                 View WCAG Quick Reference →
@@ -43,7 +43,7 @@ const ReferencesPage = () => {
                 href="https://www.w3.org/WAI/ARIA/apg/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 font-medium"
+                className="text-blue-600 hover:text-blue-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                 aria-label="View ARIA Patterns (opens in new tab)"
               >
                 View ARIA Patterns →
@@ -59,7 +59,7 @@ const ReferencesPage = () => {
                 href="https://www.section508.gov/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 font-medium"
+                className="text-blue-600 hover:text-blue-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                 aria-label="Visit Section 508 website (opens in new tab)"
               >
                 Visit Section 508 →
@@ -75,7 +75,7 @@ const ReferencesPage = () => {
                 href="https://www.w3.org/WAI/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 font-medium"
+                className="text-blue-600 hover:text-blue-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                 aria-label="Explore WAI Resources (opens in new tab)"
               >
                 Explore WAI Resources →
@@ -98,7 +98,7 @@ const ReferencesPage = () => {
                   href="https://react-spectrum.adobe.com/react-aria/collections.html" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 font-medium block"
+                  className="text-blue-600 hover:text-blue-800 font-medium block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                   aria-label="View React Aria Collections documentation (opens in new tab)"
                 >
                   Collections Documentation →
@@ -107,7 +107,7 @@ const ReferencesPage = () => {
                   href="https://react-spectrum.adobe.com/react-aria/interactions.html" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 font-medium block"
+                  className="text-blue-600 hover:text-blue-800 font-medium block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                   aria-label="View React Aria Interactions documentation (opens in new tab)"
                 >
                   Interactions Documentation →
@@ -125,7 +125,7 @@ const ReferencesPage = () => {
                   href="https://github.com/adobe/react-spectrum/tree/main/packages/%40react-aria" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 font-medium block"
+                  className="text-blue-600 hover:text-blue-800 font-medium block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                   aria-label="View React Aria main repository (opens in new tab)"
                 >
                   React Aria Repository →
@@ -134,7 +134,7 @@ const ReferencesPage = () => {
                   href="https://github.com/adobe/react-spectrum/tree/main/packages/%40react-aria/collections" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 font-medium block"
+                  className="text-blue-600 hover:text-blue-800 font-medium block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                   aria-label="View React Aria Collections repository (opens in new tab)"
                 >
                   Collections Package Repository →
@@ -151,7 +151,7 @@ const ReferencesPage = () => {
                 href="https://sarahmhigley.com/writing/activedescendant/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 font-medium"
+                className="text-blue-600 hover:text-blue-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                 aria-label="Read ActiveDescendant guide by Sarah Higley (opens in new tab)"
               >
                 Read ActiveDescendant Guide →
@@ -173,7 +173,7 @@ const ReferencesPage = () => {
                 href="https://www.deque.com/axe/devtools/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                 aria-label="Download Axe DevTools extension (opens in new tab)"
               >
                 Download Extension →
@@ -196,7 +196,8 @@ const ReferencesPage = () => {
                     href="https://reactjs.org/docs/accessibility.html" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
+                    aria-label="React Accessibility Documentation (opens in new tab)"
                   >
                     React Accessibility Documentation
                   </a>
@@ -213,7 +214,8 @@ const ReferencesPage = () => {
                     href="https://www.nvaccess.org/download/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
+                    aria-label="Download NVDA Free Windows Screen Reader (opens in new tab)"
                   >
                     NVDA (Free Windows Screen Reader)
                   </a>
@@ -237,7 +239,7 @@ const ReferencesPage = () => {
                 href="https://webaim.org/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                 aria-label="Visit WebAIM website (opens in new tab)"
               >
                 Visit WebAIM →
@@ -264,7 +266,7 @@ const ReferencesPage = () => {
                 href="https://webaim.org/standards/wcag/checklist" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium mt-4 inline-block"
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium mt-4 inline-block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-1 py-0.5"
                 aria-label="View full WCAG checklist (opens in new tab)"
               >
                 View Full Checklist →
