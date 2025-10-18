@@ -22,11 +22,11 @@
 
 a {
   font-weight: 500;
-  color: var(--brand-forest-green-700);
+  color: #2563eb; /* blue-600 - works on white backgrounds */
   text-decoration: inherit;
 }
 a:hover {
-  color: var(--brand-forest-green-900);
+  text-decoration: underline;
 }
 
 body {
