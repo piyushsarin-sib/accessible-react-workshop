@@ -56,7 +56,7 @@ export default function ExercisesPage() {
       className="bg-gray-50 flex flex-col items-center justify-center p-6"
       style={{ width: "100%", minHeight: "60vh" }}
     >
-      <h1 className="text-4xl font-bold mb-8" style={{ color: "#0d6b4d" }}>
+      <h1 className="text-4xl font-bold mb-8" style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}>
         Let's do some hands-on Accessibility:
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-8 w-full">
@@ -67,10 +67,10 @@ export default function ExercisesPage() {
             className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full"
             aria-label={`${demo.title}: ${demo.desc}`}
           >
-            <h2 className="text-2xl font-semibold" style={{ color: "#0d6b4d" }}>
+            <h2 className="text-2xl font-semibold" style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}>
               {demo.title}
             </h2>
-            <p className="mt-2 text-gray-700">{demo.desc}</p>
+            <p className="mt-2" style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}>{demo.desc}</p>
           </Link>
         ))}
       </div>

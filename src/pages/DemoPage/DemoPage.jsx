@@ -59,7 +59,7 @@ export default function ExercisesPage() {
     <div className="bg-gray-50 flex flex-col items-center justify-center p-6" style={{ width: "100%", minHeight: "60vh" }}>
       <h1 
         className="text-4xl font-bold mb-8" 
-        style={{ color: "#0d6b4d" }}
+        style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}
         id="page-heading"
       >
         Let's share some theories on Accessibility:
@@ -71,13 +71,13 @@ export default function ExercisesPage() {
               <Link
                 to={demo.to}
                 className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow block w-full"
-                style={{ color: "#0d6b4d", textDecoration: "none" }}
+                style={{ color: "var(--sib-color_content-primary, #1b1b1b)", textDecoration: "none" }}
                 aria-describedby={`desc-${demo.to.replace(/\//g, "-")}`}
               >
                 <h2 className="text-2xl font-semibold">{demo.title}</h2>
                 <p 
                   className="mt-2" 
-                  style={{ color: "#0d6b4d" }}
+                  style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}
                   id={`desc-${demo.to.replace(/\//g, "-")}`}
                 >
                   {demo.desc}

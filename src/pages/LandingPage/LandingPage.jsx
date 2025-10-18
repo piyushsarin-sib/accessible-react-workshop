@@ -69,9 +69,9 @@ const buttonClass =
 
 export default function LandingPage() {
   return (
-    <main className="container mx-auto px-6 py-8 space-y-10">
+    <article className="container mx-auto px-6 py-8 space-y-10">
       <header>
-        <h1 className="text-3xl md:text-4xl font-extrabold mb-8 drop-shadow-md text-[#0d6b4d]">
+        <h1 className="text-3xl md:text-4xl font-extrabold mb-8 drop-shadow-md" style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}>
           {" "}
           Accessibility from Day One: React Development Done Right
         </h1>
@@ -121,9 +121,9 @@ export default function LandingPage() {
           </a>
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             <p className="text-lg font-light">
-              Join us at <strong className="text-[#0d6b4d]">React India</strong>, for a hands-on
+              Join us at <strong style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}>React India</strong>, for a hands-on
               workshop on{" "}
-              <strong className="text-[#0d6b4d]">
+              <strong style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}>
                 Accessibility to make web pages Build for Everyone. Build with Accessibility.
               </strong>
               . Learn to build inclusive, user-friendly web experiences by applying accessibility
@@ -133,13 +133,13 @@ export default function LandingPage() {
         </div>
 
         <div aria-labelledby="exercises-heading">
-          <h2 id="exercises-heading" className="text-2xl font-bold mb-6 text-[#0d6b4d]">
-            Workshop Playground & Solved
+                    <h2 id="exercises-heading" className="text-2xl font-bold mb-6" style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}>
+            Exercises & Demos
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
             {workshopCards.map(({ title, description, playground, solved }) => (
               <div key={title} className="bg-white/40 rounded-lg p-4 shadow flex flex-col gap-4 h-full">
-                <h3 className="text-lg font-bold text-[#0d6b4d]">{title}</h3>
+                <h3 className="text-lg font-bold" style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}>{title}</h3>
                 <p className="text-base font-light flex-grow">{description}</p>
                 <div className="flex gap-3 justify-center">
                   <a href={playground} className={buttonClass}>
@@ -163,7 +163,8 @@ export default function LandingPage() {
         >
           <h2
             id="presenters-heading"
-            className="text-xl font-semibold mb-6 text-center text-[#0d6b4d]"
+            className="text-xl font-semibold mb-6 text-center"
+            style={{ color: "var(--sib-color_content-primary, #1b1b1b)" }}
           >
             Presenters:
           </h2>
@@ -190,6 +191,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-    </main>
+    </article>
   );
 }
